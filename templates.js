@@ -27,8 +27,97 @@ function projectBoard(){let o=[text('ZTH / PROJECT BRIEF',65,60,23,'#316453',{ch
 function infoCards(){let o=[text('STUDIO / ESSENTIAL GUIDE',65,65,22,'#74658d',{charSpacing:140}),text('新成员，\n从这里开始。',60,170,100,'#302746',{fontWeight:'bold',width:950,lineHeight:1.1}),text('一份关于参与、协作与成长的小指南',65,437,27,'#74658d')];[['找到兴趣','机械、电控、编程、设计、运营。\n选择想深入了解的方向。'],['认识伙伴','带上好奇心来工作室交流，\n了解正在进行的真实项目。'],['动手试试','从一个小任务开始，\n把想法变成可展示的成果。'],['一起成长','记录过程、分享经验，\n让每一次合作都有新的收获。']].forEach((a,i)=>{let y=550+i*180;o.push(rect(65,y,950,158,i%2?'#e8ddf5':'#ffffff',{rx:12,ry:12}),text('0'+(i+1),95,y+28,66,'#9878c6',{width:135,fontFamily:'Arial',fontWeight:'bold'}),text(a[0],260,y+22,31,'#302746',{width:700,fontWeight:'bold'}),text(a[1],263,y+78,23,'#74658d',{width:690,lineHeight:1.35}));});o.push(text('一起，把热爱变成能力。',65,1325,32,'#302746'));return {width:1080,height:1440,background:'#f4eff8',objects:o};}
 function productTemplate(){return {width:1440,height:1440,background:'#efedf2',objects:[{...photo('assets/robot-product.jpg',160,0,1120,1120),name:'产品图片槽 · 可替换',role:'photo',imageSlot:true},rect(1140,65,225,225,'#212032',{rx:18,ry:18,locked:true,lockMovementX:true,lockMovementY:true,lockScalingX:true,lockScalingY:true,lockRotation:true,hasControls:false,name:'固定品牌底板'}),{...photo('assets/05-81892.png',1160,85,185,185),colorKey:true,name:'固定 LOGO · 已抠背景',role:'logo',locked:true,lockMovementX:true,lockMovementY:true,lockScalingX:true,lockScalingY:true,lockRotation:true,hasControls:false},rect(0,1120,1440,320,'#f7f5f8'),text('FORM TO FUNCTION',80,1160,23,'#625c70',{width:800,charSpacing:170}),text('让创造，触手可及。',75,1220,68,'#242032',{width:1280,fontWeight:'bold'}),text('ZEROTOHAND STUDIO / PRODUCT SERIES 01',80,1315,22,'#625c70',{width:1280,charSpacing:90})]};}
 function blank(){return {width:1080,height:1440,background:'#ffffff',objects:[]};}
+
+// Each format has its own composition rather than a stretched portrait layout.
+function screenLandscape(){return {width:1920,height:1080,background:'#eeeae2',objects:[
+ text('ZEROTOHAND / OPEN STUDIO',96,70,25,'#37362e',{width:1200,charSpacing:120}),
+ text('把想法\n做成真的。',88,222,156,'#20231e',{width:1030,fontWeight:'bold',lineHeight:1.08}),
+ text('设计 · 制造 · 分享',96,660,40,'#53584c',{width:900}),
+ rect(1130,180,600,600,'#ea693b',{rx:20,ry:20}),
+ circle(1205,255,225,'#f4db88'),rect(1320,366,220,220,'#224d42',{angle:18}),
+ line(96,870,1824,870,'#b2b5a7',2),
+ text('开放日 / 欢迎带上你的好奇心',96,920,32,'#20231e',{width:1100}),
+ text('时间与地点 · 点击填写',1300,925,25,'#53584c',{width:520,textAlign:'right'})]};}
+function squareNotice(){return {width:1080,height:1080,background:'#e9efdf',objects:[
+ text('STUDIO / NEWS',70,62,24,'#49684f',{width:800,charSpacing:160}),
+ text('新的一期，\n一起动手。',64,165,108,'#183c2b',{width:940,fontWeight:'bold',lineHeight:1.12}),
+ rect(70,468,940,360,'#ffffff',{rx:22,ry:22}),
+ text('周末造物工作坊',104,505,50,'#183c2b',{width:870,fontWeight:'bold'}),
+ text('从一个小原型开始，\n认识工具、尝试制作、分享你的发现。',108,599,31,'#55735b',{width:850,lineHeight:1.6}),
+ circle(861,737,28,'#e6a84b'),
+ text('日期 / 地点 · 点击填写',72,898,28,'#183c2b',{width:920}),
+ text('ZEROTOHAND STUDIO',72,994,20,'#55735b',{width:920,charSpacing:160})]};}
+function storyPortrait(){return {width:1080,height:1920,background:'#181f2b',objects:[
+ text('ZTH / WEEKEND WORKSHOP',76,92,24,'#e6c592',{width:930,charSpacing:110}),
+ text('保持好奇\n开始创造',68,254,142,'#fff5e8',{width:950,fontWeight:'bold',lineHeight:1.14}),
+ text('从零出发，也有无限可能。',77,655,36,'#c1c7d2',{width:930}),
+ {...photo('assets/workshop.jpg',76,805,928,640),name:'工作坊照片 · 可替换',imageSlot:true},
+ rect(76,1514,928,264,'#f0c47d',{rx:16,ry:16}),
+ text('周末原型工作坊',110,1550,48,'#202633',{width:850,fontWeight:'bold'}),
+ text('时间 · 地点 · 报名方式\n点击文字填写你的活动信息',114,1635,29,'#4a443c',{width:840,lineHeight:1.5}),
+ text('DESIGN / BUILD / SHARE',78,1835,23,'#c1c7d2',{width:930,charSpacing:160})]};}
+function wideBanner(){return {width:1500,height:500,background:'#ebe4f1',objects:[
+ rect(1030,0,470,500,'#644694'),circle(1122,80,160,'#d6c4ee'),
+ path('M 1140 180 L 1330 100 L 1390 280 L 1200 360 Z','#ec9d73'),
+ text('ZEROTOHAND / CREATIVE LAB',64,55,19,'#6a547d',{width:900,charSpacing:100}),
+ text('让灵感，落地生长。',58,150,77,'#332441',{width:940,fontWeight:'bold'}),
+ text('工作室开放日 · 设计与制作的碰撞',64,286,29,'#6a547d',{width:910}),
+ text('时间 / 地点 · 点击填写',66,407,22,'#332441',{width:900})]};}
+function paperA4(){return {width:2480,height:3508,background:'#f6f3ed',objects:[
+ text('ZEROTOHAND / PROJECT JOURNAL',164,155,44,'#6c6b63',{width:2150,charSpacing:130}),
+ line(164,255,2316,255,'#a8aca2',3),
+ text('一个问题，\n一份设计答案。',146,395,210,'#24372e',{width:2170,fontWeight:'bold',lineHeight:1.12}),
+ text('项目研究与实践记录',164,950,64,'#6c6b63',{width:2150}),
+ {...photo('assets/workshop.jpg',164,1120,2152,1100),name:'项目展示照片 · 可替换',imageSlot:true},
+ rect(164,2350,1035,690,'#e6ece2',{rx:24,ry:24}),
+ rect(1280,2350,1036,690,'#e9e3d6',{rx:24,ry:24}),
+ text('01 / 研究与方案',213,2410,61,'#24372e',{width:920,fontWeight:'bold'}),
+ text('写下你观察到的问题。\n描述目标人群和使用场景。\n介绍设计思路与核心结构。',219,2550,46,'#59645b',{width:915,lineHeight:1.75}),
+ text('02 / 验证与迭代',1329,2410,61,'#24372e',{width:920,fontWeight:'bold'}),
+ text('记录测试方法与真实结果。\n说明方案的优势和局限。\n列出下一步的改进计划。',1335,2550,46,'#59645b',{width:915,lineHeight:1.75}),
+ line(164,3205,2316,3205,'#a8aca2',3),
+ text('项目名称 / 作者 / 日期 · 点击填写',164,3265,49,'#24372e',{width:2150}),
+ text('RESEARCH / PROTOTYPE / LEARN',164,3375,32,'#6c6b63',{width:2150,charSpacing:130})]};}
+function recruitmentLandscape(){return {width:1600,height:900,background:'#f6f9ee',objects:[
+ rect(0,0,565,900,'#1c594c'),
+ text('一起\n把热爱\n做成作品',57,165,100,'#fcf9de',{width:455,fontWeight:'bold',lineHeight:1.2}),
+ text('JOIN THE STUDIO',62,765,23,'#cee6ce',{width:440,charSpacing:80}),
+ text('工作室招新',635,78,70,'#203a32',{width:895,fontWeight:'bold'}),
+ text('不限专业，欢迎愿意动手的你。',640,186,28,'#688073',{width:890}),
+ ...[['机械与制作','结构设计 · 模型制作'],['电子与编程','电路开发 · 机器人'],['视觉与传播','平面设计 · 内容表达']].flatMap((a,i)=>[
+  rect(638,284+i*154,892,128,'#e6eee0',{rx:12,ry:12}),
+  text('0'+(i+1),664,312+i*154,49,'#7c9a59',{width:125,fontWeight:'bold'}),
+  text(a[0],810,305+i*154,33,'#203a32',{width:680,fontWeight:'bold'}),
+  text(a[1],812,359+i*154,22,'#688073',{width:680})]),
+ text('报名方式 / 联系方式 · 点击填写',641,803,25,'#203a32',{width:885})]};}
+function postcard(){return {width:1480,height:1050,background:'#f1ede5',objects:[
+ {...photo('assets/robot-product.jpg',0,0,740,1050),name:'作品图片 · 可替换',imageSlot:true},
+ text('STUDIO / COLLECTION',804,83,20,'#827563',{width:610,charSpacing:100}),
+ text('让创造\n触手可及',796,228,99,'#332f28',{width:610,fontWeight:'bold',lineHeight:1.17}),
+ line(806,525,1405,525,'#b7ac97',2),
+ text('从概念，到原型。\n记录每一次动手的成果。',807,585,32,'#827563',{width:590,lineHeight:1.6}),
+ text('作品名称 · 点击填写',805,827,31,'#332f28',{width:600,fontWeight:'bold'}),
+ text('ZEROTOHAND STUDIO',807,946,20,'#827563',{width:600,charSpacing:100})]};}
+function socialPortrait(){return {width:1080,height:1350,background:'#ffebe0',objects:[
+ text('IDEAS / IN PROGRESS',70,62,21,'#92604b',{width:940,charSpacing:150}),
+ text('好想法，\n值得被看见。',64,170,107,'#4d2b24',{width:945,fontWeight:'bold',lineHeight:1.1}),
+ rect(70,490,940,570,'#c96b48',{rx:18,ry:18}),
+ circle(210,575,198,'#ffe0a4'),rect(550,660,185,185,'#543843',{angle:18}),
+ text('工作室作品分享',72,1130,42,'#4d2b24',{width:930,fontWeight:'bold'}),
+ text('设计 / 电子 / 机械 / 编程',74,1210,27,'#92604b',{width:930}),
+ text('ZEROTOHAND STUDIO',74,1292,18,'#92604b',{width:930,charSpacing:100})]};}
 const templates=[['open-day','造物开放日','活动',editorial],['recruit','向阳 · 内容招新','招新',recruitment],['talk','机器人公开课','讲座',lecture],['show','好奇，赋形','展览',exhibition],['workshop','周末原型工作坊','活动',workshop],['schedule','工作室活动日历','内容',schedule],['portfolio','作品档案','展览',portfolio],['product','产品图 · 固定品牌角标','品牌',productTemplate],['brief','项目研究展板','内容',projectBoard],['guide','新成员指南','内容',infoCards],['blank','空白画布','基础',blank]] .map(([id,name,category,build])=>({id,name,category,build}));
 // Curated palette alternatives retain their own editable originals.
 [['sunny','向阳 · 明亮招新','招新',recruitment,'#0964ca','#026e85'],['violet','灵感 · 紫色作品展','展览',exhibition,'#c4c9ff','#c7b6e9'],['coral','开放日 · 珊瑚红','活动',editorial,'#f26536','#d95156'],['research-blue','研究展板 · 海蓝','内容',projectBoard,'#183d32','#173f6b'],['guide-coral','成员指南 · 杏色','内容',infoCards,'#e8ddf5','#f4dccb'],['mint','清爽 · 活动日历','内容',schedule,'#e6eee4','#e2eef2']].forEach(([id,name,category,fn,from,to])=>templates.push({id,name,category,build:()=>{let s=fn();return JSON.parse(JSON.stringify(s).replaceAll(from,to));}}));
+[
+ ['screen-landscape','开放日 · 横屏 16:9','活动',screenLandscape],
+ ['square-notice','工作坊 · 方形公告','活动',squareNotice],
+ ['story-portrait','保持好奇 · 竖屏 9:16','活动',storyPortrait],
+ ['wide-banner','灵感生长 · 宽幅横幅','品牌',wideBanner],
+ ['paper-a4','项目手记 · A4 印刷','内容',paperA4],
+ ['recruit-landscape','一起创造 · 横版招新','招新',recruitmentLandscape],
+ ['postcard-landscape','作品明信片 · 横版','展览',postcard],
+ ['social-portrait','好想法 · 社交竖图 4:5','展览',socialPortrait]
+].forEach(([id,name,category,build])=>templates.push({id,name,category,build}));
 root.ZTH_TEMPLATES=templates;root.ZTH_SCENE={text,rect,circle,path,line,photo};if(typeof module!=='undefined')module.exports={templates};
 })(typeof window==='undefined'?globalThis:window);
