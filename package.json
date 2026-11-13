@@ -51,7 +51,7 @@
       "target": [
         "nsis"
       ],
-      "signAndEditExecutable": false,
+      "signExecutable": false,
       "artifactName": "ZTH-Design-Studio-${version}-Setup.${ext}"
     },
     "nsis": {

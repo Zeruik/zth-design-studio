@@ -11,11 +11,13 @@ An offline graphic editor for posters, product cards and project boards. Shared 
 
 [GitHub Releases](https://github.com/Zeruik/zth-design-studio/releases) 包含安装包、源码包与校验值。项目统一使用本仓库，`v1.0` 保留原始代码，`v2.0` 为 2.0 版本分支，`main` 为当前版本。
 
+[打开在线版](https://zeruik.github.io/zth-design-studio/)：iPhone 可用 Safari 打开后选择“分享 → 添加到主屏幕”。首次联网加载后可离线使用；作品仍保存在本机。这是主屏幕网页应用，不是签名 IPA。
+
 | 平台 | 交付 | 安装方式 |
 |---|---|---|
 | Windows 10/11 x64 | `ZTH-Design-Studio-2.0.0-Setup.exe` | 向导选择语言、阅读协议、选择路径；运行时已内置 |
 | Android 9+ | `ZTH-Design-Studio-2.0.0-Android.apk` | 下载到手机安装；需要较新的系统 WebView |
-| iOS / iPadOS | Xcode 原生工程；经 CI 构建的模拟器包 | 模拟器包不能装到 iPhone；真机包需在 Mac/Xcode 中使用自己的 Apple 团队签名 |
+| iOS / iPadOS 18+ | 主屏幕网页版、Xcode 原生工程、经 CI 构建的模拟器包 | 模拟器包不能装到 iPhone；原生真机包需在 Mac/Xcode 中使用自己的 Apple 团队签名 |
 | 浏览器 | `ZTH-Design-Studio-2.0.0-Web.zip` | 放在 HTTP(S) 静态服务器，支持安装到主屏幕及离线缓存 |
 
 **当前没有可直接安装到任意 iPhone 的签名 IPA。** 原生 iOS 工程已提供，模拟器构建状态以 Actions 结果为准。

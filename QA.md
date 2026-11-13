@@ -4,13 +4,16 @@ Date: 2026-11-13. Tests report observed behavior, not certification of every pho
 
 ## Automated regression coverage
 
-`npm test` checks portable-project limits, malformed input, connected color removal, layout bounds, template copy isolation, RGB/HEX validation and five-color recency, history snapshots, font deduplication/fallback, storage failures, stale save queues, immediate reload after restoration, locked text and images, multi-selection locks, QR replacement geometry and asynchronous dialog races.
+`npm test`: 35 tests pass. Coverage includes portable-project limits, malformed input, connected color removal, layout bounds, template copy isolation, RGB/HEX validation and five-color recency, history snapshots, font deduplication/fallback, storage failures, stale save queues, immediate reload after restoration, locked text and images, multi-selection locks, QR replacement geometry and asynchronous dialog races. Fabric 7 coordinates and older gradient opacity are checked against the real library.
+
+Dependency audit: zero known vulnerabilities at build time; see `qa/dependency-audit-v2.json`. Bundled runtime libraries were updated as well as the package lock.
 
 `qa/brand-transparency-v2.json` records actual source pixels: all seven original marks have fully transparent outer image edges after processing. Saturated core pixels in the color logos remain unchanged. This is an asset-specific matte extraction, not general image segmentation.
 
 ## Browser checks
 
 - Editor opened with the bundled Chinese font and actual Fabric canvas.
+- After updating Fabric to 7.4.0 and jsPDF to 4.2.1, actual PNG/PDF exports, `.zthpmsj` export/re-import, immediate reload after history restoration and Chinese/English switching were exercised again.
 - RGB 18/144/220 applied to selected text; the quick-selection bar and custom picker worked.
 - Local project name saved without requiring a blur event. Multiple works and manual version lists remained available after reload.
 - A QR placeholder was replaced by entering `https://github.com/Zeruik/zth-design-studio` from the selection menu. The final 1080×1440 PNG export was decoded with jsQR; its payload matched exactly. See `qa/qr-decode-v2.json`.

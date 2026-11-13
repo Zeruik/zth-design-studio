@@ -6,6 +6,8 @@
 
 需要 Xcode、iOS SDK 和 Node.js。最低部署版本 iOS 18（包含 PDF 导入所需的现代 WebKit）。从仓库根目录运行：
 
+从 Release 下载的 `iOS-Source.zip` 已包含 `ios/ZTHDesignStudio/App/` 离线资源，可以直接打开其中的 Xcode 工程，无需再次执行 npm 准备步骤。该压缩包不含 Apple 签名材料，不是可以直接安装的 IPA。
+
 ```sh
 npm run build:ios
 xcodebuild -project ios/ZTHDesignStudio.xcodeproj -scheme ZTHDesignStudio -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build

@@ -6,6 +6,8 @@
 
 Windows 提供协议、语言、安装路径和卸载向导。Android 提供已签名 APK。iOS 提供原生 Xcode 工程与模拟器构建；**模拟器包不能安装到 iPhone，暂无签名 IPA**。
 
+iPhone 可先用 Safari 打开 [在线版](https://zeruik.github.io/zth-design-studio/)，通过“分享 → 添加到主屏幕”使用。
+
 ## Downloads
 
 - Windows: `ZTH-Design-Studio-2.0.0-Setup.exe`
