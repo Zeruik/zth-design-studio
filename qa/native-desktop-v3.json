@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "version": "3.0.0",
+  "target": "Windows packaged ASAR with bundled native preload",
+  "freshBlank": true,
+  "initialPages": 1,
+  "initialFonts": 0,
+  "fonts": [
+    {
+      "family": "ZTH Sans",
+      "loaded": true
+    },
+    {
+      "family": "ZCOOL XiaoWei",
+      "loaded": true
+    },
+    {
+      "family": "Ma Shan Zheng",
+      "loaded": true
+    },
+    {
+      "family": "Roboto Mono",
+      "loaded": true
+    }
+  ],
+  "fontPathAllowlist": true,
+  "indexedDBRoundTrip": true,
+  "portableProjectRoundTrip": true,
+  "portableFontCount": 4,
+  "objectCount": 4,
+  "projectBytes": 18364794,
+  "rendererOrigin": "file:",
+  "nativeBridge": true,
+  "indexedDBReload": true,
+  "autosaveReload": true,
+  "restoredFonts": [
+    "ZTH Sans",
+    "ZCOOL XiaoWei",
+    "Ma Shan Zheng",
+    "Roboto Mono"
+  ]
+}

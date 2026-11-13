@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "checkedAppFiles": 54,
+  "targets": [
+    "Windows ASAR",
+    "Android",
+    "Web"
+  ],
+  "zipCRC": "passed",
+  "lineEndingOnly": [],
+  "mismatches": []
+}

@@ -24,6 +24,10 @@
 
 最终打包报告见 `qa/native-bundles-v3.json`、`qa/native-desktop-v3.json` 和发行包 `SHA256SUMS.txt`。Android 必须与 2.0 的持久签名身份一致，构建脚本在密钥缺失时停止，禁止自动创建新身份。发行前比对签名证书、版本号和全部应用资源。
 
+- Windows 实际打包 ASAR 配合原生 preload，在隔离用户目录启动：首次空白、4 字体实际加载、字体路径白名单、包含 4 字体的 18.36 MB 工程读写、IndexedDB 和刷新后自动恢复全部通过。详见 `qa/native-desktop-v3.json`。
+- Android 已通过官方签名验证、ZIP 对齐与版本校验（3.0.0 / 30000），签名证书 SHA-256 与保留的 2.0 APK 完全相同。详见 `qa/native-android-v3.json`。
+- Windows ASAR、Android APK、Web ZIP 中的 54 个应用文件逐字节一致，ZIP CRC 全部通过。
+
 ## 仍需实体环境验收
 
 - Android 实机覆盖安装、系统文件选择器、各厂商键盘/状态栏/手势区与触控。

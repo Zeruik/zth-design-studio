@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "version": "3.0.0",
+  "sameSigningCertificateAs": "2.0.0",
+  "certificateSHA256": "097e07ed4b23f5955fddd1b8190d03686cdeeeba7dfa71f18ae740127dd18859",
+  "signatureV3": true,
+  "zipAlignment": "passed",
+  "manifest": "package: name='studio.zerotohand.design' versionCode='30000' versionName='3.0.0' platformBuildVersionName='15' platformBuildVersionCode='35' compileSdkVersion='35' compileSdkVersionCodename='15'",
+  "apkBytes": 17314020,
+  "apkSHA256": "da2fc96c731f5ad99f20136d2d121c01a9fa7bb0af50f2c034a683b8342b350b",
+  "physicalDeviceTested": false
+}
