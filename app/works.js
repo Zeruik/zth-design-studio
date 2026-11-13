@@ -32,6 +32,9 @@
     async function expand(doc){const copy=clone(doc);if(copy.fontKey){copy.fonts=await E.dbGet('font:'+copy.fontKey);if(!copy.fonts)throw Error('作品字体缓存缺失，请从导出的工程备份恢复');delete copy.fontKey;}return copy;}
     async function activate(workId){await ready;const states=await E.dbGet('work-states');generations.set(workId,states?.[workId]?.generation||0);blocked.delete(workId);}
     function save(checkpoint=false,{asCopy=false}={}){
+      // A close/save click during undo or page hydration must capture the final
+      // visible document, not the canvas halfway through its async replacement.
+      if(E.hasPendingOperations?.())return E.whenIdle().then(()=>save(checkpoint,{asCopy}));
       const doc=clone(E.getProject());if(asCopy){doc.workId=id();doc.name=(doc.name||'未命名作品')+' · 冲突副本';}
       const thumb=thumbnail(),sequence=++latestSave,token=serial(doc.workId);
       return enqueue(async()=>{

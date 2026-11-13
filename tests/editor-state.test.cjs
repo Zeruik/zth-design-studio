@@ -17,42 +17,61 @@ function object(type='rect',properties={}) {
   };
 }
 
-function fixture() {
-  const elements=new Map();let nextId=0,loadError;
+function fixture({realObjects=false,realCanvas=false}={}) {
+  if(realCanvas)realObjects=true;
+  const runtime=realObjects?require('fabric/node'):fabric;
+  const elements=new Map();let nextId=0,loadError,loadGate;
   const element=id=>{
     if(!elements.has(id))elements.set(id,{
       value:'',clientWidth:1200,clientHeight:900,parentElement:{},
-      listeners:{},classList:{add() {},remove() {},toggle() {}},append() {},replaceChildren() {},
+      listeners:{},children:[],classList:{add() {},remove() {},toggle() {}},append(...children) {this.children.push(...children);},replaceChildren(...children) {this.children=children;},
       addEventListener(type,listener) {(this.listeners[type]||=[]).push(listener);},
       dispatch(type,event={}) {for(const listener of this.listeners[type]||[])listener(event);}
     });
     return elements.get(id);
   };
   class Canvas {
-    constructor() {this.objects=[];this.active=null;this.backgroundColor='#fff';}
-    on() {}
+    constructor() {this.objects=[];this.active=null;this.backgroundColor='#fff';this.listeners={};this.renderOnAddRemove=true;}
+    on(type,listener) {(this.listeners[type]||=[]).push(listener);}
+    fire(type,event={}) {for(const listener of this.listeners[type]||[])listener(event);}
     getObjects() {return this.objects;}
     getActiveObject() {return this.active;}
-    getActiveObjects() {return this.active?.getObjects?.()||[this.active].filter(Boolean);}
+    getActiveObjects() {return this.active?.type==='activeselection'?this.active.getObjects():[this.active].filter(Boolean);}
     discardActiveObject() {this.active=null;}
     setActiveObject(o) {this.active=o;}
     requestRenderAll() {}
+    add(...objects) {this.objects.push(...objects);}
+    insertAt(index,...objects) {this.objects.splice(index,0,...objects);}
+    remove(...objects) {this.objects=this.objects.filter(o=>!objects.includes(o));}
+    bringObjectForward(o) {const i=this.objects.indexOf(o);if(i>=0&&i<this.objects.length-1)[this.objects[i],this.objects[i+1]]=[this.objects[i+1],this.objects[i]];}
+    sendObjectBackwards(o) {const i=this.objects.indexOf(o);if(i>0)[this.objects[i],this.objects[i-1]]=[this.objects[i-1],this.objects[i]];}
     setDimensions() {}
     setZoom() {}
-    async loadFromJSON(data) {if(loadError)throw loadError;this.objects=data.objects||[];this.backgroundColor=data.background;}
-    toObject() {return {objects:this.objects,background:this.backgroundColor};}
+    async loadFromJSON(data) {
+      this.renderOnAddRemove=false;
+      if(loadGate){const gate=loadGate;loadGate=null;gate.enter();await gate.wait;}
+      if(loadError)throw loadError;
+      this.objects=realObjects?await runtime.util.enlivenObjects(data.objects||[]):data.objects||[];this.backgroundColor=data.background;this.renderOnAddRemove=true;
+    }
+    toObject() {return {objects:this.objects.map(o=>o.toObject?.()||o),background:this.backgroundColor?.toObject?.()||this.backgroundColor};}
   }
   class ActiveSelection {
     constructor(objects) {this.type='activeselection';this.objects=objects;}
     getObjects() {return this.objects;}
   }
+  class RealCanvas extends runtime.Canvas {
+    constructor(_element,options){super(undefined,{...options,renderOnAddRemove:false});}
+    requestRenderAll() {return this;}
+  }
   // Use actual Fabric geometry/color/default APIs. Only the interactive canvas
   // is mocked so these state checks do not require a browser or native canvas.
   // Isolate the compatibility wrapper from other fixture instances.
-  class FixtureGradient extends fabric.Gradient {}
+  class FixtureGradient extends runtime.Gradient {}
+  const documentListeners={};
   const context=vm.createContext({
-    document:{body:element('body'),getElementById:element,querySelectorAll:()=>[],addEventListener() {},createElement:()=>element('generated-'+nextId++),fonts:{add() {}}},
-    fabric:{...fabric,Canvas,ActiveSelection,Gradient:FixtureGradient},
+    document:{body:element('body'),getElementById:element,querySelectorAll:()=>[],querySelector:()=>null,addEventListener(type,listener) {(documentListeners[type]||=[]).push(listener);},createElement:()=>element('generated-'+nextId++),fonts:{add() {}}},
+    fabric:{...runtime,Canvas:realCanvas?RealCanvas:Canvas,ActiveSelection:realCanvas?runtime.ActiveSelection:ActiveSelection,Gradient:FixtureGradient},
+    console,Blob,
     window:{},crypto:{randomUUID:()=>`id-${++nextId}`},
     indexedDB:{open:()=>({})},ResizeObserver:class {observe() {}},
     clearTimeout() {},setTimeout:()=>1,
@@ -65,9 +84,11 @@ function fixture() {
   vm.runInContext(withoutBoot,context,{filename:'app.js'});
   const canvas=vm.runInContext('canvas',context);
   return {
-    context,canvas,elements,editor:context.window.ZTH_EDITOR,
+    context,canvas,elements,editor:context.window.ZTH_EDITOR,runtime,
     run:script=>vm.runInContext(script,context),
-    failLoad:error=>{loadError=error;}
+    failLoad:error=>{loadError=error;},
+    dispatch:(type,event)=>{for(const listener of documentListeners[type]||[])listener(event);},
+    pauseLoad(){let enter,release;const entered=new Promise(resolve=>{enter=resolve;}),wait=new Promise(resolve=>{release=resolve;});loadGate={enter,wait};return {entered,release};}
   };
 }
 
@@ -305,7 +326,7 @@ test('two windows cannot overwrite a newer saved revision, and explicitly reopen
 
 test('new blank and template-copy transitions keep the original template immutable',async()=>{
   const f=fixture();await f.editor.newBlank(true);
-  const empty=f.editor.getProject();assert.equal(empty.appVersion,'3.0.0');assert.equal(empty.name,'未命名作品');assert.equal(empty.pages.length,1);assert.equal(empty.pages[0].canvas.objects.length,0);assert.equal(empty.pages[0].canvas.background,'#ffffff');
+  const empty=f.editor.getProject();assert.equal(empty.appVersion,'4.0.0');assert.equal(empty.name,'未命名作品');assert.equal(empty.pages.length,1);assert.equal(empty.pages[0].canvas.objects.length,0);assert.equal(empty.pages[0].canvas.background,'#ffffff');
   const template={name:'只读模板',document:draft('原始名称','original-template')},original=copy(template);
   f.context.ZTH_WORKS=f.context.window.ZTH_WORKS={beforeSwitch:async()=>false};
   assert.equal(await f.editor.applyTemplate(template),false);assert.equal(f.editor.getProject().workId,empty.workId);
@@ -324,4 +345,274 @@ test('text input updates immediately, respects IME composition and caret, and nu
   input.value='中文输入完成';input.oncompositionend();assert.equal(text.text,'中文输入完成');
   const pos=f.elements.get('posY');pos.value='321';let prevented=false;pos.dispatch('keydown',{key:'Enter',preventDefault(){prevented=true;}});
   assert.equal(text.top,321);assert.equal(prevented,true);
+});
+
+test('rapid undo/redo requests serialize and block edits until the final requested state is visible',async()=>{
+  const f=fixture();await f.editor.newBlank(true);
+  for(const color of ['#ff0000','#0000ff','#00ff00'])f.editor.setBackground(color);
+  const gate=f.pauseLoad(),first=f.editor.undo();await gate.entered;
+  assert.equal(f.editor.isBusy(),true);assert.equal(f.editor.setBackground('#abcdef'),false);
+  const rest=[f.editor.undo(),f.editor.undo(),f.editor.redo()];gate.release();await Promise.all([first,...rest]);
+  assert.equal(f.canvas.backgroundColor,'#ff0000');assert.equal(f.editor.getHistory().index,1);
+  assert.equal(f.editor.isBusy(),false);assert.equal(f.canvas.selection,true);assert.equal(f.canvas.skipTargetFind,false);
+});
+
+test('failed history hydration retains the timeline cursor and allows the next undo to succeed',async()=>{
+  const f=fixture();await f.editor.newBlank(true);f.editor.setBackground('#123456');
+  f.failLoad(Error('Image decode failed'));
+  await assert.rejects(f.editor.undo(),/Image decode failed/);
+  assert.equal(f.editor.getHistory().index,1);assert.equal(f.canvas.backgroundColor,'#123456');assert.equal(f.editor.isBusy(),false);
+  assert.equal(f.canvas.renderOnAddRemove,true,'a failed Fabric load must not disable future automatic rendering');
+  f.failLoad(null);assert.equal(await f.editor.undo(),true);assert.equal(f.canvas.backgroundColor,'#ffffff');
+});
+
+test('opening a document supersedes queued history restores without late old-canvas writes',async()=>{
+  const f=fixture();await f.editor.newBlank(true);f.editor.setBackground('#123456');f.editor.setBackground('#654321');
+  const gate=f.pauseLoad(),first=f.editor.undo();await gate.entered;const stale=f.editor.undo();
+  const next=draft('新文档','next-document');next.pages[0].canvas.background='#eeeeee';const opening=f.editor.loadProject(next);
+  gate.release();await first;assert.equal(await stale,false);await opening;
+  assert.equal(f.editor.getProject().workId,'next-document');assert.equal(f.canvas.backgroundColor,'#eeeeee');
+  assert.equal(f.editor.getHistory().entries.length,1);assert.equal(await f.editor.undo(),false);
+});
+
+test('page additions, edits, deletion and restore share one history while navigation preserves it',async()=>{
+  const f=fixture();await f.editor.newBlank(true);f.editor.setBackground('#112233');
+  await f.editor.addPage({name:'横版',width:1920,height:1080,canvas:{objects:[],background:'#ffffff'}});
+  f.editor.setBackground('#445566');const count=f.editor.getHistory().entries.length;
+  await f.editor.switchPage(0);await f.editor.switchPage(1);assert.equal(f.editor.getHistory().entries.length,count);
+  await f.editor.deletePage(0);assert.equal(f.editor.getProject().pages.length,1);assert.equal(f.canvas.backgroundColor,'#445566');
+  await f.editor.undo();assert.equal(f.editor.getProject().pages.length,2);assert.equal(f.editor.getProject().pages[0].canvas.background,'#112233');
+  await f.editor.undo();assert.equal(f.canvas.backgroundColor,'#ffffff');assert.equal(f.editor.getProject().activePage,1);
+  await f.editor.undo();assert.equal(f.editor.getProject().pages.length,1);assert.equal(f.canvas.backgroundColor,'#112233');
+  await f.editor.redo();assert.equal(f.editor.getProject().pages.length,2);assert.equal(f.editor.getSize().width,1920);
+});
+
+test('real Fabric add, duplicate, color, order, lock and delete actions round-trip through undo/redo',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);
+  const first=new f.runtime.Rect({left:20,top:40,width:120,height:80,fill:'#ff0000',name:'A'});f.editor.add(first);
+  const second=new f.runtime.Rect({left:200,top:40,width:80,height:60,fill:'#0000ff',name:'B'});f.editor.add(second);
+  await f.editor.duplicate();assert.equal(f.canvas.getObjects().length,3);assert.equal(f.canvas.getObjects()[2].left,230);
+  await f.editor.undo();assert.equal(f.canvas.getObjects().length,2);await f.editor.redo();assert.equal(f.canvas.getObjects().length,3);
+  f.canvas.setActiveObject(f.canvas.getObjects()[0]);f.editor.changeObject(o=>o.set('fill','#00ff00'),'修改颜色');
+  await f.editor.undo();assert.equal(f.canvas.getObjects()[0].fill,'#ff0000');await f.editor.redo();assert.equal(f.canvas.getObjects()[0].fill,'#00ff00');
+  f.canvas.setActiveObject(f.canvas.getObjects()[0]);f.elements.get('forwardBtn').onclick();assert.equal(f.canvas.getObjects()[1].name,'A');
+  await f.editor.undo();assert.equal(f.canvas.getObjects()[0].name,'A');await f.editor.redo();
+  f.canvas.setActiveObject(f.canvas.getObjects()[1]);f.elements.get('lockBtn').onclick();assert.equal(f.canvas.getObjects()[1].locked,true);
+  const count=f.editor.getHistory().entries.length;f.editor.remove();assert.equal(f.canvas.getObjects().length,3);assert.equal(f.editor.getHistory().entries.length,count);
+  await f.editor.undo();assert.equal(f.canvas.getObjects()[1].locked,undefined);await f.editor.redo();assert.equal(f.canvas.getObjects()[1].locked,true);
+  f.canvas.setActiveObject(f.canvas.getObjects()[1]);f.elements.get('lockBtn').onclick();f.editor.remove();assert.equal(f.canvas.getObjects().length,2);
+  await f.editor.undo();assert.equal(f.canvas.getObjects().length,3);assert.equal(f.canvas.getObjects()[1].name,'A');
+});
+
+test('grouping and ungrouping preserve geometry and surrounding stacking order with real Fabric objects',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);
+  const shapes=['A','B','C','D'].map((name,i)=>new f.runtime.Rect({left:30+i*100,top:30+i*20,width:50,height:60,angle:i*15,name}));
+  for(const shape of shapes)f.editor.add(shape);
+  const bounds=shapes.map(shape=>shape.getBoundingRect());
+  f.context.members=[shapes[0],shapes[2]];f.run('canvas.setActiveObject(new F.ActiveSelection(members,{canvas}))');f.editor.groupSelection();
+  assert.deepEqual(f.canvas.getObjects().map(o=>o.name),['B','组合','D']);
+  await f.editor.undo();assert.deepEqual(f.canvas.getObjects().map(o=>o.name),['A','B','C','D']);
+  f.canvas.getObjects().forEach((shape,i)=>assert.deepEqual(shape.getBoundingRect(),bounds[i]));
+  await f.editor.redo();f.canvas.setActiveObject(f.canvas.getObjects()[1]);f.editor.ungroupSelection();
+  assert.deepEqual(f.canvas.getObjects().map(o=>o.name),['B','A','C','D']);
+  for(const name of ['A','C']){
+    const actual=f.canvas.getObjects().find(o=>o.name===name).getBoundingRect(),expected=bounds['ABCD'.indexOf(name)];
+    for(const key of ['left','top','width','height'])assert.ok(Math.abs(actual[key]-expected[key])<.001,`${name} ${key}`);
+  }
+  await f.editor.undo();assert.equal(f.canvas.getObjects()[1].type,'group');await f.editor.redo();assert.equal(f.canvas.getObjects().length,4);
+});
+
+test('canvas resize and project/page names are undoable and scaling keeps locked descendants fixed',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);
+  const fixed=new f.runtime.Rect({left:100,top:80,width:50,height:70,locked:true}),moving=new f.runtime.Rect({left:200,top:160,width:50,height:70});
+  f.editor.add(fixed);f.editor.add(moving);f.editor.resizeCanvas(540,720,{scaleContent:true});
+  assert.equal(fixed.left,100);assert.equal(fixed.scaleX,1);assert.equal(moving.left,100);assert.equal(moving.scaleX,.5);
+  await f.editor.undo();assert.equal(f.editor.getSize().width,1080);assert.equal(f.canvas.getObjects()[1].left,200);
+  await f.editor.redo();assert.equal(f.editor.getSize().width,540);assert.equal(f.canvas.getObjects()[0].locked,true);
+  f.elements.get('projectName').value='重命名的作品';f.elements.get('projectName').onchange();
+  f.editor.renamePage(0,'封面');await f.editor.undo();assert.notEqual(f.editor.getPages()[0].name,'封面');
+  await f.editor.undo();assert.equal(f.editor.getProject().name,'未命名作品');await f.editor.redo();assert.equal(f.editor.getProject().name,'重命名的作品');
+});
+
+test('text typing merges into one undo step, IME intermediate states are omitted and blur starts a new step',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);
+  const text=new f.runtime.Textbox('起点',{width:300,fontSize:24});f.editor.add(text);const input=f.elements.get('textValue');f.context.document.activeElement=input;
+  for(const value of ['你','你好','你好世界']){input.value=value;input.oninput({isComposing:false});}
+  assert.equal(f.editor.getHistory().entries.length,3);assert.equal(text.text,'你好世界');
+  input.oncompositionstart();input.value='nihao';input.oninput({isComposing:true});assert.equal(f.editor.getHistory().entries.length,3);
+  input.value='你好世界！';input.oncompositionend();assert.equal(f.editor.getHistory().entries.length,3);
+  input.dispatch('blur');input.value='第二段';input.oninput({isComposing:false});assert.equal(f.editor.getHistory().entries.length,4);
+  f.context.document.activeElement=null;await f.editor.undo();assert.equal(f.canvas.getObjects()[0].text,'你好世界！');
+  await f.editor.undo();assert.equal(f.canvas.getObjects()[0].text,'起点');await f.editor.redo();assert.equal(f.canvas.getObjects()[0].text,'你好世界！');
+});
+
+test('history subscriptions are detached summaries, timeline jumps are stable, and new edits remove redo branches',async()=>{
+  const f=fixture();await f.editor.newBlank(true);const events=[],unsubscribe=f.editor.subscribeHistory(state=>events.push(state));
+  f.editor.setBackground('#111111');f.editor.setBackground('#222222');const summary=f.editor.getHistory(),first=summary.entries[1].id;
+  summary.entries[1].label='external mutation';assert.notEqual(f.editor.getHistory().entries[1].label,'external mutation');
+  assert.equal(await f.editor.goToHistory(first),true);assert.equal(f.canvas.backgroundColor,'#111111');assert.equal(f.editor.getHistory().canRedo,true);
+  f.editor.setBackground('#333333');assert.equal(f.editor.getHistory().canRedo,false);assert.equal(await f.editor.goToHistory(summary.entries[2].id),false);
+  assert.ok(events.some(state=>state.busy));assert.equal(events.at(-1).busy,false);const count=events.length;unsubscribe();f.editor.setBackground('#444444');assert.equal(events.length,count);
+});
+
+test('history shares image payloads, enforces count and memory limits, and releases abandoned assets',async()=>{
+  const f=fixture();await f.editor.newBlank(true);const source='data:image/png;base64,'+'A'.repeat(1024*1024);
+  f.canvas.objects=[{type:'image',src:source,left:0}];f.editor.changed('添加图片');
+  for(let i=1;i<=70;i++){f.canvas.objects[0].left=i;f.editor.changed('移动图片');}
+  assert.equal(f.editor.getHistory().entries.length,50);assert.ok(f.editor.getHistory().bytes<source.length*2+150000);
+  await f.editor.undo();assert.equal(f.canvas.getObjects()[0].src,source);assert.equal(f.canvas.getObjects()[0].left,69);
+  for(let i=0;i<10;i++){f.canvas.objects[0].src='data:image/png;base64,'+String(i).repeat(3*1024*1024);f.editor.changed('替换图片');}
+  assert.ok(f.editor.getHistory().bytes<=f.editor.getHistory().byteLimit);assert.ok(f.editor.getHistory().entries.length<50);
+  await f.editor.loadProject(draft('无图的新作品','no-images'));assert.ok(f.editor.getHistory().bytes<10000);
+});
+
+test('a save requested during history restoration waits for the final visible state before capturing it',async()=>{
+  const f=persistence(draft('旧状态'));await f.store.ready;let release,pending=true;
+  const idle=new Promise(resolve=>{release=()=>{pending=false;resolve();};});f.E.hasPendingOperations=()=>pending;f.E.whenIdle=()=>idle;
+  const saving=f.store.save(true);assert.equal(f.read('work:draft-a'),undefined);f.set(draft('撤销后的状态'));release();await saving;
+  assert.equal(f.read('work:draft-a').document.name,'撤销后的状态');assert.equal((await f.store.loadAutosave()).name,'撤销后的状态');
+});
+
+test('a delayed duplicate or image import cannot appear on a different page or resurrect an undone object',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);const rect=new f.runtime.Rect({width:60,height:40});f.editor.add(rect);
+  let release;rect.clone=()=>new Promise(resolve=>{release=()=>resolve(new f.runtime.Rect({width:60,height:40}));});
+  const copying=f.editor.duplicate();await f.editor.undo();release();assert.equal(await copying,false);assert.equal(f.canvas.getObjects().length,0);
+  let imageRelease;f.context.fabric.FabricImage={fromURL:()=>new Promise(resolve=>{imageRelease=()=>resolve({});})};
+  const importing=f.editor.insertImage('data:image/png;base64,AAA');await Promise.resolve();await f.editor.addPage();imageRelease();
+  assert.equal(await importing,null);assert.equal(f.canvas.getObjects().length,0);
+  f.editor.setBackground('#123456');const pendingSamePage=f.editor.insertImage('data:image/png;base64,BBB');await Promise.resolve();await f.editor.undo();imageRelease();
+  assert.equal(await pendingSamePage,null,'undo on the same page also invalidates an unfinished import');assert.equal(f.canvas.getObjects().length,0);
+});
+
+test('keyboard save uses local save, Shift-S exports, and text editing retains native undo',async()=>{
+  const f=fixture();await f.editor.newBlank(true);let saves=0,exports=0,prevented=0;
+  f.context.document.getElementById('quickSaveBtn').click=()=>saves++;f.elements.get('saveBtn').click=()=>exports++;
+  const event=(extra={})=>({key:'s',ctrlKey:true,target:{tagName:'BODY'},preventDefault(){prevented++;},...extra});
+  f.dispatch('keydown',event());f.dispatch('keydown',event({shiftKey:true}));assert.equal(saves,1);assert.equal(exports,1);
+  f.dispatch('keydown',event({defaultPrevented:true}));assert.equal(saves,1,'a control-owned key event must not invoke a global command');
+  f.dispatch('keydown',event({key:'z',target:{tagName:'TEXTAREA'}}));assert.equal(prevented,2);assert.equal(f.editor.hasPendingOperations(),false);
+});
+
+test('new Chinese text wraps at grapheme boundaries when text and fonts change without expanding past the artboard',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);const text=f.run("text('你的大标题',100)");
+  const input=f.elements.get('textValue');input.value='把每一步，留在创作里';input.oninput({isComposing:false});
+  f.elements.get('fontFamily').value='Ma Shan Zheng';f.elements.get('fontFamily').onchange();
+  assert.equal(text.type,'textbox');assert.equal(text.splitByGrapheme,true);assert.equal(text.text,'把每一步，留在创作里');
+  assert.ok(text.width<=864);assert.ok(text.textLines.length>=2);assert.equal(f.editor.getSelectionOverflow().overflow,false);
+});
+
+test('explicit canvas fit scales and positions an existing rotated IText without changing its content or typography',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);
+  const text=new f.runtime.IText('把每一步，留在创作里',{left:950,top:-100,fontSize:130,fontFamily:'Ma Shan Zheng',angle:24,scaleX:1.2,scaleY:1.2});f.editor.add(text);
+  const original=text.toObject(),overflow=f.editor.getSelectionOverflow();assert.equal(overflow.overflow,true);assert.ok(overflow.edges.right>0);
+  assert.equal(f.editor.fitSelectionToCanvas(),true);const after=f.editor.getSelectionOverflow({margin:54});assert.equal(after.overflow,false);
+  assert.equal(text.text,original.text);assert.equal(text.fontFamily,original.fontFamily);assert.equal(text.fontSize,original.fontSize);assert.equal(text.angle,24);
+  assert.ok(text.scaleX<original.scaleX);assert.equal(text.scaleX/text.scaleY,1);assert.equal(f.editor.getHistory().entries.at(-1).label,'适配画布');
+  await f.editor.undo();const undone=f.canvas.getObjects()[0];assert.equal(undone.left,original.left);assert.equal(undone.top,original.top);assert.equal(undone.scaleX,original.scaleX);
+  await f.editor.redo();f.canvas.setActiveObject(f.canvas.getObjects()[0]);assert.equal(f.editor.getSelectionOverflow({margin:54}).overflow,false);
+});
+
+test('fit preserves group layout, respects locked descendants and does not record a no-op',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);
+  const children=[new f.runtime.Rect({left:10,top:20,width:200,height:100}),new f.runtime.Rect({left:350,top:100,width:100,height:200})];
+  const group=new f.runtime.Group(children,{left:-100,top:1100,scaleX:3,scaleY:3,angle:-12});f.editor.add(group);
+  const relative=children.map(o=>({left:o.left,top:o.top,scaleX:o.scaleX,scaleY:o.scaleY}));assert.equal(f.editor.fitSelectionToCanvas({margin:20}),true);
+  assert.equal(f.editor.getSelectionOverflow({margin:20}).overflow,false);assert.deepEqual(children.map(o=>({left:o.left,top:o.top,scaleX:o.scaleX,scaleY:o.scaleY})),relative);
+  const count=f.editor.getHistory().entries.length;assert.equal(f.editor.fitSelectionToCanvas({margin:20}),false);assert.equal(f.editor.getHistory().entries.length,count);
+  children[0].locked=true;group.set('left',-100);group.setCoords();assert.equal(f.editor.getSelectionOverflow().canFit,false);assert.equal(f.editor.fitSelectionToCanvas(),false);assert.equal(group.left,-100);
+});
+
+test('an unshrinkable uniform stroke rolls back a failed fit and does not pollute history',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);f.editor.resizeCanvas(100,100);
+  const rect=new f.runtime.Rect({left:-50,top:-50,width:200,height:100,stroke:'#000000',strokeWidth:200,strokeUniform:true});f.editor.add(rect);
+  const before={left:rect.left,top:rect.top,scaleX:rect.scaleX,scaleY:rect.scaleY},count=f.editor.getHistory().entries.length;
+  assert.equal(f.editor.fitSelectionToCanvas(),false);assert.deepEqual({left:rect.left,top:rect.top,scaleX:rect.scaleX,scaleY:rect.scaleY},before);assert.equal(f.editor.getHistory().entries.length,count);
+});
+
+test('duplicating a page records the correct action and undo restores the original page count',async()=>{
+  const f=fixture();await f.editor.newBlank(true);f.editor.setBackground('#123456');
+  await f.editor.duplicatePage();assert.equal(f.editor.getHistory().entries.at(-1).label,'复制页面');assert.equal(f.editor.getPages().length,2);
+  assert.equal(f.editor.getProject().pages[1].canvas.background,'#123456');
+  await f.editor.undo();assert.equal(f.editor.getPages().length,1);await f.editor.redo();assert.equal(f.editor.getPages().length,2);
+});
+
+test('touch layer multi-select adds and removes real Fabric members without moving or rotating them',async()=>{
+  const f=fixture({realCanvas:true});
+  try{
+    await f.editor.newBlank(true);
+    const shapes=[new f.runtime.Rect({name:'A',left:100,top:80,width:200,height:90,angle:17,skewX:8,scaleX:1.2,scaleY:.8}),new f.runtime.Rect({name:'B',left:450,top:300,width:160,height:130,angle:-25}),new f.runtime.Ellipse({name:'C',left:300,top:650,rx:50,ry:90,angle:30})];
+    for(const shape of shapes)f.editor.add(shape);f.canvas.discardActiveObject();
+    const original=shapes.map(o=>o.calcTransformMatrix()),count=f.editor.getHistory().entries.length;
+    const click=name=>f.elements.get('layers').children.find(row=>row.children[0].textContent.endsWith(name)).children[0].onclick();
+    const check=()=>shapes.forEach((o,index)=>o.calcTransformMatrix().forEach((value,key)=>assert.ok(Math.abs(value-original[index][key])<1e-8,`${o.name} matrix ${key}`)));
+    assert.equal(f.editor.setLayerMultiSelect(true),true);assert.equal(f.editor.getLayerMultiSelect(),true);
+    for(let cycle=0;cycle<8;cycle++){
+      click('A');click('B');click('C');assert.equal(f.canvas.getActiveObject().type,'activeselection');assert.deepEqual(f.canvas.getActiveObjects().map(o=>o.name),['A','B','C']);check();
+      click('B');assert.deepEqual(f.canvas.getActiveObjects().map(o=>o.name),['A','C']);check();
+      click('A');assert.equal(f.canvas.getActiveObject(),shapes[2]);check();click('C');assert.equal(f.canvas.getActiveObject(),undefined);check();
+    }
+    click('A');click('B');const active=f.canvas.getActiveObject();f.editor.setLayerMultiSelect(false);assert.equal(f.canvas.getActiveObject(),active);
+    assert.equal(f.editor.getHistory().entries.length,count,'selection changes must not consume undo steps');
+    click('C');assert.equal(f.canvas.getActiveObject(),shapes[2]);check();
+  }finally{await f.canvas.dispose();}
+});
+
+test('changing transformed multi-selection membership and then grouping preserves real world geometry',async()=>{
+  const f=fixture({realCanvas:true});
+  try{
+    await f.editor.newBlank(true);const shapes=['A','B','C'].map((name,i)=>new f.runtime.Rect({name,left:100+i*240,top:100+i*70,width:100,height:80,angle:i*20}));
+    for(const shape of shapes)f.editor.add(shape);f.canvas.discardActiveObject();f.editor.setLayerMultiSelect(true);
+    const click=name=>f.elements.get('layers').children.find(row=>row.children[0].textContent.endsWith(name)).children[0].onclick();
+    click('A');click('B');const selection=f.canvas.getActiveObject();selection.set({left:selection.left+70,top:selection.top+50,angle:15,scaleX:.8,scaleY:.8});selection.setCoords();f.editor.changed('移动多选');
+    const expected=shapes.map(o=>o.calcTransformMatrix()),check=()=>shapes.forEach((o,i)=>o.calcTransformMatrix().forEach((value,j)=>assert.ok(Math.abs(value-expected[i][j])<1e-7,`${o.name} matrix ${j}`)));
+    click('C');check();click('B');check();assert.deepEqual(f.canvas.getActiveObjects().map(o=>o.name),['A','C']);
+    f.editor.groupSelection();assert.equal(f.canvas.getActiveObject().type,'group');check();f.editor.ungroupSelection();check();
+    await f.editor.undo();assert.equal(f.canvas.getObjects().find(o=>o.type==='group').getObjects().length,2);
+  }finally{await f.canvas.dispose();}
+});
+
+test('layer multi-select excludes locked objects and locked group descendants while ordinary inspection remains available',async()=>{
+  const f=fixture({realCanvas:true});
+  try{
+    await f.editor.newBlank(true);const editable=new f.runtime.Rect({name:'Editable',left:40,top:50,width:100,height:100}),locked=new f.runtime.Rect({name:'Locked',left:250,top:50,width:100,height:100,locked:true}),group=new f.runtime.Group([new f.runtime.Rect({width:50,height:60,locked:true})],{name:'FixedGroup',left:400,top:50});
+    for(const o of [editable,locked,group])f.editor.add(o);f.canvas.discardActiveObject();f.editor.setLayerMultiSelect(true);
+    const click=name=>f.elements.get('layers').children.find(row=>row.children[0].textContent.endsWith(name)).children[0].onclick();
+    click('Editable');assert.equal(click('Locked'),false);assert.equal(click('FixedGroup'),false);assert.equal(f.canvas.getActiveObject(),editable);
+    f.editor.setLayerMultiSelect(false);click('Locked');assert.equal(f.canvas.getActiveObject(),locked);assert.equal(f.editor.canEdit(locked,{silent:true}),false);
+    f.editor.setLayerMultiSelect(true);click('Editable');assert.deepEqual(f.canvas.getActiveObjects(),[editable]);assert.equal(locked.left,250);
+    locked.set('locked',false);click('Locked');assert.equal(f.canvas.getActiveObject().type,'activeselection');
+    const before=locked.calcTransformMatrix();f.elements.get('layers').children.find(row=>row.children[0].textContent.endsWith('Locked')).children[1].onclick();
+    assert.equal(locked.locked,true);assert.equal(f.canvas.getActiveObject(),editable,'locking one selected layer must remove it from the draggable ActiveSelection');
+    editable.set('left',editable.left+50);editable.setCoords();assert.deepEqual(locked.calcTransformMatrix(),before);
+  }finally{await f.canvas.dispose();}
+});
+
+test('engineering backup exports the visible document even when local IndexedDB saving is unavailable',async()=>{
+  const f=fixture();await f.editor.newBlank(true);f.editor.setBackground('#123456');let localAttempts=0,downloaded;
+  f.context.window.ZTH_WORKS={save:async()=>{localAttempts++;throw Error('QuotaExceededError');}};
+  f.context.captureDownload=async(blob,name)=>{downloaded={document:JSON.parse(await blob.text()),name};};f.run('download=captureDownload');
+  await f.elements.get('saveBtn').onclick();assert.equal(localAttempts,0);assert.equal(downloaded.document.pages[0].canvas.background,'#123456');assert.match(downloaded.name,/\.zthpmsj$/);
+  const gate=f.pauseLoad(),undo=f.editor.undo();await gate.entered;const backup=f.elements.get('saveBtn').onclick();gate.release();await undo;await backup;
+  assert.equal(downloaded.document.pages[0].canvas.background,'#ffffff','backup requested during undo exports the final stable state');
+});
+
+test('Ctrl-S and Shift-S commit focused text and numeric fields while Ctrl-Z retains native input undo',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);const text=new f.runtime.Textbox('原文',{width:300,fontSize:24});f.editor.add(text);
+  let saved,backedUp,prevented=0;
+  f.context.document.getElementById('quickSaveBtn').click=()=>{saved=f.editor.getProject();};f.elements.get('saveBtn').click=()=>{backedUp=f.editor.getProject();};
+  const input=f.elements.get('textValue');input.tagName='TEXTAREA';input.value='焦点中的新文字';f.context.document.activeElement=input;
+  const send=(key='s',extra={})=>f.dispatch('keydown',{key,ctrlKey:true,target:f.context.document.activeElement,preventDefault(){prevented++;},...extra});
+  send();assert.equal(saved.pages[0].canvas.objects[0].text,'焦点中的新文字');
+  const position=f.elements.get('posY');position.tagName='INPUT';position.value='321';f.context.document.activeElement=position;
+  send('s',{shiftKey:true});assert.equal(backedUp.pages[0].canvas.objects[0].top,321);assert.equal(prevented,2);
+  const count=f.editor.getHistory().entries.length;send('z');assert.equal(prevented,2);assert.equal(f.editor.getHistory().entries.length,count);assert.equal(f.editor.hasPendingOperations(),false);
+});
+
+test('Ctrl-S during IME waits for committed text rather than saving the candidate string',async()=>{
+  const f=fixture({realObjects:true});await f.editor.newBlank(true);f.editor.add(new f.runtime.Textbox('原文',{width:300,fontSize:24}));
+  const input=f.elements.get('textValue');input.tagName='TEXTAREA';f.context.document.activeElement=input;let saves=0,saved;
+  f.context.document.getElementById('quickSaveBtn').click=()=>{saves++;saved=f.editor.getProject();};
+  input.oncompositionstart();input.value='pinyin';f.dispatch('keydown',{key:'s',ctrlKey:true,isComposing:true,target:input,preventDefault(){}});assert.equal(saves,0);
+  input.value='中文已提交';input.oncompositionend();input.dispatch('compositionend');await Promise.resolve();
+  assert.equal(saves,1);assert.equal(saved.pages[0].canvas.objects[0].text,'中文已提交');
 });

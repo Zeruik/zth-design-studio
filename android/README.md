@@ -12,7 +12,7 @@ Install a JDK, Android SDK platform 35 and build-tools 35.0.0 from official Andr
 npm run build:android
 ```
 
-The Node build script works on Windows, macOS and Linux and requires no Gradle project. It produces `release/ZTH-Design-Studio-3.0.0-Android.apk` and verifies its signature with `apksigner`.
+The Node build script works on Windows, macOS and Linux and requires no Gradle project. It produces `release/ZTH-Design-Studio-4.0.0-Android.apk` and verifies its signature with `apksigner`.
 
 ## Keep the signing identity
 

@@ -6,17 +6,8 @@ if(process.argv.includes('--installer-only')){
  if(packed.version!==require('../package.json').version)throw Error('Packaged app version does not match the installer version');
  console.log('Recompiling installer from the existing packaged application.');
 }else run(process.execPath,['scripts/package-windows.cjs']);
-const root=path.resolve('release/win-unpacked'),entries=[];
-function walk(dir){
- for(const n of fs.readdirSync(dir)){
-  const p=path.join(dir,n),rel=path.relative(root,p).replaceAll(path.sep,'\\');
-  if(fs.statSync(p).isDirectory()){walk(p);entries.push('RMDir "$INSTDIR\\'+rel+'"');}
-  else entries.push('Delete "$INSTDIR\\'+rel+'"');
- }
-}
-walk(root);
-entries.push('Delete "$INSTDIR\\icon.ico"','Delete "$INSTDIR\\Uninstall.exe"','RMDir "$INSTDIR"');
-fs.writeFileSync('build/uninstall-files.nsh',entries.join('\n')+'\n');
+const payload=require('./installer-manifest.cjs').manifest(path.resolve('release/win-unpacked'));
+for(const [name,key] of [['install-files','install'],['rollback-files','rollback'],['uninstall-files','uninstall'],['uninstall-directories','removeDirectories'],['validate-directories','validateDirectories']])fs.writeFileSync('build/'+name+'.nsh',payload[key]);
 async function compileInstaller(){
  const env={...process.env};
  let nsis=process.env.ZTH_MAKENSIS;
@@ -42,7 +33,7 @@ async function compileInstaller(){
  // Generate an explicit UTF-16LE BOM payload so Git normalization cannot break it.
  const license=fs.readFileSync(path.resolve('build/license.txt'),'utf8').replace(/^\uFEFF/,'').replace(/\r\n|\r|\n/g,'\r\n');
  fs.writeFileSync(path.join(working,'license-installer.txt'),Buffer.concat([Buffer.from([0xff,0xfe]),Buffer.from(license,'utf16le')]));
- run(nsis||'makensis',['-INPUTCHARSET','UTF8','installer.nsi'],{cwd:working,env});
+ run(nsis||'makensis',['-INPUTCHARSET','UTF8','-DAPP_VERSION='+require('../package.json').version,'-DAPP_SIZE_KB='+Math.ceil(payload.bytes/1024),'installer.nsi'],{cwd:working,env});
  if(stage){
   const filename='ZTH-Design-Studio-'+require('../package.json').version+'-Setup.exe';
   fs.copyFileSync(path.join(stage,'release',filename),path.resolve('release',filename));

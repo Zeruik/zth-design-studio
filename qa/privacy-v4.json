@@ -1,0 +1,67 @@
+{
+  "release": "4.0.0",
+  "checkedAtUTC": "2026-11-13T16:06:05Z",
+  "status": "pass",
+  "scope": "Tracked and non-ignored working tree candidates; report itself generated after scan; no ignored/private directories read",
+  "candidateSnapshot": {
+    "files": 134,
+    "modifiedTrackedFiles": 22,
+    "newFiles": 22,
+    "textFiles": 118,
+    "binaryFiles": 16,
+    "bytes": 21599369,
+    "pathAndContentSHA256": "1de2ce99c4ddf49e5cc6887f087beb0bbfda0dc763c10f5250c7a2589c02e6e3"
+  },
+  "newCommitsNotOnRemotes": 0,
+  "findings": [],
+  "reviewedNonSensitiveMatches": [
+    {
+      "path": ".github/workflows/preview.yml",
+      "line": 31,
+      "classification": "standard NSIS program installation location in CI"
+    },
+    {
+      "path": ".github/workflows/preview.yml",
+      "line": 32,
+      "classification": "standard NSIS program installation location in CI"
+    },
+    {
+      "path": "app/vendor/pdf.worker.mjs",
+      "line": 5706,
+      "classification": "PDF.js virtual filesystem home, not a host account"
+    }
+  ],
+  "assets": {
+    "newOrModifiedAssets": [
+      "app/vendor/licenses/lucide.txt",
+      "app/vendor/ui-icons.js"
+    ],
+    "newOrModifiedRasterImages": 0,
+    "newOrModifiedFonts": 0,
+    "unchangedBinaryAssets": 16,
+    "binaryFormats": {
+      "png": 2,
+      "jpeg": 9,
+      "ico": 1,
+      "woff2": 4
+    },
+    "imageExifGpsFields": 0,
+    "imageTextMetadataFields": 0,
+    "binarySensitiveMetadataMatches": 0
+  },
+  "excludedAreasVerified": [
+    ".recovery/",
+    "node_modules/",
+    "release/",
+    "android/out/",
+    "ios/build/",
+    "qa/*.png",
+    "qa/*.jpg",
+    "qa/*.html",
+    "*.keystore",
+    "*.jks",
+    "*.p12",
+    "*.mobileprovision"
+  ],
+  "testArtifacts": "Candidate tests/fixtures/templates-v4.html is a deliberate public template regression harness; no captured user project or screen image is included."
+}

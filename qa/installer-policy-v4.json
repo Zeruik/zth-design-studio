@@ -1,0 +1,14 @@
+{
+  "test": "Native NSIS harness with mock payload; no real installation",
+  "guiFlowTested": false,
+  "ok": true,
+  "rollbackAfterMissingPayloadFile": true,
+  "sentinelPreserved": true,
+  "shortcutTargetCorrect": true,
+  "foreignShortcutPreserved": true,
+  "stagingCleaned": true,
+  "unicodeInstallMarker": true,
+  "setupMutexHandle": true,
+  "shortcutDeletionFailureDetected": true,
+  "shortcutDeletionRetrySucceeded": true
+}

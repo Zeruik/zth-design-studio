@@ -1,0 +1,44 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><base href="../../app/"><title>4.0 模板 / 实际文字像素检查</title>
+<style>body{font-family:'ZTH Sans',sans-serif;background:#e1e3e8;color:#20242a;margin:20px}h1{font-size:24px}.gallery{display:grid;grid-template-columns:repeat(5,220px);gap:12px;align-items:start}.card{padding:8px;background:white;border-radius:8px}.card h2{font-size:12px;font-weight:500;height:36px}.card canvas{max-width:100%;height:auto!important}.failed{outline:3px solid #dd3b3b}.fonts{display:flex;gap:20px;flex-wrap:wrap;background:white;padding:16px;margin-bottom:16px}.sample{font-size:23px;width:245px}.sample small{display:block;font:12px sans-serif;color:#667}#status{white-space:pre-wrap;font:13px monospace;max-height:240px;overflow:auto}details{margin:20px 0}button{padding:8px}</style>
+<h1>4.0 / 49 套模板与离线字体检查</h1><p>逐文字单独以设计原尺寸渲染，扫描透明像素边界；检查字形是否超出画布。模板预览仍需人工检查遮挡和间距。</p><div class="fonts" id="fonts"></div><p id="status">加载字体…</p><button id="copy" disabled>复制检查报告</button><div class="gallery" id="gallery"></div><details><summary>文字边界详情</summary><pre id="details"></pre></details>
+<script src="vendor/fabric.min.js"></script><script src="algorithms.js"></script><script src="fonts.js"></script><script src="brand-assets.js"></script><script src="templates.js"></script><script>
+fabric.FabricObject.ownDefaults.originX='left';fabric.FabricObject.ownDefaults.originY='top';
+window.qaReport={status:'running',templates:[],errors:[],fontSamples:[]};
+(async()=>{
+await ZTH_FONTS.ready;await document.fonts.ready;
+for(const f of ZTH_FONTS.list()){const el=document.createElement('div');el.className='sample';el.style.fontFamily='"'+f.family+'", "ZTH Sans"';const title=document.createElement('small');title.textContent=f.label;const sample=f.family==='Roboto Mono'?'Design 2026 / 0123':'设计工作室 · 造物';el.append(title,document.createTextNode(sample));document.querySelector('#fonts').append(el);qaReport.fontSamples.push({family:f.family,loaded:document.fonts.check('24px "'+f.family+'"',sample)});}
+async function object(d){let{kind,path,points,src,boxW,boxH,children,...p}=d,o;
+ if(kind==='group')o=new fabric.Group(await Promise.all(children.map(object)),p);
+ else if(kind==='text')o=new fabric.Textbox(d.text,p);
+ else if(kind==='path')o=new fabric.Path(path,p);
+ else if(kind==='line')o=new fabric.Line(points,p);
+ else if(kind==='circle')o=new fabric.Circle(p);
+ else if(kind==='image'){o=await fabric.FabricImage.fromURL(await ZTH_BRAND.get(src));o.set(p);const isLogo=ZTH_BRAND.isBrand(src)||p.role==='logo';const scale=(isLogo?Math.min:Math.max)(boxW/o.width,boxH/o.height);if(!isLogo){const cw=boxW/scale,ch=boxH/scale;o.set({cropX:(o.width-cw)/2,cropY:(o.height-ch)/2,width:cw,height:ch});}o.set({scaleX:scale,scaleY:scale});}
+ else o=new fabric.Rect(p);o.objectCaching=false;return o;
+}
+function texts(objects){return objects.flatMap(o=>o.getObjects?texts(o.getObjects()):['text','i-text','textbox'].includes(o.type.toLowerCase())?[o]:[]);}
+function inkBounds(o){
+ const r=o.getBoundingRect(),pad=Math.ceil(Math.max(o.fontSize*2,64)),left=Math.floor(r.left)-pad,top=Math.floor(r.top)-pad,w=Math.ceil(r.width)+2*pad,h=Math.ceil(r.height)+2*pad;
+ if(w*h>24000000)throw Error('文字检测画布过大');
+ const el=document.createElement('canvas');el.width=w;el.height=h;const ctx=el.getContext('2d',{willReadFrequently:true});ctx.translate(-left,-top);
+ // Render with the complete group transform, independent of the gallery zoom.
+ const ancestors=[];for(let g=o.group;g;g=g.group){ancestors.push([g,g._transformDone]);g._transformDone=false;}
+ try{o.render(ctx);}finally{for(const[g,value]of ancestors)g._transformDone=value;}
+ const a=ctx.getImageData(0,0,w,h).data;let minX=w,minY=h,maxX=-1,maxY=-1,pixels=0;
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(a[(y*w+x)*4+3]>8){minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);pixels++;}
+ el.width=el.height=1;return pixels?{left:left+minX,top:top+minY,right:left+maxX+1,bottom:top+maxY+1,pixels}:null;
+}
+function outside(b,s){return b&&(b.left<-.5||b.top<-.5||b.right>s.width+.5||b.bottom>s.height+.5);}
+for(const template of ZTH_TEMPLATES){
+ document.querySelector('#status').textContent='检查 '+(qaReport.templates.length+1)+' / '+ZTH_TEMPLATES.length+'：'+template.name;
+ const s=template.build(),card=document.createElement('section'),el=document.createElement('canvas'),heading=document.createElement('h2');card.className='card';heading.textContent=template.name+' · '+s.width+'×'+s.height;card.append(heading,el);document.querySelector('#gallery').append(card);
+ const c=new fabric.StaticCanvas(el,{width:204,height:204*s.height/s.width,enableRetinaScaling:false});c.setZoom(204/s.width);c.backgroundColor=s.background;
+ for(const d of s.objects)c.add(await object(d));c.renderAll();
+ const row={id:template.id,name:template.name,width:s.width,height:s.height,texts:[],overflow:[],frameWarnings:[]};
+ for(const o of texts(c.getObjects())){const glyph=inkBounds(o),r=o.getBoundingRect(),frame={left:r.left,top:r.top,right:r.left+r.width,bottom:r.top+r.height},item={text:o.text,font:o.fontFamily,fontSize:o.fontSize,lineCount:o.textLines.length,ink:glyph,frame};row.texts.push(item);if(outside(glyph,s))row.overflow.push(item);if(outside(frame,s))row.frameWarnings.push({text:o.text,frame});}
+ if(row.overflow.length)card.classList.add('failed');qaReport.templates.push(row);await new Promise(resolve=>requestAnimationFrame(resolve));
+}
+qaReport.status='complete';qaReport.summary={templates:qaReport.templates.length,texts:qaReport.templates.reduce((n,t)=>n+t.texts.length,0),glyphOverflow:qaReport.templates.flatMap(t=>t.overflow.map(o=>({template:t.id,...o}))),frameWarnings:qaReport.templates.flatMap(t=>t.frameWarnings.map(o=>({template:t.id,...o}))),allFontsLoaded:qaReport.fontSamples.every(f=>f.loaded)};
+document.querySelector('#status').textContent=JSON.stringify(qaReport.summary,null,2);document.querySelector('#details').textContent=JSON.stringify(qaReport,null,2);document.querySelector('#copy').disabled=false;document.querySelector('#copy').onclick=()=>navigator.clipboard.writeText(JSON.stringify(qaReport,null,2));
+})().catch(e=>{qaReport.status='error';qaReport.errors.push(String(e.stack||e));document.querySelector('#status').textContent='ERROR '+e.stack;});
+</script></html>

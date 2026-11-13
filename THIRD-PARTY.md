@@ -4,6 +4,7 @@
 |---|---|---|---|
 | Electron | 45.3.1 | MIT plus bundled Chromium/Node notices | https://github.com/electron/electron |
 | Fabric.js | 7.4.0 | MIT | https://github.com/fabricjs/fabric.js |
+| Lucide | 1.72.0 | ISC; retained Feather-derived icon notices | https://github.com/lucide-icons/lucide |
 | PDF.js | 5.4.394 | Apache-2.0 | https://github.com/mozilla/pdf.js |
 | JSZip | 3.10.1 | MIT | https://github.com/Stuk/jszip |
 | node-qrcode | 1.5.4 | MIT | https://github.com/soldair/node-qrcode |

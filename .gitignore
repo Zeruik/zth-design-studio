@@ -12,6 +12,10 @@ web/
 ios/build/
 ios/ZTHDesignStudio/App/
 build/uninstall-files.nsh
+build/install-files.nsh
+build/rollback-files.nsh
+build/uninstall-directories.nsh
+build/validate-directories.nsh
 build/license-installer.txt
 ios/ZTHDesignStudio/Assets.xcassets/AppIcon.appiconset/Icon-1024.png
 
