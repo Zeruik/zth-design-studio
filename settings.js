@@ -26,6 +26,8 @@ const D={
 'PDF 按页作为图片导入；PPTX 导入基础文字、矩形与照片；复杂效果可能需要调整。可画请先导出以上格式。所有图片都会嵌入 .zthpmsj。':'PDF pages import as images. PPTX imports basic text, rectangles and photos; complex effects may need adjustments. Export from Canva first. Images are embedded in .zthpmsj.'
 };
 Object.assign(D,{
+'新建':'New','新建空白草稿':'New blank draft','离开当前设计？':'Leave this design?','不保存，继续':'Discard and continue','保存并继续':'Save and continue','回收站':'Trash','撤销删除':'Undo delete','恢复作品':'Restore work','移到回收站':'Move to trash','无填充':'No fill','阴影':'Shadow','启用阴影':'Enable shadow','阴影颜色':'Shadow color','模糊':'Blur','水平偏移':'Offset X','垂直偏移':'Offset Y','清除底色':'Clear background','箭头':'Arrows','符号':'Symbols','工具':'Tools',
+'可以保存后继续，也可以丢弃当前草稿。丢弃的草稿可在“我的作品 → 回收站”恢复。模板原件始终只读。':'Save before continuing or discard the current draft. Discarded drafts can be recovered from My work → Trash. Original templates remain read-only.',
 '我的作品':'My work','我的作品与历史':'My work & history','当前作品名称':'Current project name','保存到我的作品':'Save to My work','继续编辑':'Continue editing','版本记录':'Versions','导出工程':'Export project','← 返回我的作品':'← Back to My work',
 '草稿自动保存在此设备。每次手动保存保留一个版本，最多保留最近 10 个版本；导出 .zthpmsj 可备份或传到其他设备。':'Drafts stay on this device. Manual saves keep the latest 10 versions per project. Export .zthpmsj to back up or transfer your work.',
 '自定义颜色':'Custom color','色谱':'Color spectrum','最近使用的 5 个颜色':'5 recent colors','应用颜色':'Apply color','选择颜色后，它会出现在这里。':'Your recent colors will appear here.','请输入 6 位 HEX，或 0–255 的 RGB 整数。':'Enter a 6-digit HEX or RGB integers from 0 to 255.',

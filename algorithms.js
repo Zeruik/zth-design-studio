@@ -9,11 +9,28 @@ function removeColor(data,width,height,seedX,seedY,tolerance=32,contiguous=true,
  else for(let i=0;i<n;i++)apply(i);
  return {data:out,count,color};
 }
+const FONT_FAMILIES=Object.freeze(['ZTH Sans','ZCOOL XiaoWei','Ma Shan Zheng','Roboto Mono']);
+const FONT_PREFIX='data:font/woff2;base64,';
+// Base64 is part of the 60 MiB portable-project budget, not an additional allowance.
+const FONT_MAX_CHARS=16*1024*1024,FONT_TOTAL_CHARS=40*1024*1024;
+function validateFonts(fonts){
+ if(fonts===undefined)return [];
+ if(!Array.isArray(fonts)||fonts.length>FONT_FAMILIES.length)throw Error('内嵌字体无效');
+ const seen=new Set();let total=0;
+ for(const f of fonts){
+  if(!f||!FONT_FAMILIES.includes(f.family)||seen.has(f.family)||typeof f.src!=='string'||!f.src.startsWith(FONT_PREFIX)||f.src.length>FONT_MAX_CHARS)throw Error('内嵌字体无效');
+  seen.add(f.family);total+=f.src.length;if(total>FONT_TOTAL_CHARS)throw Error('内嵌字体总量超过 40 MB');
+  const b=f.src.slice(FONT_PREFIX.length);if(b.length<64||b.length%4!==0||!/^[A-Za-z0-9+/]*={0,2}$/.test(b))throw Error('内嵌字体编码无效');
+  let signature;try{signature=atob(b.slice(0,8)).slice(0,4);}catch{throw Error('内嵌字体编码无效');}
+  if(signature!=='wOF2')throw Error('内嵌字体必须为 WOFF2');
+ }
+ return fonts;
+}
 function validateProject(doc){
  if(!doc||doc.format!=='zthpmsj'||doc.schema!==1)throw Error('不支持的工程格式或版本，请使用兼容版本打开。');
  if(!Array.isArray(doc.pages)||doc.pages.length<1||doc.pages.length>30)throw Error('工程需包含 1–30 页。');
- if(doc.fonts){if(!Array.isArray(doc.fonts)||doc.fonts.length>1||doc.fonts.some(f=>f.family!=='ZTH Sans'||typeof f.src!=='string'||!f.src.startsWith('data:font/woff2;base64,')||f.src.length>30000000))throw Error('内嵌字体无效');}
- const allowed=new Set(['rect','circle','ellipse','triangle','line','path','polygon','polyline','textbox','i-text','text','image','group','linear','radial']);
+ validateFonts(doc.fonts);
+ const allowed=new Set(['rect','circle','ellipse','triangle','line','path','polygon','polyline','textbox','i-text','text','image','group','linear','radial','shadow']);
  let count=0;
  function walk(v){if(!v||typeof v!=='object')return; if(Array.isArray(v)){v.forEach(walk);return;}for(const [k,x]of Object.entries(v)){if(['__proto__','constructor','prototype'].includes(k))throw Error('工程含非法字段');if(['left','top','scaleX','scaleY','angle','fontSize','opacity','width','height'].includes(k)&&typeof x==='number'&&(!Number.isFinite(x)||Math.abs(x)>100000))throw Error('工程数值超限');if(k==='src'&&(typeof x!=='string'||!/^data:image\/(png|jpeg|webp);base64,/.test(x)))throw Error('工程图片必须内嵌为 PNG / JPG / WebP');if(k==='type'&&typeof x==='string'&&!allowed.has(x.toLowerCase()))throw Error('工程包含不支持的元素类型');if(k==='objects'&&Array.isArray(x)){count+=x.length;if(count>2500)throw Error('工程元素超过 2500 个');}walk(x);}}
  doc.pages.forEach(p=>{if(!Number.isFinite(p.width)||!Number.isFinite(p.height)||p.width<100||p.height<100||p.width>8000||p.height>8000||p.width*p.height>24000000)throw Error('画布尺寸超限（单页最多 2400 万像素）');walk(p.canvas);});return doc;
@@ -36,5 +53,5 @@ function autoLayout(items,w,h,variant=0){
  // Decorative objects are intentionally untouched; this prevents grids and flourishes becoming content.
  return result;
 }
-root.ZTH_ALGORITHMS={removeColor,validateProject,autoLayout};if(typeof module!=='undefined')module.exports=root.ZTH_ALGORITHMS;
+root.ZTH_ALGORITHMS={removeColor,validateProject,validateFonts,FONT_FAMILIES,autoLayout};if(typeof module!=='undefined')module.exports=root.ZTH_ALGORITHMS;
 })(typeof window==='undefined'?globalThis:window);
