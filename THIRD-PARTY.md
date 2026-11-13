@@ -2,12 +2,12 @@
 
 | Component | Version | License | Primary source |
 |---|---|---|---|
-| Electron | 38.8.6 | MIT plus bundled Chromium/Node notices | https://github.com/electron/electron |
-| Fabric.js | 6.9.0 | MIT | https://github.com/fabricjs/fabric.js |
+| Electron | 45.3.1 | MIT plus bundled Chromium/Node notices | https://github.com/electron/electron |
+| Fabric.js | 7.4.0 | MIT | https://github.com/fabricjs/fabric.js |
 | PDF.js | 5.4.394 | Apache-2.0 | https://github.com/mozilla/pdf.js |
 | JSZip | 3.10.1 | MIT | https://github.com/Stuk/jszip |
 | node-qrcode | 1.5.4 | MIT | https://github.com/soldair/node-qrcode |
-| jsPDF | 3.0.4 | MIT | https://github.com/parallax/jsPDF |
+| jsPDF | 4.2.1 | MIT | https://github.com/parallax/jsPDF |
 | Noto Sans SC | Google Fonts variable source | SIL Open Font License | https://github.com/google/fonts/tree/main/ofl/notosanssc |
 | NSIS | 3.0.4.1 toolchain | zlib/libpng and component licenses | https://nsis.sourceforge.io/ |
 

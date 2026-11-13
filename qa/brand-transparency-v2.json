@@ -1,0 +1,65 @@
+[
+  {
+    "file": "01-81899.png",
+    "width": 1536,
+    "height": 614,
+    "transparentPercent": 84.55,
+    "solidPixels": 115667,
+    "nonTransparentBorderPixels": 0,
+    "alteredSaturatedCorePixels": 0
+  },
+  {
+    "file": "02-81900.png",
+    "width": 1536,
+    "height": 614,
+    "transparentPercent": 82.02,
+    "solidPixels": 133622,
+    "nonTransparentBorderPixels": 0,
+    "alteredSaturatedCorePixels": 0
+  },
+  {
+    "file": "03-81893.png",
+    "width": 1536,
+    "height": 1536,
+    "transparentPercent": 86.29,
+    "solidPixels": 303144,
+    "nonTransparentBorderPixels": 0,
+    "alteredSaturatedCorePixels": 0
+  },
+  {
+    "file": "04-81895.png",
+    "width": 1536,
+    "height": 1536,
+    "transparentPercent": 86.3,
+    "solidPixels": 303147,
+    "nonTransparentBorderPixels": 0,
+    "alteredSaturatedCorePixels": 0
+  },
+  {
+    "file": "05-81892.png",
+    "width": 1536,
+    "height": 1536,
+    "transparentPercent": 83.19,
+    "solidPixels": 384895,
+    "nonTransparentBorderPixels": 0,
+    "alteredSaturatedCorePixels": 0
+  },
+  {
+    "file": "06-81867.png",
+    "width": 1536,
+    "height": 864,
+    "transparentPercent": 78.98,
+    "solidPixels": 231998,
+    "nonTransparentBorderPixels": 0,
+    "alteredSaturatedCorePixels": 0
+  },
+  {
+    "file": "07-81868.png",
+    "width": 1536,
+    "height": 512,
+    "transparentPercent": 89.64,
+    "solidPixels": 57006,
+    "nonTransparentBorderPixels": 0,
+    "alteredSaturatedCorePixels": 0
+  }
+]

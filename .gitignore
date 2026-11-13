@@ -5,3 +5,16 @@ web/
 *.keystore
 *.jks
 .openai/
+
+.tools/
+*.mobileprovision
+*.p12
+ios/build/
+ios/ZTHDesignStudio/App/
+build/uninstall-files.nsh
+ios/ZTHDesignStudio/Assets.xcassets/AppIcon.appiconset/Icon-1024.png
+
+.recovery/
+qa/*.png
+qa/*.jpg
+qa/*.html

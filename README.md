@@ -1,76 +1,74 @@
-# ZTH-平面设计器 / ZTH Design Studio
+# ZTH Design Studio 2.0
 
-赋形造物工作室（ZeroToHand Studio）出品，作者：理工阿白菌 / TechABJ（GitHub: Zeruik）。面向工作室、社团和项目团队的离线图形设计工具。Windows 桌面端与 Android 预览端共享同一个编辑器和 `.zthpmsj` 工程格式。
+**赋形造物工作室 · 离线平面设计器**
+ZeroToHand Studio / 理工阿白菌 · TechABJ ([Zeruik](https://github.com/Zeruik))
 
-An offline graphic design tool by ZeroToHand Studio, created by TechABJ. Windows and the Android preview share the same editor and portable `.zthpmsj` project format. This is an independently packaged preview product, not a full replacement for Canva or Photoshop.
+为工作室、社团和个人制作海报、产品图、活动图与项目展板。编辑、二维码、字体和品牌素材均在本机运行，无账号或后端服务。
 
-## 开始使用 / Start
+An offline graphic editor for posters, product cards and project boards. Shared editable `.zthpmsj` projects work across desktop and mobile. No account or cloud backend is required.
 
-Windows：运行 Setup，选择语言，阅读协议并选择安装路径。安装包内置运行时，用户不需要安装 Node.js、Python 或开发环境。支持 Windows 10/11 x64；应用启动时检查系统版本与用户目录写入能力。卸载入口位于开始菜单和系统“已安装的应用”，保留用户的作品和自动保存。
+## 下载 / Download
 
-Android：安装 `Android-preview.apk`。需要 Android 9 或更新版本及较新的 Android System WebView。程序不申请网络权限，编辑器、字体、素材和二维码算法都在 APK 内。此 APK 为开发签名预览，尚未经过实体手机的完整验收。
+[GitHub Releases](https://github.com/Zeruik/zth-design-studio/releases) 包含安装包、源码包与校验值。项目统一使用本仓库，`v1.0` 保留原始代码，`v2.0` 为 2.0 版本分支，`main` 为当前版本。
 
-Windows: run Setup, choose a language, review the terms and select an installation path. The runtime is included; no developer tools are needed. Android: install the preview APK on Android 9+ with an up-to-date System WebView. The app contains its assets and has no Internet permission. Physical-device validation remains outstanding.
-
-## 编辑与复用 / Edit and reuse
-
-- 文字、矩形、圆形、三角形、星形、箭头、六边形、平行四边形及自定义多边形；移动、缩放、旋转、描边、透明度、分组和图层顺序。
-- 自定义画布、常用比例、图片裁切预览和比例、保持宽高比、翻转、取色抠图、容差、连通区域与边缘柔化。
-- 17 套内置模板（含配色变体），覆盖活动、招新、信息卡、研究展板、讲座、作品与产品图。所有模板中的文字与形状都可编辑；照片为嵌入图像。
-- 保存当前工程到“我的模板”，或导出同样后缀的模板文件；锁定 LOGO，设置产品图片槽，下次换图保留框架、旋转与层级。
-- 规则排版助手：按标题、正文、照片、LOGO、二维码角色生成三种布局。没有大模型，不会理解任意语义或自动达到专业设计师水平。
-- 网址／文字生成真实二维码，可调码色和底色。占位框可用真实二维码替换。
-- 设置内切换中文／English、浅色／深色／跟随系统和六种主题色。界面切换不翻译作品里的文字。
-
-Editable text and vector shapes; precise transforms; layers and grouping; custom canvas sizes; image crops, aspect ratios and flips; color-key background removal; reusable templates and fixed brand marks; image replacement slots; three rule-based layouts; real offline QR generation; Chinese/English UI and light/dark/system appearance.
-
-## 一个文件带走设计 / One portable file
-
-`.zthpmsj` 是 UTF-8 JSON 容器，`format=zthpmsj`、`schema=1`，包含所有页面、对象属性、图片 data URI、默认 ZTH 黑体的 WOFF2 字节、图片槽与锁定状态。工程不引用原图路径、不依赖服务器，也没有加密。复制这一个文件到另一设备即可继续编辑；系统字体选项仍需要目标设备安装对应字体。
-
-The UTF-8 JSON container embeds pages, object properties, image data URIs, the default WOFF2 font, replacement slots and locks. No original image path or server is required. Projects are unencrypted. Non-default system fonts require matching fonts on the destination device.
-
-限制 / Limits: 30 pages, 2,500 objects, 60 MB input project, 24 megapixels per page; raster export up to 48 megapixels. Color removal previews at a 1,000 px longest edge and applies up to 3,000 px. Dense designs and large images may be limited by device memory.
-
-## 兼容性 / Compatibility
-
-| 格式 / Format | 导入 / Import | 导出 / Export |
+| 平台 | 交付 | 安装方式 |
 |---|---|---|
-| .zthpmsj | 完整可编辑工程 / Full editable project | 内嵌素材和默认字体 / Embedded assets and default font |
-| PNG / JPG / WebP | 图片 / Image | PNG / JPG |
-| SVG | 可拆分矢量组合 / Editable vector group | 矢量与内嵌图片、默认字体 / Vectors with embedded images and default font |
-| PDF | 每页为图片 / One image per page | 当前页为整页图像 / Flattened current page |
-| PPTX | 基础文字、照片、矩形 / Basic text, images and rectangles | 不支持 / Not supported |
-| 可画 / Canva | 先从可画导出以上格式 / Export a supported format first | 不写入可画在线工程 / No Canva-native project export |
+| Windows 10/11 x64 | `ZTH-Design-Studio-2.0.0-Setup.exe` | 向导选择语言、阅读协议、选择路径；运行时已内置 |
+| Android 9+ | `ZTH-Design-Studio-2.0.0-Android.apk` | 下载到手机安装；需要较新的系统 WebView |
+| iOS / iPadOS | Xcode 原生工程；经 CI 构建的模拟器包 | 模拟器包不能装到 iPhone；真机包需在 Mac/Xcode 中使用自己的 Apple 团队签名 |
+| 浏览器 | `ZTH-Design-Studio-2.0.0-Web.zip` | 放在 HTTP(S) 静态服务器，支持安装到主屏幕及离线缓存 |
 
-PPTX 母版、复杂形状、文字混排、动画、特效与部分字体不能保证还原。SVG 导入移除脚本、外部链接和部分动态样式。没有声称支持 PSD、AI、CDR 或可画私有工程格式的无损导入。
+**当前没有可直接安装到任意 iPhone 的签名 IPA。** 原生 iOS 工程已提供，模拟器构建状态以 Actions 结果为准。
 
-PPTX masters, advanced shapes, mixed text runs, animations and effects are not fully reproduced. SVG imports remove scripts and external references. There is no claimed lossless support for PSD, AI, CDR or proprietary Canva project formats.
+Windows 包未配置商业代码签名。Android 2.0 使用本项目持久保留的私有构建密钥；旧 1.0 预览包签名无法从源码确认，因此不能保证直接覆盖旧版。升级前在旧版导出 `.zthpmsj` 备份；若系统提示签名冲突，先备份再卸载旧版、安装新版并导入。
 
-## 升级与数据 / Upgrades and data
+## 2.0 的变化
 
-升级前导出工程备份。Windows 保持应用 ID、用户数据目录和安装注册项不变，关闭旧版后安装到原目录。卸载只移除程序文件；导出的文件与本地自动保存不会主动删除。Android 升级需要相同签名密钥；预览签名不能当作正式商店发布密钥。未知的未来 schema 会拒绝打开，避免静默破坏数据。
+- **模板原件只读**：点击模板建立新的作品副本。修改和保存副本不会覆盖原模板；自定义模板另存为新模板。
+- **我的作品与历史**：自动保存每个作品的草稿；手动保存保留最近 10 个版本，可预览、继续编辑、恢复或导出。恢复前会保存当前状态。历史在当前设备，跨设备请导出文件。
+- **自由选色**：文字、填充、描边、背景与二维码颜色均支持色谱、HEX、RGB，显示最近使用的 5 个颜色。
+- **选中就能操作**：点选元素显示名称和尺寸；“•••”内有属性、替换、锁定、复制、删除。属性中可精确设置宽高、位置、角度、透明度、字体和图层。
+- **二维码直接替换**：选中二维码或占位框，填写网址/文字生成真实二维码，或上传已有二维码。保留位置、旋转及图层；导出后建议扫码检查。
+- **透明品牌素材**：7 款默认标志在本机去除纯色底，保留原始素材；彩色核心像素保留。预览显示透明棋盘，工程内嵌透明版本。
+- **25 套模板**：包含横版 16:9、方形、竖屏 9:16、4:5、宽幅横幅、A4、横版招新及明信片。不同尺寸有独立构图。
+- **手机安全区与旋转**：Android 原生容器避让状态栏、刘海、手势区和键盘；网页/iOS 使用安全区。横屏切换侧边工具栏，画布方向由模板或画布尺寸独立控制。
+- 保留中英文界面、明暗/系统主题、图片裁切、取色抠图、图层、分组、规则排版、工程导入导出。
 
-Back up before upgrading. Windows retains app identity and user data paths; close the old app and install to the same folder. Uninstall leaves projects and autosaves intact. Android upgrades require the same signing key. Unknown future schemas are rejected rather than silently rewritten.
+## 常用操作
 
-## 构建 / Build
+1. 选模板建立副本；或调整画布尺寸，从空白开始。
+2. 点元素编辑；手机使用选中工具条的“••• → 尺寸与属性”。
+3. 点颜色，输入 HEX/RGB 后应用；最近 5 色在所有颜色选择器中共享。
+4. “我的作品”可命名、保存版本、恢复历史。“保存作品”同时导出可携带文件。
+5. 产品图模板锁住品牌位置；选中产品图片，使用“替换图片”保留版式。修改锁定元素前先解锁。
+6. 导出 PNG/JPG/SVG/PDF；SVG 保留矢量，PDF 为当前页整页图像。
+
+## 文件与隐私
+
+`.zthpmsj` 为 UTF-8 JSON，`format=zthpmsj`、`schema=1`，内嵌页面、图片、默认 ZTH 黑体、锁定与图片槽。没有加密。其他系统字体取决于目标设备。
+
+历史保存在设备 IndexedDB；清除应用/浏览器数据或卸载手机应用可能删除本地历史。请定期导出备份。Windows 卸载保留应用用户数据，导出的文件由用户管理。
+
+支持图片、SVG、PDF 和基础 PPTX 导入。PDF 按页成为图片；PPTX 母版、复杂形状、文字混排和动画无法保证还原。无 PSD/AI/CDR/Canva 私有格式的无损兼容声明。
+
+限制：每工程最多 30 页、2500 个对象；输入工程 60 MB；单页 2400 万像素，栅格导出 4800 万像素。复杂图片及历史的容量受设备存储影响。抠图是取色算法，不是通用 AI 人像分割；规则排版不调用大模型。
+
+## Build
 
 ```sh
 npm ci
 npm test
 npm start
+npm run build:win
+npm run build:android
+npm run build:ios
+npm run build:web
 ```
 
-Windows NSIS: install official NSIS 3, make `makensis` available, then `npm run build:win`. On Linux, set `ZTH_MAKENSIS` and `ZTH_NSIS_DIR` to the Linux compiler and its NSIS root. The first build downloads the pinned Electron runtime; end users do not download runtime dependencies.
+Windows requires NSIS 3 (`ZTH_MAKENSIS` can select the compiler). Android uses JDK and Android SDK platform/build-tools 35; see [native build notes](docs/NATIVE-BUILD.md). Android signing keys must stay outside Git. `build:ios` prepares shared web assets; compilation requires macOS/Xcode. See [iOS instructions](ios/README.md) and [the iOS CI workflow](.github/workflows/ios-build.yml).
 
-Android: set `ZTH_ANDROID_PLATFORM` to Android platform 35 and `ZTH_ANDROID_BUILD_TOOLS` to build-tools 35.0.0, then `bash android/build.sh`. A JDK is recommended; the fallback accepts `ZTH_ECJ_JAR` for the Eclipse Java compiler. The script produces a development-signed APK. Keep signing keys out of Git.
+## Validation
 
-Web source is in `app/`, with vendored runtime libraries for offline use. Browser ES modules and local file handling require an HTTP(S) origin; the desktop and mobile packages provide their local origin automatically. No application backend is used. `npm run build:web` creates a static copy for a suitable local host or optional static hosting.
+See [QA.md](QA.md) for checks and their limits. Browser viewport tests and native package compilation are distinct from physical-phone installation and touch testing. Physical Android/iPhone tests remain pending.
 
-## 验证与设计评估 / Validation
-
-See [QA.md](QA.md) for the exact tested scope, remaining limits and design comparison. Exported samples are actual editor output, not flattened reference posters imported and presented as recreated designs. The image-generation reference was used only as a visual target; the orange geometric composition is built from editable shapes and text.
-
-代码 MIT；品牌标识权利单独保留，见 [THIRD-PARTY.md](THIRD-PARTY.md) 和 [LICENSE](LICENSE)。
-
-Code is MIT licensed. Brand artwork rights are reserved separately; see the attribution and third-party notices.
+Code: MIT. Brand artwork rights are reserved separately. See [LICENSE](LICENSE) and [THIRD-PARTY.md](THIRD-PARTY.md).

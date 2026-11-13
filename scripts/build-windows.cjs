@@ -1,7 +1,7 @@
 const {spawnSync}=require('node:child_process');
 const path=require('node:path'),fs=require('node:fs');
 function run(cmd,args,opts={}){const r=spawnSync(cmd,args,{stdio:'inherit',...opts});if(r.status!==0)process.exit(r.status||1);}
-run(process.execPath,['node_modules/electron-builder/cli.js','--win','--x64','--dir','--publish','never']);
+run(process.execPath,['scripts/package-windows.cjs']);
 const root=path.resolve('release/win-unpacked'),entries=[];
 function walk(dir){
  for(const n of fs.readdirSync(dir)){
@@ -13,7 +13,33 @@ function walk(dir){
 walk(root);
 entries.push('Delete "$INSTDIR\\icon.ico"','Delete "$INSTDIR\\Uninstall.exe"','RMDir "$INSTDIR"');
 fs.writeFileSync('build/uninstall-files.nsh',entries.join('\n')+'\n');
-const nsis=process.env.ZTH_MAKENSIS||'makensis';
-const env={...process.env};
-if(process.env.ZTH_NSIS_DIR)env.NSISDIR=process.env.ZTH_NSIS_DIR;
-run(nsis,['installer.nsi'],{cwd:path.resolve('build'),env});
+async function compileInstaller(){
+ const env={...process.env};
+ let nsis=process.env.ZTH_MAKENSIS;
+ if(process.env.ZTH_NSIS_DIR)env.NSISDIR=process.env.ZTH_NSIS_DIR;
+ if(!nsis&&process.platform==='win32'){
+  // Reuse electron-builder's checksum-verified NSIS toolchain download.
+  const {getMakeNsisPath}=require('app-builder-lib/out/toolsets/windows.js');
+  const bundle=await getMakeNsisPath('0.0.0');
+  nsis=bundle.path;
+  Object.assign(env,bundle.env||{});
+ }
+ let working=path.resolve('build'),stage;
+ // NSIS 3's build-time file globbing still uses the Windows ANSI code page.
+ // Use a temporary ASCII build path when the checkout name contains Chinese.
+ if(process.platform==='win32'&&/[^\x00-\x7f]/.test(working)){
+  stage=fs.mkdtempSync(path.join(require('node:os').tmpdir(),'zth-design-installer-'));
+  const copyDirectory=require('./copy-directory.cjs');
+  copyDirectory('build',path.join(stage,'build'));
+  copyDirectory('release/win-unpacked',path.join(stage,'release/win-unpacked'));
+  working=path.join(stage,'build');
+ }
+ run(nsis||'makensis',['-INPUTCHARSET','UTF8','installer.nsi'],{cwd:working,env});
+ if(stage){
+  const filename='ZTH-Design-Studio-'+require('../package.json').version+'-Setup.exe';
+  fs.copyFileSync(path.join(stage,'release',filename),path.resolve('release',filename));
+  const tempRoot=path.resolve(require('node:os').tmpdir());
+  if(path.resolve(stage).startsWith(tempRoot+path.sep+'zth-design-installer-'))fs.rmSync(stage,{recursive:true,force:true});
+ }
+}
+compileInstaller().catch(error=>{console.error(error);process.exitCode=1;});

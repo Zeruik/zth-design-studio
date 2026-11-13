@@ -1,0 +1,9 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const root = path.resolve(__dirname, '..');
+const destination = path.join(root, 'ios/ZTHDesignStudio/App');
+if (!destination.startsWith(path.join(root, 'ios') + path.sep)) throw Error('Invalid iOS destination');
+fs.rmSync(destination, { recursive: true, force: true });
+require('./copy-directory.cjs')(path.join(root, 'app'), destination);
+console.log('iOS bundled web assets prepared. Open ios/ZTHDesignStudio.xcodeproj on macOS with Xcode.');
+console.log('This command does not create or sign an IPA. See ios/README.md for device and distribution builds.');

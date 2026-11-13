@@ -1,0 +1,36 @@
+name: iOS simulator build
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['ios/**', 'app/**', 'scripts/prepare-ios.cjs', 'scripts/copy-directory.cjs', '.github/workflows/ios-build.yml']
+permissions:
+  contents: read
+jobs:
+  ios-simulator:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Bundle offline editor
+        run: node scripts/prepare-ios.cjs
+      - name: Build unsigned simulator application
+        run: |
+          set -o pipefail
+          xcodebuild -project ios/ZTHDesignStudio.xcodeproj -scheme ZTHDesignStudio -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build | tee ios-build.log
+      - name: Package simulator application
+        run: |
+          mkdir -p release
+          ditto -c -k --sequesterRsrc --keepParent ios/build/Build/Products/Release-iphonesimulator/ZTHDesignStudio.app release/ZTH-Design-Studio-2.0.0-iOS-Simulator.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ZTH-Design-Studio-2.0.0-iOS-Simulator
+          path: release/*iOS-Simulator.zip
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: iOS-build-log
+          path: ios-build.log
