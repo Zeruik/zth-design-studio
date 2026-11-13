@@ -1,0 +1,31 @@
+{
+  "version": "4.0.0",
+  "buildCompleted": true,
+  "tests": {
+    "passed": 96,
+    "failed": 0
+  },
+  "installer": {
+    "fileVersion": "4.0.0",
+    "productVersion": "4.0.0",
+    "authenticode": "NotSigned",
+    "installationLifecycleTested": false
+  },
+  "artifacts": [
+    {
+      "file": "ZTH-Design-Studio-4.0.0-Setup.exe",
+      "bytes": 133220054,
+      "sha256": "2ac65813723e7c3a5fc324263f5123714de8bcd5f5f1d7a111f6c4140d854020"
+    },
+    {
+      "file": "ZTH-Design-Studio-4.0.0-Android.apk",
+      "bytes": 17355404,
+      "sha256": "90b045d0b2775e1b99cecbb9ec291e791f7ffe37744b594c90cfcd4468238e2f"
+    },
+    {
+      "file": "ZTH-Design-Studio-4.0.0-Web.zip",
+      "bytes": 17292986,
+      "sha256": "65021e1d6a44366e40ab75c6bc7f763801dec6946694b4f3f596ce0bcf53c4a7"
+    }
+  ]
+}
