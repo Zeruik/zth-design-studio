@@ -24,7 +24,7 @@ function fixture({realObjects=false,realCanvas=false}={}) {
   const element=id=>{
     if(!elements.has(id))elements.set(id,{
       value:'',clientWidth:1200,clientHeight:900,parentElement:{},
-      listeners:{},children:[],classList:{add() {},remove() {},toggle() {}},append(...children) {this.children.push(...children);},replaceChildren(...children) {this.children=children;},
+      listeners:{},children:[],classList:{add() {},remove() {},toggle() {}},append(...children) {this.children.push(...children);},replaceChildren(...children) {this.children=children;},remove() {this.removed=true;},
       addEventListener(type,listener) {(this.listeners[type]||=[]).push(listener);},
       dispatch(type,event={}) {for(const listener of this.listeners[type]||[])listener(event);}
     });
@@ -615,4 +615,37 @@ test('Ctrl-S during IME waits for committed text rather than saving the candidat
   input.oncompositionstart();input.value='pinyin';f.dispatch('keydown',{key:'s',ctrlKey:true,isComposing:true,target:input,preventDefault(){}});assert.equal(saves,0);
   input.value='中文已提交';input.oncompositionend();input.dispatch('compositionend');await Promise.resolve();
   assert.equal(saves,1);assert.equal(saved.pages[0].canvas.objects[0].text,'中文已提交');
+});
+
+function prepareBootFixture(readyState){
+  const f=fixture();f.context.document.readyState=readyState;f.context.document.fonts.ready=Promise.resolve();
+  const fonts={ready:Promise.resolve(),list:()=>[],collectUsed:()=>[],loadEmbedded:async()=>{}};
+  f.context.window.ZTH_FONTS=f.context.ZTH_FONTS=fonts;f.elements.get('fontFamily').options=[];
+  f.context.navigator={};f.context.location={protocol:'file:'};f.context.ZTH_TEMPLATES=[];
+  f.run('dbGet=async()=>undefined');
+  const bootLine=fs.readFileSync(path.join(__dirname,'../app/app.js'),'utf8').match(/^init\(\)\.then\([^\n]+\);\s*$/m)[0];
+  const api={...f,boot:()=>f.run(bootLine),renderCount:0};
+  api.register=(templateReady=Promise.resolve(),worksReady=Promise.resolve())=>{
+    f.context.window.ZTH_TEMPLATE=f.context.ZTH_TEMPLATE={ready:templateReady,renderLibrary:body=>{api.renderCount++;body.replaceChildren({version:'4.0',filters:true});}};
+    f.context.window.ZTH_WORKS=f.context.ZTH_WORKS={ready:worksReady,loadAutosave:async()=>null,activate:async()=>{},save:async()=>({draft:true})};
+  };
+  return api;
+}
+
+test('cold file startup waits for later extension scripts and their readiness before first template render',async()=>{
+  const f=prepareBootFixture('loading');let templatesReady,worksReady;
+  const templates=new Promise(resolve=>{templatesReady=resolve;}),works=new Promise(resolve=>{worksReady=resolve;});
+  assert.ok(f.editor,'extensions can access the synchronous editor API before DOMContentLoaded');
+  const body=f.context.document.getElementById('libraryBody'),boot=f.boot();await new Promise(setImmediate);
+  assert.equal(body.children.length,0,'cached fonts must not render the legacy fallback while parsing later scripts');assert.equal(f.context.window.ZTH_READY,undefined);
+  f.register(templates,works);f.context.document.readyState='interactive';f.dispatch('DOMContentLoaded',{});await new Promise(setImmediate);
+  assert.equal(f.renderCount,0);templatesReady();await new Promise(setImmediate);assert.equal(f.renderCount,0,'works readiness is also awaited');
+  worksReady();await boot;
+  assert.equal(f.renderCount,1);assert.equal(body.children[0].version,'4.0');assert.equal(body.children[0].filters,true);assert.equal(f.context.window.ZTH_READY,true);
+  assert.equal(f.elements.get('bootScreen').removed,true);assert.equal(f.editor.getProject().name,'未命名作品');
+});
+
+test('startup on an already parsed document does not wait for a DOMContentLoaded event that has passed',async()=>{
+  const f=prepareBootFixture('complete');f.register();await f.boot();
+  assert.equal(f.context.window.ZTH_READY,true);assert.equal(f.renderCount,1);
 });

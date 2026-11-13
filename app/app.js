@@ -360,6 +360,10 @@ window.ZTH_EDITOR={loadProject,applyTemplate,newBlank,canEdit,add,changeObject,s
  undo,redo,goToHistory,getHistory,subscribeHistory,whenIdle:()=>operationTail,hasPendingOperations:()=>operationCount>0,isBusy:editingBlocked,breakHistoryMerge,getPages,switchPage,addPage,deletePage,duplicatePage,renamePage,resizeCanvas,setBackground,getSelectionOverflow,fitSelectionToCanvas,setLayerMultiSelect,getLayerMultiSelect,remove,duplicate,groupSelection,ungroupSelection};
 window.ZTHAndroidSaved=ok=>toast(ok?'文件已保存到所选位置':'保存已取消或失败');
 async function init(){
+ // app.js exposes ZTH_EDITOR before later classic/module scripts register their
+ // extensions. Cached file:// fonts may resolve while the HTML parser is still
+ // loading those scripts, so wait for parser/module completion before booting UI.
+ if(document.readyState==='loading')await new Promise(resolve=>document.addEventListener('DOMContentLoaded',resolve,{once:true}));
  if(window.ZTH_FONTS){await ZTH_FONTS.ready;const options=$('fontFamily');for(const entry of ZTH_FONTS.list()){let option=Array.from(options.options).find(item=>item.value===entry.family);if(!option){option=document.createElement('option');option.value=entry.family;options.append(option);}option.textContent=entry.label;}}
  else try{portableFont=window.zthDesktop?await window.zthDesktop.font():await readData(await(await fetch('assets/fonts/ZTHSans.woff2')).blob());portableFont=portableFont.replace(/^data:[^;]+;/,'data:font/woff2;');const font=new FontFace('ZTH Sans','url('+portableFont+')');await font.load();document.fonts.add(font);}catch(e){toast('内置字体加载失败，将使用系统字体');}
  await document.fonts.ready;await window.ZTH_TEMPLATE?.ready;await window.ZTH_WORKS?.ready;openTab('templates');

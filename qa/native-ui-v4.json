@@ -1,0 +1,17 @@
+{
+  "version": "4.0.0",
+  "scope": "Actual Windows GUI run of the unpacked release application; not an installer test",
+  "appAsarSHA256": "a0f733047195542145a4dca476226273a07df5e847ac4f7d137e5da9d2d83d0c",
+  "launched": true,
+  "initialV4TemplateLibrary": true,
+  "localChineseEditingAndSave": true,
+  "nativeProjectExportBytes": 10376706,
+  "nativeProjectExportContentVerified": true,
+  "exportScope": "Export performed on preceding 4.0 candidate; the final ASAR was checked for restart restoration, initial template UI, corrected Documents dialog and normal close",
+  "restartRestoredNameAndText": true,
+  "defaultExportFolderIsDocuments": true,
+  "saveDialogCancelReturnsToEditor": true,
+  "normalCloseCompleted": true,
+  "installerGuiFlowTested": false,
+  "physicalPhoneTested": false
+}

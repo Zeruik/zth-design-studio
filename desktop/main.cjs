@@ -10,6 +10,7 @@ const publicReferences=new Set([
  'https://www.qrcode.com/en/howto/code.html'
 ]);
 let win,rendererReady=false,closeApproved=false,closePending=false;
+let lastSaveDirectory;
 let pendingFile=process.argv.find(a=>a.toLowerCase().endsWith('.zthpmsj'));
 const trustedURL=url=>typeof url==='string'&&url.split(/[?#]/)[0]===editorURL;
 const trustedSender=e=>e.sender===win?.webContents&&e.senderFrame===win.webContents.mainFrame&&trustedURL(e.senderFrame.url);
@@ -63,7 +64,8 @@ ipcMain.on('zth:ready',event=>{if(!trustedSender(event))return;rendererReady=tru
 ipcMain.handle('zth:save',async(event,request)=>{
  if(!trustedSender(event)||!request||typeof request.name!=='string'||!ArrayBuffer.isView(request.bytes)||request.bytes.byteLength>250*1024*1024)throw Error('无效的导出请求');
  const name=path.basename(request.name).replace(/[<>:"/\\|?*]/g,'-');if(!/\.(zthpmsj|png|jpg|svg|pdf)$/i.test(name))throw Error('不支持的文件格式');
- const result=await dialog.showSaveDialog(win,{defaultPath:name});if(result.canceled)return false;
+ const result=await dialog.showSaveDialog(win,{defaultPath:path.join(lastSaveDirectory||app.getPath('documents'),name)});if(result.canceled||!result.filePath)return false;
+ lastSaveDirectory=path.dirname(result.filePath);
  await nativeWrites.track(()=>atomicWriteFile(result.filePath,Buffer.from(request.bytes.buffer,request.bytes.byteOffset,request.bytes.byteLength)));return true;
 });
 const fontFiles=Object.freeze({'ZTH Sans':'ZTHSans.woff2','ZCOOL XiaoWei':'ZCOOLXiaoWei.woff2','Ma Shan Zheng':'MaShanZheng.woff2','Roboto Mono':'RobotoMono.woff2'});

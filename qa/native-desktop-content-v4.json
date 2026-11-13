@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "version": "4.0.0",
+  "files": [
+    {
+      "file": "desktop/files.cjs",
+      "matches": true,
+      "sha256": "1834a7884f160a792c1205cfba3ede39628c6ef4e5238a59dfbf91e1621c07c2"
+    },
+    {
+      "file": "desktop/main.cjs",
+      "matches": true,
+      "sha256": "d73a4a39c90fba3292238895dad83358b50e56fde355d9b613ca8fce6fda127c"
+    },
+    {
+      "file": "desktop/preload.cjs",
+      "matches": true,
+      "sha256": "3578e92d4a630093560b04e40c87149ee99ad3b17ce819b5c06075f7e60cfdbc"
+    },
+    {
+      "file": "desktop/writes.cjs",
+      "matches": true,
+      "sha256": "96b607bf618c780835f87af4a925df063f54b2124aacde622c47ae66ab5f95f7"
+    }
+  ],
+  "runtimeSmokeExecuted": false,
+  "installerGuiTested": false
+}
