@@ -1,0 +1,7 @@
+node_modules/
+release/
+android/out/
+web/
+*.keystore
+*.jks
+.openai/
