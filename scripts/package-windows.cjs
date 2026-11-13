@@ -1,3 +1,4 @@
+require('./sync-legal.cjs');
 // Windows scanners can briefly hold a newly renamed large executable open.
 // Retry only the packaging-time ASAR integrity write on an open/sharing error;
 // never disable integrity validation or change Windows security settings.

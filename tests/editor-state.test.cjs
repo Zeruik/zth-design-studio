@@ -307,6 +307,16 @@ test('font cache keys include every font and preserve older multi-font revisions
   assert.deepEqual((await f.store.expand(revisions[0].document)).fonts,second.fonts);
 });
 
+test('font cache preserves distinct imported license notices through history, trash and restore',async()=>{
+  const f=persistence(draft('Font notice history'));await f.store.ready;
+  const first=f.get();first.fonts=[{family:'ZTH Sans',src:'data:same-font-bytes',license:'Original imported license\nCopyright A'}];f.set(first);await f.store.save(true);
+  const second=copy(first);second.fonts[0].license='Updated imported license\nCopyright A and B';f.set(second);await f.store.save(true);
+  const revisions=f.read('work:draft-a').revisions;assert.notEqual(revisions[0].document.fontKey,revisions[1].document.fontKey);
+  assert.deepEqual((await f.store.expand(revisions[1].document)).fonts,first.fonts);
+  const removed=await f.store.remove('draft-a'),restored=await f.store.restore(removed.trashId);
+  assert.deepEqual(restored.document.fonts,second.fonts);assert.deepEqual((await f.store.expand(restored.revisions[1].document)).fonts,first.fonts);
+});
+
 test('failed atomic saves leave no partial document, history, font, index, or autosave records',async()=>{
   const doc=draft('原子保存');doc.fonts=[{family:'ZTH Sans',src:'data:font'}];
   const f=persistence(doc);await f.store.ready;f.backend.fail=true;
@@ -594,6 +604,30 @@ test('engineering backup exports the visible document even when local IndexedDB 
   await f.elements.get('saveBtn').onclick();assert.equal(localAttempts,0);assert.equal(downloaded.document.pages[0].canvas.background,'#123456');assert.match(downloaded.name,/\.zthpmsj$/);
   const gate=f.pauseLoad(),undo=f.editor.undo();await gate.entered;const backup=f.elements.get('saveBtn').onclick();gate.release();await undo;await backup;
   assert.equal(downloaded.document.pages[0].canvas.background,'#ffffff','backup requested during undo exports the final stable state');
+});
+
+test('actual project backup and Fabric SVG export include complete used-font OFL notices',async()=>{
+  const f=fixture({realCanvas:true});
+  try{
+    const entries=[['ZTH Sans','ZTHSans.woff2','OFL.txt'],['ZCOOL XiaoWei','ZCOOLXiaoWei.woff2','ZCOOLXiaoWei-OFL.txt'],['Ma Shan Zheng','MaShanZheng.woff2','MaShanZheng-OFL.txt'],['Roboto Mono','RobotoMono.woff2','RobotoMono-OFL.txt']];
+    const data=new Map(entries.map(([family,file])=>[family,'data:font/woff2;base64,'+fs.readFileSync(path.join(__dirname,'../app/assets/fonts',file)).toString('base64')]));
+    const licenses=Object.fromEntries(entries.map(([family,,file])=>[family,fs.readFileSync(path.join(__dirname,'../app/assets/fonts',file),'utf8').replace(/\r\n/g,'\n')]));
+    class Face{constructor(family,src){Object.assign(this,{family,src});}async load(){return this;}}
+    f.context.FontFace=Face;f.context.document.fonts.delete=()=>{};
+    Object.assign(f.context.window,{document:f.context.document,FontFace:Face,ZTH_FONT_LICENSES:licenses,ZTH_ALGORITHMS:require('../app/algorithms.js'),fabric:f.context.fabric,zthDesktop:{font:async family=>data.get(family)}});
+    f.run(fs.readFileSync(path.join(__dirname,'../app/fonts.js'),'utf8'));f.context.ZTH_FONTS=f.context.window.ZTH_FONTS;await f.context.ZTH_FONTS.ready;
+    await f.editor.newBlank(true);
+    for(const [i,family] of ['ZTH Sans','Roboto Mono'].entries())f.editor.add(new f.runtime.Textbox('Export '+family,{left:30,top:40+i*100,width:600,fontSize:30,fontFamily:family}));
+    const downloads=[];f.context.captureDownload=async(blob,name)=>downloads.push({text:await blob.text(),name});f.run('download=captureDownload');
+    await f.elements.get('saveBtn').onclick();assert.equal(downloads.length,1);
+    const project=JSON.parse(downloads[0].text);require('../app/algorithms.js').validateProject(project);assert.equal(project.fonts.length,2);
+    for(const font of project.fonts)assert.equal(font.license,licenses[font.family]);
+    f.context.document.getElementById('exportFormat').value='svg';f.context.document.getElementById('exportScale').value='1';f.context.document.getElementById('transparent').checked=false;f.context.document.getElementById('exportDialog').close=()=>{};
+    await f.elements.get('downloadBtn').onclick();assert.equal(downloads.length,2);assert.match(downloads[1].name,/\.svg$/);
+    const xml=new (f.runtime.getEnv().window.DOMParser)().parseFromString(downloads[1].text,'image/svg+xml');assert.equal(xml.getElementsByTagName('parsererror').length,0);
+    const css=xml.getElementsByTagName('style')[0].textContent;for(const font of project.fonts)assert.ok(css.includes(font.license));
+    const rules=require('rrweb-cssom').parse(css).cssRules;assert.equal(rules.length,2);assert.ok(Array.from(rules).every(rule=>rule.type===5));
+  }finally{await f.canvas.dispose();}
 });
 
 test('Ctrl-S and Shift-S commit focused text and numeric fields while Ctrl-Z retains native input undo',async()=>{

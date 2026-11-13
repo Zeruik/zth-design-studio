@@ -8,6 +8,10 @@ ZeroToHand Studio / 理工阿白菌 · TechABJ ([Zeruik](https://github.com/Zeru
 
 An offline graphic editor with editable `.zthpmsj` projects, local history, reusable templates and bundled fonts. No account or cloud backend is required.
 
+许可和数据说明：[许可与使用说明](docs/TERMS.txt) · [隐私与本地数据](docs/PRIVACY.txt) · [MIT 原文](LICENSE) · [第三方来源与许可](THIRD-PARTY.md)。应用内可从“设置 → 关于 → 许可与隐私”离线阅读完整副本。代码保持 MIT；品牌标识和第三方素材按各自权利处理，用户作品不因此转让给开发者。
+
+`.zthpmsj` 工程备份未加密。“我的作品”的删除和丢弃草稿支持回收恢复，不是永久擦除；Windows 卸载保留本地作品，手机清除应用数据或卸载可能丢失作品。请定期分别备份重要工程。网页版仍会向托管站点请求静态资源，系统文件选择器也可能指向你选择的云盘，详情见上述隐私说明。
+
 > **4.0 当前为开发与验证版本，尚未作为正式发行版发布。** 本页描述当前源码；已发布下载以 [GitHub Releases](https://github.com/Zeruik/zth-design-studio/releases) 为准。安装验收与最终发行包记录仍在补充，详见 [4.0 验证记录](docs/QA-4.0.md)。
 
 ## 4.0 的变化

@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "checkedAppFiles": 60,
+  "checkedAppFiles": 67,
   "targets": [
     "Windows ASAR",
     "Android",

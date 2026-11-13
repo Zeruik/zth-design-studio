@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+require('./sync-legal.cjs');
 const root = path.resolve(__dirname, '..');
 const destination = path.join(root, 'ios/ZTHDesignStudio/App');
 if (!destination.startsWith(path.join(root, 'ios') + path.sep)) throw Error('Invalid iOS destination');

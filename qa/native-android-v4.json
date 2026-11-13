@@ -6,7 +6,7 @@
   "signatureV3": true,
   "zipAlignment": "passed",
   "manifest": "package: name='studio.zerotohand.design' versionCode='40000' versionName='4.0.0' platformBuildVersionName='15' platformBuildVersionCode='35' compileSdkVersion='35' compileSdkVersionCodename='15'",
-  "apkBytes": 17355404,
-  "apkSHA256": "90b045d0b2775e1b99cecbb9ec291e791f7ffe37744b594c90cfcd4468238e2f",
+  "apkBytes": 17409134,
+  "apkSHA256": "3b5c528fe9627b532385944c27bd6daab54ec1b822e4904a45393d7b69ac8ca4",
   "physicalDeviceTested": false
 }

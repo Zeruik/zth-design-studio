@@ -1,6 +1,8 @@
 {
   "ok": true,
   "version": "4.0.0",
+  "checkedPayloadFiles": 71,
+  "asarSHA256": "a454d445a7250f8311eed02b054a0496c5b0af56bc168cf7d9169a290ab99118",
   "files": [
     {
       "file": "desktop/files.cjs",

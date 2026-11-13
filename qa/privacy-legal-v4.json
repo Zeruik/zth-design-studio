@@ -1,0 +1,9 @@
+{
+  "version": "4.0.0",
+  "scope": "Tracked and non-ignored source candidates for the legal revision; ignored user data and private files were not read",
+  "files": 158,
+  "bytes": 21854436,
+  "newOrChangedImageFontFiles": [],
+  "findings": [],
+  "ok": true
+}

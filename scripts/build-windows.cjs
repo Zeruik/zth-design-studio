@@ -1,9 +1,11 @@
 const {spawnSync}=require('node:child_process');
 const path=require('node:path'),fs=require('node:fs');
+require('./sync-legal.cjs');
 function run(cmd,args,opts={}){const r=spawnSync(cmd,args,{stdio:'inherit',...opts});if(r.status!==0)process.exit(r.status||1);}
 if(process.argv.includes('--installer-only')){
  const packed=JSON.parse(require('@electron/asar').extractFile(path.resolve('release/win-unpacked/resources/app.asar'),'package.json').toString('utf8'));
- if(packed.version!==require('../package.json').version)throw Error('Packaged app version does not match the installer version');
+ if(packed.version!==require('../package.json').version)throw Error('Packaged app version does not match the installer version. Run node scripts/build-windows.cjs without --installer-only.');
+ require('./verify-windows-payload.cjs').verifyWindowsPayload(path.resolve('release/win-unpacked/resources/app.asar'),path.resolve(__dirname,'..'));
  console.log('Recompiling installer from the existing packaged application.');
 }else run(process.execPath,['scripts/package-windows.cjs']);
 const payload=require('./installer-manifest.cjs').manifest(path.resolve('release/win-unpacked'));

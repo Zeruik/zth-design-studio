@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const JSZip = require('jszip');
+require('./sync-legal.cjs');
 
 (async () => {
   const archive = await JSZip.loadAsync(fs.readFileSync('android/out/base.apk'));

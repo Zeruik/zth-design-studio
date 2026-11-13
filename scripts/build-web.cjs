@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+require('./sync-legal.cjs');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'web');
 if (!target.startsWith(root + path.sep)) throw Error('Invalid output directory');

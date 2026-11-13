@@ -1,0 +1,53 @@
+{
+  "version": "4.0.0",
+  "scope": "Source legal notices and browser UI; installation acceptance is not granted",
+  "legalDataSHA256": "8fd1fcf0ccc98ce21151920982c02ad359fa77d0539d3dd9a36aa1d32158d952",
+  "originalNoticesUnchanged": true,
+  "thirdPartyOriginalNotices": 10,
+  "readerDocuments": 4,
+  "desktopLightRead": true,
+  "mobileViewport": {
+    "width": 390,
+    "height": 844,
+    "bodyClientWidth": 327,
+    "bodyScrollWidth": 327,
+    "physicalDevice": false
+  },
+  "darkModeRead": true,
+  "englishInterfaceMITTextMatchesSource": true,
+  "escapeRestoresEntryFocus": true,
+  "offlineReloadReadThirdParty": true,
+  "offlineTest": "CDP network emulation; restored online after test",
+  "offlineCoreDirectory404Fixed": true,
+  "installerLicenseAccepted": false,
+  "installerLifecycleTested": false,
+  "actualBrowserProjectExport": {
+    "usedFonts": 3,
+    "fullOriginalOFLNotices": 3
+  },
+  "actualBrowserSVGExport": {
+    "bytes": 14044825,
+    "fullOriginalOFLNotices": 3
+  },
+  "regression": {
+    "passed": 107,
+    "failed": 0
+  },
+  "nativeUnpacked": {
+    "appAsarSHA256": "a454d445a7250f8311eed02b054a0496c5b0af56bc168cf7d9169a290ab99118",
+    "launched": true,
+    "restoredExistingTestWork": true,
+    "termsReaderOpened": true,
+    "privacyReaderOpened": true,
+    "normalCloseCompleted": true,
+    "installationLifecycleTested": false
+  },
+  "installerDisplay": {
+    "setupSHA256": "4b97f329b47ff9962973494c10530159e1f7a38c5ab5db8d1c88495e8d8481eb",
+    "chineseTermsVisible": true,
+    "privacyTextPresent": true,
+    "mitEndAndThirdPartyFooterVisible": true,
+    "scrolledToEndAndReturnedToTop": true,
+    "accepted": false
+  }
+}

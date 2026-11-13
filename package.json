@@ -7,11 +7,12 @@
     "start": "electron .",
     "test": "node --test tests/*.test.cjs",
     "build:win": "node scripts/build-windows.cjs",
-    "build:portable": "electron-builder --win portable --x64 --publish never",
+    "build:portable": "node scripts/sync-legal.cjs && electron-builder --win portable --x64 --publish never",
     "build:web": "node scripts/build-web.cjs",
     "build:android": "node scripts/build-android.cjs",
     "build:ios": "node scripts/prepare-ios.cjs",
-    "package:win": "electron-builder --win --x64 --dir --publish never"
+    "package:win": "node scripts/package-windows.cjs",
+    "build:legal": "node scripts/sync-legal.cjs"
   },
   "keywords": [],
   "author": "理工阿白菌 / TechABJ · ZeroToHand Studio",

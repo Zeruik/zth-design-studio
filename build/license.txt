@@ -1,9 +1,123 @@
-ZTH-平面设计器 / ZTH Design Studio
-作者 / Creator: 理工阿白菌 / TechABJ · ZeroToHand Studio
+ZTH Design Studio 4.0
+许可、隐私与开源授权 / License, Privacy and Open-source Notices
 
-使用条款 / Terms of use
-本软件代码采用 MIT 许可，按现状提供。您可以使用本软件创作和导出设计。
-请仅导入和传播您有权使用的素材。工作室及社团标识的权利属于其各自权利人，不因软件开源而授权商标使用。
-作品与自动保存均保存在本机；本软件不会自动上传作品。卸载前请自行导出 .zthpmsj 备份。
+ZTH Design Studio 4.0
+软件许可与素材权利说明
+更新日期：2026年11月14日
 
-Code is provided under the MIT license, as-is, without warranty. You may use the software to create and export designs. Use only assets you have the rights to use. Studio and club marks remain the property of their respective rightsholders. Projects remain on your device and are not uploaded automatically. Export .zthpmsj backups before uninstalling.
+本说明帮助你了解代码、品牌素材、第三方组件与用户作品的权利边界。
+下列路径用于定位源码中的原始文件。安装包内可从“设置 → 关于 → 许可与隐私”阅读许可、隐私、MIT 和第三方原文；应用资源目录 app/legal/ 另存有文本副本。
+
+一、原创代码继续使用 MIT 许可
+
+本设计器的原创应用代码按根目录 LICENSE 中的 MIT 许可提供。该许可允许使用、复制、修改、合并、发布、分发、再许可及销售软件副本，包括商业用途；复制或分发软件及其实质部分时，应保留相应版权声明和许可声明。
+
+就原创代码授权的范围、条件与责任条款，以 LICENSE 中的 MIT 原文为最高授权依据。本中文说明不替代该文件，也不缩减其中已经授予的权利。
+
+本说明不为 MIT 代码另设非商用、禁止修改、禁止逆向或逐项书面授权的限制。
+
+二、代码许可与素材权利分别处理
+
+工作室、学校、社团及其他主体的名称、标志和品牌图像，仍由各自权利人享有相应权利。MIT 代码许可不授予这些主体的商标权，也不表示这些主体为用户或第三方产品背书。
+
+模板可以编辑、素材可以导入或导出，不表示其中全部标志、照片、字体及其他内容都以 MIT 授权。具体权利范围以 LICENSE、THIRD-PARTY.md 及对应素材或文件中的声明为准。使用已有授权素材时，其原有授权范围不会因本说明而改变。
+
+三、第三方组件和字体
+
+第三方运行时、库、图标和字体继续适用各自的许可证，不因与本软件一起分发而改用本项目 MIT 许可。第三方许可依法或依其文本授予的权利，不受本说明额外限制。
+
+主要材料位置：
+- THIRD-PARTY.md：组件、字体和素材来源说明。
+- app/vendor/licenses/：随包前端库及图标许可文本。
+- app/assets/fonts/OFL.txt：原有内置字体许可。
+- app/assets/fonts/ZCOOLXiaoWei-OFL.txt：站酷小薇字体许可。
+- app/assets/fonts/MaShanZheng-OFL.txt：马善政字体许可。
+- app/assets/fonts/RobotoMono-OFL.txt：Roboto Mono 字体许可。
+- app/assets/fonts/SOURCES.json：新增字体来源、版本和校验信息。
+- 桌面运行环境附带的许可证和声明文件。
+
+内置字体按各自 SIL Open Font License（OFL）文本提供。使用字体制作的设计作品，不会仅因使用该字体而被要求采用 OFL。随工程或其他文件携带、另行分发或修改字库时，字体本体仍应遵守对应许可及版权、保留名称等条件；完整条件以随包许可原文为准。
+
+四、用户作品与导入内容
+
+用户独立创作的文字、图片、设计和项目内容，不因使用本软件而转让给软件作者或工作室。本说明不向软件作者授予使用用户作品进行宣传、再许可或其他利用的权利。
+
+用户作品中包含的他人素材、品牌标志、字体或其他受保护内容，其原有权利和授权条件继续存在。使用本软件不自动取得这些内容的额外授权，也不改变用户已经合法取得的授权。
+
+五、原有许可与法定权利
+
+软件的按原样提供及相关责任条款，以 LICENSE 和适用的第三方许可原文为准。本说明不另增扩大免责、赔偿、仲裁或权利转让条款，也不排除适用法律规定不能排除的用户权利。
+
+请先阅读上述文件，再决定是否继续安装。可以取消本次安装；该选择不改变已经依 MIT 或其他适用许可证取得的权利。
+
+
+====================
+
+ZTH Design Studio 隐私与本地数据说明
+适用范围：4.0.0 当前源码及使用该源码构建的应用
+说明日期：2026 年 11 月 14 日
+
+本软件以本地编辑和本地保存为主。当前版本没有账号注册、自建云同步、广告统计、遥测上报、自动上传作品或远程 AI 服务；“灵感”排版和二维码生成在本地完成。这不表示软件不处理数据，也不表示网页、系统文件服务和外部网站不会联网。在线部署与安装包可能采用不同版本，请以实际使用版本为准。
+
+一、会在设备上保存什么
+
+作品和自动保存草稿使用浏览器或应用 WebView 的本地数据库（IndexedDB）。其中包括作品名称、随机作品标识、保存时间、页面和对象内容、文字、图片、二维码内容、所用内置字体、缩略图及版本记录。修改后通常会延迟约 600 毫秒自动保存；异常退出、空间不足或存储被清理可能导致保存失败。
+
+“我的作品”保留最新状态及最近 10 个手动保存版本。另有当前编辑会话的撤销/重做记录，最多保留 50 条，并按内存预算裁减；它不等同于永久版本备份。切换或重新载入作品会重新建立编辑操作历史。
+
+上传素材库另行保存最近 25 张上传图片及文件名；图片也可能已嵌入作品、历史版本或模板，因此从一处移除不等于其他副本一并消失。自建模板保存完整模板内容和预览图。字体可能另存为去重缓存。
+
+本地设置（localStorage）保存语言、外观、主题色、最近 5 个颜色和动效偏好。跟随系统设置时会读取系统深浅色及减少动态效果偏好。网页的离线缓存另行保存程序、字体、模板素材等静态资源。
+
+二、删除、不保存和保留期限
+
+“移到回收站”不是永久删除。当前没有清空回收站、永久删除作品或按天自动过期的功能。“不保存”也不表示立即擦除内容：已有手动保存版本的作品会保留该版本，丢弃的改动进入回收站并可恢复为新副本；尚无手动保存版本的草稿可整体移入回收站。恢复后，相应内容回到作品库。
+
+删除作品不会同时清除上传素材、自建模板或字体缓存。自建模板可在模板库单独删除。除版本数量、素材列表等明确限制外，作品和回收站没有设定自动保留天数；实际保存仍受设备空间、浏览器清理策略和系统操作影响，不保证永久可恢复。
+
+三、导入、导出和跨设备备份
+
+软件读取你选择或拖入的文件，在本地解析工程、图片、SVG、PDF 和 PPTX。导入的工程图片须内嵌；SVG 会过滤脚本和远程资源引用；PPTX 导入跳过外部资源关系。导入并不等于把文件上传给开发者。
+
+“备份工程”导出的 .zthpmsj 是未加密的 JSON 文件，包含全部页面、可编辑内容、内嵌图片和实际使用的内置字体等信息。它不包含整个本地作品库、全部历史版本、回收站或上传素材库。重要作品需要分别备份；保留不同时间的备份可避免覆盖掉需要的旧状态。
+
+PNG、JPG、SVG 和 PDF 导出针对当前页面；当前 PDF 是页面图像，不是完整可编辑工程。导出文件的接收者可能查看其内容，二维码也可被扫码读取。二维码生成时不会访问你填入的网址，但原始文字或网址会随二维码对象保存；扫码访问后的数据处理由扫码工具和目标服务决定。
+
+浏览器通过下载功能导出，Windows 使用保存位置选择器，Android 和 iOS 使用系统文档/文件选择器。你选择的目标可能是本机、移动存储或系统接入的云盘。云盘上传、同步、分享及备份受该服务和你的系统设置控制。iOS 源码会先创建导出临时文件，正常完成或取消后尝试清理；异常退出时可能留待系统清理。
+
+四、联网和平台差异
+
+网页版需要向托管站点获取程序及资源。离线缓存采用“先请求网络，失败再使用缓存”的方式，因此安装到主屏幕或已有缓存不等于停止联网。更新会清理旧版静态资源缓存，不会据此清空作品库。访问 GitHub 仓库、下载页或在线版时，相关服务会收到网络请求；访问记录等处理以其服务说明为准，本软件不能替这些服务作出不记录数据的承诺。
+
+Windows 安装版从包内加载编辑器和字体。点击设计知识中的指定 Adobe 或 DENSO WAVE 资料链接时，会交给系统浏览器打开外站；外站的数据处理不属于本地作品保存功能。
+
+Android 源码通过 https://zth.local 映射包内资源，该地址不是远程服务器；容器拦截非本地请求，当前清单没有申请互联网权限，并关闭 Android 自动备份选项。系统文档提供方仍可能按用户选择联网。当前 Android 容器不会打开设计知识外链。
+
+iOS 部分是源码行为说明：使用包内 zth-studio://app 资源和持久化 WebView 存储，限制导航到外站，导入导出交给系统界面；源码声明了用户选择拍照或照片导入时所需的权限说明。源码没有排除所有系统备份，因此不能承诺数据不会进入系统备份或用户选择的云文件提供方。当前没有已签名的 iPhone 发行包，本说明不代表完成了 iPhone 真机验证；添加到主屏幕的网页版适用上述网页版行为。
+
+五、升级、卸载和完整清理
+
+升级前请先导出重要作品，并确认备份能重新打开。Windows 当前安装流程保留应用用户数据，卸载也不主动删除作品数据或用户另存的文件。Android 覆盖升级需要相同应用身份和签名；若必须先卸载，原本地数据可能随之丢失。清除手机应用存储或删除应用同样可能移除作品；iOS 的“卸载 App（保留文稿与数据）”与“删除 App”含义不同。系统备份恢复也可能重新带回数据。
+
+当前没有统一的“清除全部本地数据”按钮。完整清理应先完成需要的备份、关闭软件，再按使用方式处理：网页版清除该站点的全部站点数据（不只是缓存）；Windows 确认并单独移除本应用的用户数据目录（默认位于 %APPDATA%\ZTH-平面设计器，与安装目录分开）；Android 使用系统的应用存储清除功能；iOS 原生应用按系统的删除应用及备份管理方式处理。不要把只删除安装目录或只移到回收站当作完整清理。
+
+已导出的工程、图片、系统下载、云盘副本、聊天中发送的文件和系统备份不在本地作品库的删除范围内，需在各自位置管理。软件未为工程备份提供密码保护或安全擦除功能；本地数据的访问保护依赖设备、用户账户及系统设置。
+
+
+====================
+
+MIT License
+
+Copyright (c) 2026 TechABJ / 理工阿白菌, ZeroToHand Studio
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Studio, university and club marks remain the property of their respective rightsholders. This license does not grant trademark or institutional endorsement rights.
+
+
+第三方完整许可随应用提供：设置 → 关于 → 许可与隐私 → 第三方原许可。
+随包副本：app/legal/THIRD-PARTY-NOTICES.txt；Windows 的 Electron / Chromium 许可另附于安装目录。

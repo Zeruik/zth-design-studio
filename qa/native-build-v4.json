@@ -2,30 +2,40 @@
   "version": "4.0.0",
   "buildCompleted": true,
   "tests": {
-    "passed": 96,
+    "passed": 107,
     "failed": 0
+  },
+  "asarSHA256": "a454d445a7250f8311eed02b054a0496c5b0af56bc168cf7d9169a290ab99118",
+  "checkedAppFiles": 67,
+  "checkedDesktopModules": 4,
+  "ios": {
+    "preparedAppFiles": 67,
+    "resourcesMatch": true,
+    "signedIPAProduced": false
   },
   "installer": {
     "fileVersion": "4.0.0",
     "productVersion": "4.0.0",
     "authenticode": "NotSigned",
+    "licenseMatchesSource": true,
+    "licenseEncoding": "UTF-16LE BOM",
     "installationLifecycleTested": false
   },
   "artifacts": [
     {
       "file": "ZTH-Design-Studio-4.0.0-Setup.exe",
-      "bytes": 133220054,
-      "sha256": "2ac65813723e7c3a5fc324263f5123714de8bcd5f5f1d7a111f6c4140d854020"
+      "bytes": 133340177,
+      "sha256": "4b97f329b47ff9962973494c10530159e1f7a38c5ab5db8d1c88495e8d8481eb"
     },
     {
       "file": "ZTH-Design-Studio-4.0.0-Android.apk",
-      "bytes": 17355404,
-      "sha256": "90b045d0b2775e1b99cecbb9ec291e791f7ffe37744b594c90cfcd4468238e2f"
+      "bytes": 17409134,
+      "sha256": "3b5c528fe9627b532385944c27bd6daab54ec1b822e4904a45393d7b69ac8ca4"
     },
     {
       "file": "ZTH-Design-Studio-4.0.0-Web.zip",
-      "bytes": 17292986,
-      "sha256": "65021e1d6a44366e40ab75c6bc7f763801dec6946694b4f3f596ce0bcf53c4a7"
+      "bytes": 17347334,
+      "sha256": "bae7f23c9ce2aa03747ec499ee8d05dda90f72fe761e6ecbb6b763bcdcde2786"
     }
   ]
 }

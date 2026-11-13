@@ -1,7 +1,7 @@
 <!doctype html><html lang="zh"><meta charset="utf-8"><base href="../../app/"><title>4.0 模板 / 实际文字像素检查</title>
 <style>body{font-family:'ZTH Sans',sans-serif;background:#e1e3e8;color:#20242a;margin:20px}h1{font-size:24px}.gallery{display:grid;grid-template-columns:repeat(5,220px);gap:12px;align-items:start}.card{padding:8px;background:white;border-radius:8px}.card h2{font-size:12px;font-weight:500;height:36px}.card canvas{max-width:100%;height:auto!important}.failed{outline:3px solid #dd3b3b}.fonts{display:flex;gap:20px;flex-wrap:wrap;background:white;padding:16px;margin-bottom:16px}.sample{font-size:23px;width:245px}.sample small{display:block;font:12px sans-serif;color:#667}#status{white-space:pre-wrap;font:13px monospace;max-height:240px;overflow:auto}details{margin:20px 0}button{padding:8px}</style>
 <h1>4.0 / 49 套模板与离线字体检查</h1><p>逐文字单独以设计原尺寸渲染，扫描透明像素边界；检查字形是否超出画布。模板预览仍需人工检查遮挡和间距。</p><div class="fonts" id="fonts"></div><p id="status">加载字体…</p><button id="copy" disabled>复制检查报告</button><div class="gallery" id="gallery"></div><details><summary>文字边界详情</summary><pre id="details"></pre></details>
-<script src="vendor/fabric.min.js"></script><script src="algorithms.js"></script><script src="fonts.js"></script><script src="brand-assets.js"></script><script src="templates.js"></script><script>
+<script src="vendor/fabric.min.js"></script><script src="algorithms.js"></script><script src="legal-data.js"></script><script src="fonts.js"></script><script src="brand-assets.js"></script><script src="templates.js"></script><script>
 fabric.FabricObject.ownDefaults.originX='left';fabric.FabricObject.ownDefaults.originY='top';
 window.qaReport={status:'running',templates:[],errors:[],fontSamples:[]};
 (async()=>{
