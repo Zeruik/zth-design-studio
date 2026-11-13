@@ -32,12 +32,11 @@ fs.mkdirSync('release', { recursive: true });
 const manifest = fs.readFileSync('android/AndroidManifest.xml', 'utf8');
 if (!manifest.includes('android:versionName="' + version + '"')) throw Error('Android manifest/package version mismatch');
 run(tool('aapt2'), ['compile', '--dir', 'android/res', '-o', path.join(out, 'resources.zip')]);
-run(tool('aapt2'), ['link', '-o', path.join(out, 'base.apk'), '-I', path.relative(root, path.join(platform, 'android.jar')), '--manifest', 'android/AndroidManifest.xml', '-A', 'app', path.join(out, 'resources.zip')]);
+run(tool('aapt2'), ['link', '-o', path.join(out, 'base.apk'), '-I', path.relative(root, path.join(platform, 'android.jar')), '--manifest', 'android/AndroidManifest.xml', path.join(out, 'resources.zip')]);
 run(jdk('javac'), ['-encoding', 'UTF-8', '-source', '8', '-target', '8', '-classpath', path.join(platform, 'android.jar'), '-d', path.join(out, 'classes'), 'android/src/studio/zerotohand/design/MainActivity.java']);
 run(jdk('jar'), ['cf', path.join(out, 'classes.jar'), '-C', path.join(out, 'classes'), '.']);
 run(jdk('java'), ['-cp', path.join(buildTools, 'lib/d8.jar'), 'com.android.tools.r8.D8', '--lib', path.join(platform, 'android.jar'), '--min-api', '28', '--output', path.join(out, 'dex'), path.join(out, 'classes.jar')]);
-fs.copyFileSync(path.join(out, 'base.apk'), path.join(out, 'unsigned.apk'));
-run(jdk('jar'), ['uf', path.join(out, 'unsigned.apk'), '-C', path.join(out, 'dex'), 'classes.dex']);
+run(process.execPath, ['scripts/prepare-android-assets.cjs']);
 run(tool('zipalign'), ['-f', '-p', '4', path.join(out, 'unsigned.apk'), path.join(out, 'aligned.apk')]);
 
 // A reusable local release identity. Neither key nor password is copied to the repository/release.

@@ -13,10 +13,14 @@ iPhone 可先用 Safari 打开 [在线版](https://zeruik.github.io/zth-design-s
 - Windows: `ZTH-Design-Studio-2.0.0-Setup.exe`
 - Android: `ZTH-Design-Studio-2.0.0-Android.apk`
 - iOS source: `ZTH-Design-Studio-2.0.0-iOS-Source.zip`
+- iOS simulator (Mac only): `ZTH-Design-Studio-2.0.0-iOS-Simulator.zip`
 - Web: `ZTH-Design-Studio-2.0.0-Web.zip`
+- Source: `ZTH-Design-Studio-2.0.0-Source.zip`
 - Checksums: `SHA256SUMS.txt`
 
 安装前保存旧版 `.zthpmsj` 备份。Android 1.0 预览签名未知，若系统拒绝覆盖安装，请在备份后更换安装。实体手机验收尚未完成，详见 QA.md。
+
+35 项自动测试通过。Windows 已完成桌面运行时启动检查；iOS 已在云端 iPhone 模拟器中实际启动并检查状态栏避让；Android 已通过签名、资源完整性和对齐检查。
 
 ## English
 

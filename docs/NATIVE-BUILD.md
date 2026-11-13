@@ -2,11 +2,15 @@
 
 The Windows, Android and iOS containers bundle the same `app/` directory. Build again after editor changes; a previously created package does not update itself from source. Run `npm ci` and `npm test` first. Do not upload `.tools/`, `node_modules/`, private signing material, personal screenshots or development recovery directories.
 
+After all artifacts are available under `release/`, run `node scripts/verify-packages.cjs`. It checks ZIP CRC, portable paths and each bundled editor file against `app/` in Windows ASAR, Android, Web, iOS source and the downloaded iOS simulator package. Git's CRLF/LF-only differences in known text formats are reported separately; binary files must match exactly. Release-file SHA-256 hashes are distributed separately in `SHA256SUMS.txt`.
+
 ## Windows 10 / 11 x64
 
 ```powershell
 npm run build:win
 ```
+
+The license source remains UTF-8 in Git. The build generates a UTF-16LE file with BOM and Windows line endings for NSIS `LicenseData`, independently of the script's input encoding. For installer-only edits after a completed application build, `npm run build:win -- --installer-only` reuses `release/win-unpacked/` after checking its version; do not use that shortcut after editor/runtime changes.
 
 The build uses the pinned Electron version from `package-lock.json` and electron-builder's checksum-verified NSIS 3.0.4.1 download. The installer shows language selection, welcome, the license, install path and completion; it creates desktop/start-menu shortcuts, a `.zthpmsj` file association and an uninstaller. Default installation is per-user under `%LOCALAPPDATA%\Programs\ZTH Design Studio`. It does not need a Node.js installation on the user's PC.
 

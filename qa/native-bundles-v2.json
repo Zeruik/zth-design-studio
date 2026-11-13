@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "checkedAppFiles": 43,
+  "targets": [
+    "Windows ASAR",
+    "Android",
+    "Web",
+    "iOS source",
+    "iOS simulator"
+  ],
+  "zipCRC": "passed",
+  "lineEndingOnly": [
+    "iOS simulator:algorithms.js",
+    "iOS simulator:app.js",
+    "iOS simulator:assets/fonts/OFL.txt",
+    "iOS simulator:image-tools.js",
+    "iOS simulator:importers.js",
+    "iOS simulator:index.html",
+    "iOS simulator:manifest.webmanifest",
+    "iOS simulator:mobile-preview.html",
+    "iOS simulator:qr.js",
+    "iOS simulator:settings.js",
+    "iOS simulator:style.css",
+    "iOS simulator:sw.js",
+    "iOS simulator:template-tools.js",
+    "iOS simulator:templates.js",
+    "iOS simulator:vendor/jszip.min.js",
+    "iOS simulator:vendor/licenses/jszip.txt",
+    "iOS simulator:vendor/licenses/pdfjs.txt",
+    "iOS simulator:vendor/licenses/qrcode.txt",
+    "iOS simulator:vendor/pdf.mjs",
+    "iOS simulator:vendor/pdf.worker.mjs",
+    "iOS simulator:vendor/qrcode.mjs"
+  ],
+  "mismatches": []
+}

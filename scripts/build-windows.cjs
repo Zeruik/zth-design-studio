@@ -1,7 +1,11 @@
 const {spawnSync}=require('node:child_process');
 const path=require('node:path'),fs=require('node:fs');
 function run(cmd,args,opts={}){const r=spawnSync(cmd,args,{stdio:'inherit',...opts});if(r.status!==0)process.exit(r.status||1);}
-run(process.execPath,['scripts/package-windows.cjs']);
+if(process.argv.includes('--installer-only')){
+ const packed=JSON.parse(require('@electron/asar').extractFile(path.resolve('release/win-unpacked/resources/app.asar'),'package.json').toString('utf8'));
+ if(packed.version!==require('../package.json').version)throw Error('Packaged app version does not match the installer version');
+ console.log('Recompiling installer from the existing packaged application.');
+}else run(process.execPath,['scripts/package-windows.cjs']);
 const root=path.resolve('release/win-unpacked'),entries=[];
 function walk(dir){
  for(const n of fs.readdirSync(dir)){
@@ -34,6 +38,10 @@ async function compileInstaller(){
   copyDirectory('release/win-unpacked',path.join(stage,'release/win-unpacked'));
   working=path.join(stage,'build');
  }
+ // LicenseData has its own encoding detection, separate from -INPUTCHARSET.
+ // Generate an explicit UTF-16LE BOM payload so Git normalization cannot break it.
+ const license=fs.readFileSync(path.resolve('build/license.txt'),'utf8').replace(/^\uFEFF/,'').replace(/\r\n|\r|\n/g,'\r\n');
+ fs.writeFileSync(path.join(working,'license-installer.txt'),Buffer.concat([Buffer.from([0xff,0xfe]),Buffer.from(license,'utf16le')]));
  run(nsis||'makensis',['-INPUTCHARSET','UTF8','installer.nsi'],{cwd:working,env});
  if(stage){
   const filename='ZTH-Design-Studio-'+require('../package.json').version+'-Setup.exe';

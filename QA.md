@@ -26,9 +26,9 @@ Screenshots and development-only fixture pages are kept locally, excluded from t
 
 ## Native packaging
 
-- Windows: NSIS wizard contains language selection, license, install directory, shortcuts and uninstall steps. Final installer build and UI observations are recorded in the release handoff.
-- Android: manifest versionCode 2/versionName 2.0.0; minimum Android 9. System bars, cutout and keyboard insets are handled in the native container. Rotation keeps the same WebView. APK signature and ZIP contents are checked during build.
-- iOS: native WKWebView project, Files export bridge, safe-area layout and orientation support. The GitHub Actions simulator job verifies compilation. Simulator artifacts are not iPhone install packages. An Apple signing team is needed for a device IPA.
+- Windows: actual Electron 45.3.1 application started from the packaged ASAR with the native bridge, bundled Chinese font, 31 canvas objects and local IndexedDB available. The NSIS wizard contains language selection, license, install directory, shortcuts and uninstall steps. Local UI inspection found a license encoding issue; the build now generates an explicit Unicode license. Full installation/upgrade/uninstallation was not performed.
+- Android: manifest versionCode 20000/versionName 2.0.0; minimum Android 9. System bars, cutout and keyboard insets are handled in the native container. Rotation keeps the same WebView. Final APK passed official v3 signature verification and ZIP alignment checks. All 43 assets match `app/` byte for byte; ZIP CRC and DEX checks passed, paths use forward slashes and `resources.arsc` is stored uncompressed.
+- iOS: native WKWebView project, Files export bridge, safe-area layout and orientation support. [GitHub Actions run 43404138598](https://github.com/Zeruik/zth-design-studio/actions/runs/43404138598) compiled, installed and launched the app in an iPhone simulator. Its screenshot shows the Chinese font, rendered canvas and top status-bar clearance. This is a launch/screenshot check, not interactive device acceptance. Simulator artifacts are not iPhone install packages. An Apple signing team is needed for a device IPA.
 
 ## Limits still requiring device acceptance
 
