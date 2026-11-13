@@ -7,7 +7,8 @@
     if(!o){$('editSelectedQR').hidden=true;return;}
     $('selectionSummary').textContent=(o.locked?'🔒 ':'')+(o.name||'元素')+' · '+Math.round(o.getScaledWidth())+' × '+Math.round(o.getScaledHeight())+' px';
     $('quickColor').hidden=!['textbox','text','i-text','rect','circle','triangle','path','polygon','line'].includes(o.type);
-    $('quickColor').value=ZTH_COLORS.normalize(o.fill)||'#000000';
+    const strokeInk=(o.elementPaint==='stroke'||o.type==='line')&&(!o.fill||o.fill==='transparent');
+    $('quickColor').value=ZTH_COLORS.normalize(strokeInk?o.stroke:o.fill)||'#000000';
     $('selectionReplace').hidden=o.type!=='image'&&o.role!=='qr';
     $('selectionQR').hidden=o.role!=='qr';$('editSelectedQR').hidden=o.role!=='qr';
     $('selectionLock').textContent=o.locked?'解锁元素':'锁定元素';
@@ -15,7 +16,7 @@
   function properties(){document.body.classList.remove('show-library');document.body.classList.add('show-properties');$('selectionMenu').hidden=true;$('objectProps').scrollIntoView({block:'nearest'});}
   $('selectionMore').onclick=()=>{$('selectionMenu').hidden=!$('selectionMenu').hidden;};$('selectionProps').onclick=properties;
   $('selectionLock').onclick=()=>$('lockBtn').click();$('selectionDuplicate').onclick=()=>$('duplicateBtn').click();$('selectionDelete').onclick=()=>$('deleteBtn').click();
-  $('quickColor').onchange=()=>{const o=C.getActiveObject();if(!E.canEdit(o))return;$('fillColor').value=$('quickColor').value;$('fillColor').dispatchEvent(new Event('change'));};
+  $('quickColor').onchange=()=>{const o=C.getActiveObject();if(!E.canEdit(o))return;const value=$('quickColor').value;if(window.ZTH_EFFECTS){if(!ZTH_EFFECTS.paint(o,'ink',value))return;C.requestRenderAll();E.changed();}else{const strokeInk=(o.elementPaint==='stroke'||o.type==='line')&&(!o.fill||o.fill==='transparent');o.set(strokeInk?'stroke':'fill',value);C.requestRenderAll();E.changed();}};
   function pending(value){qrPending=value;$('applySelectedQR').disabled=value;$('uploadSelectedQR').disabled=value;}
   function openQR(){
     const o=C.getActiveObject();if(o?.role!=='qr'||!C.getObjects().includes(o)||!E.canEdit(o))return;

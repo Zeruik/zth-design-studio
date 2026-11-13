@@ -4,7 +4,7 @@ Unicode true
 !include "WinVer.nsh"
 !include "x64.nsh"
 Name "ZTH-平面设计器 / ZTH Design Studio"
-OutFile "../release/ZTH-Design-Studio-2.0.0-Setup.exe"
+OutFile "../release/ZTH-Design-Studio-3.0.0-Setup.exe"
 InstallDir "$LOCALAPPDATA\Programs\ZTH Design Studio"
 InstallDirRegKey HKCU "Software\ZeroToHand\DesignStudio" "InstallDir"
 RequestExecutionLevel user
@@ -44,7 +44,7 @@ Section "ZTH Design Studio"
  CreateShortcut "$SMPROGRAMS\ZTH Design Studio\ZTH-平面设计器.lnk" "$INSTDIR\ZTH Design Studio.exe" "" "$INSTDIR\icon.ico"
  CreateShortcut "$SMPROGRAMS\ZTH Design Studio\卸载 Uninstall.lnk" "$INSTDIR\Uninstall.exe"
  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\ZTHDesignStudio" "DisplayName" "ZTH-平面设计器"
- WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\ZTHDesignStudio" "DisplayVersion" "2.0.0"
+ WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\ZTHDesignStudio" "DisplayVersion" "3.0.0"
  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\ZTHDesignStudio" "Publisher" "ZeroToHand Studio / TechABJ"
  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\ZTHDesignStudio" "UninstallString" '"$INSTDIR\Uninstall.exe"'
  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\ZTHDesignStudio" "DisplayIcon" "$INSTDIR\icon.ico"

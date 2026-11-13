@@ -20,6 +20,7 @@ app.whenReady().then(async()=>{
 }
 ipcMain.on('zth:ready',e=>{if(e.sender===win?.webContents&&pendingFile){openProject(pendingFile);pendingFile=null;}});
 ipcMain.handle('zth:save',async(e,p)=>{if(e.sender!==win?.webContents||!p||typeof p.name!=='string'||!p.bytes||p.bytes.length>250*1024*1024)throw Error('无效的导出请求');let name=path.basename(p.name).replace(/[<>:"/\\|?*]/g,'-');if(!/\.(zthpmsj|png|jpg|svg|pdf)$/.test(name))throw Error('不支持的文件格式');let result=await dialog.showSaveDialog(win,{defaultPath:name});if(result.canceled)return false;await fs.writeFile(result.filePath,Buffer.from(p.bytes));return true;});
-ipcMain.handle('zth:font',async()=> 'data:font/woff2;base64,'+(await fs.readFile(path.join(__dirname,'../app/assets/fonts/ZTHSans.woff2'))).toString('base64'));
+const fontFiles=Object.freeze({'ZTH Sans':'ZTHSans.woff2','ZCOOL XiaoWei':'ZCOOLXiaoWei.woff2','Ma Shan Zheng':'MaShanZheng.woff2','Roboto Mono':'RobotoMono.woff2'});
+ipcMain.handle('zth:font',async(e,name='ZTH Sans')=>{if(e.sender!==win?.webContents||!Object.hasOwn(fontFiles,name))throw Error('不支持的内置字体');return 'data:font/woff2;base64,'+(await fs.readFile(path.join(__dirname,'../app/assets/fonts',fontFiles[name]))).toString('base64');});
 ipcMain.handle('zth:environment',()=>`${process.platform} ${os.release()} · ${os.arch()} · 内存 ${Math.round(os.totalmem()/1024**3)} GB · Electron ${process.versions.electron} · 应用 ${app.getVersion()} · 本地运行时已内置`);
 app.on('window-all-closed',()=>app.quit());

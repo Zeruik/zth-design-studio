@@ -1,29 +1,21 @@
-# 2.0.0 · 2026-11-13
+# ZTH Design Studio 3.0.0 · 2026-11-13
 
-模板原件保持只读，使用时生成独立作品副本。新增我的作品、自动草稿与最近 10 次手动保存版本；恢复前保存当前状态。颜色支持 HEX、RGB 及最近 5 色。点选元素可打开尺寸与属性、替换素材，二维码支持直接输入或上传替换。
+从空白草稿开始创作，或使用只读原模板创建可编辑副本。作品可以删除到回收站、撤销删除和恢复；切换设计时可保存、不保存或取消。已有手动保存版本的作品选择不保存时保留最近手动版本。旧的自动保存任务不会重新写回已丢弃的草稿。
 
-25 套模板包含横竖屏、方形、A4、横幅与明信片。7 款默认品牌素材自动透明去底。手机端增加系统安全区和横屏布局，补强锁定元素保护。
+新增可搜索的分类矢量箭头、符号及工具图标，支持换色。文字和图形支持描边、阴影、无填充、底色及撤销。新增中文衬线、中文手写和英文等宽离线字体，字体许可证随发行包保留。
 
-Windows 提供协议、语言、安装路径和卸载向导。Android 提供已签名 APK。iOS 提供原生 Xcode 工程与模拟器构建；**模拟器包不能安装到 iPhone，暂无签名 IPA**。
+## 下载
 
-iPhone 可先用 Safari 打开 [在线版](https://zeruik.github.io/zth-design-studio/)，通过“分享 → 添加到主屏幕”使用。
+- `ZTH-Design-Studio-3.0.0-Android.apk`：Android 9+，沿用 2.0 签名身份。
+- `ZTH-Design-Studio-3.0.0-Setup.exe`：Windows 10/11 x64，含协议、安装路径、快捷方式与卸载向导。
+- `ZTH-Design-Studio-3.0.0-Web.zip`：离线静态网页版。
+- `ZTH-Design-Studio-3.0.0-Source.zip`：版本对应源码与许可证。
+- `SHA256SUMS.txt`：下载文件校验值。
 
-## Downloads
+源码分支 `v3.0`，发行标签 `v3.0.0`。2.0 版本及 `v2.0` 分支保留。安装前建议导出 `.zthpmsj` 作品备份。
 
-- Windows: `ZTH-Design-Studio-2.0.0-Setup.exe`
-- Android: `ZTH-Design-Studio-2.0.0-Android.apk`
-- iOS source: `ZTH-Design-Studio-2.0.0-iOS-Source.zip`
-- iOS simulator (Mac only): `ZTH-Design-Studio-2.0.0-iOS-Simulator.zip`
-- Web: `ZTH-Design-Studio-2.0.0-Web.zip`
-- Source: `ZTH-Design-Studio-2.0.0-Source.zip`
-- Checksums: `SHA256SUMS.txt`
-
-安装前保存旧版 `.zthpmsj` 备份。Android 1.0 预览签名未知，若系统拒绝覆盖安装，请在备份后更换安装。实体手机验收尚未完成，详见 QA.md。
-
-35 项自动测试通过。Windows 已完成桌面运行时启动检查；iOS 已在云端 iPhone 模拟器中实际启动并检查状态栏避让；Android 已通过签名、资源完整性和对齐检查。
+验证范围及限制见 [QA-3.0.md](https://github.com/Zeruik/zth-design-studio/blob/v3.0.0/QA-3.0.md)。不将浏览器或模拟器测试描述为实体手机测试。Windows 安装器没有商业代码签名。iOS 工程继续保留，暂无签名真机 IPA。
 
 ## English
 
-Read-only original templates create editable copies. The new local library keeps drafts and 10 manual versions per project. Colors support RGB, HEX and five recent swatches. Selection actions expose size, replacement, locking and direct QR editing. There are 25 templates across multiple formats, transparent default brand marks, mobile safe areas and landscape layouts.
-
-Windows includes a path/license installer. Android includes a signed APK. iOS source and simulator builds are provided; a signed iPhone IPA still requires an Apple signing team. Physical-device testing remains pending.
+Blank drafts, recoverable deletion, and explicit save/discard/cancel transitions. Immutable original templates create editable copies. Autosave invalidation prevents discarded drafts from reappearing. New categorized recolorable vectors, outline/shadow/no-fill/background styling, and three licensed bundled fonts. Android retains the 2.0 signing identity. See the QA record for the exact verification scope.

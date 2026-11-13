@@ -1,0 +1,47 @@
+{
+  "conversion": "Full glyph-set TTF to WOFF2; fontTools 4.68.0; Brotli 1.2.1; no subsetting or name changes",
+  "fonts": [
+    {
+      "file": "ZCOOLXiaoWei.woff2",
+      "bytes": 2633132,
+      "sha256": "5437bdb559e47847c8c40d1640f4c50957df660eb974115cdaf923b21b2fc8d7",
+      "sourceSha256": "a42b620140f493db42f741351dfbf343c0936d58588ee8004b8b2a218d997ff1",
+      "glyphs": 7016,
+      "version": "Version 1.000",
+      "sampleChineseSupported": true,
+      "sampleLatinSupported": true,
+      "family": "ZCOOL XiaoWei",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/zcoolxiaowei/ZCOOLXiaoWei-Regular.ttf",
+      "license": "ZCOOLXiaoWei-OFL.txt",
+      "licenseSource": "https://raw.githubusercontent.com/google/fonts/main/ofl/zcoolxiaowei/OFL.txt"
+    },
+    {
+      "file": "MaShanZheng.woff2",
+      "bytes": 3250464,
+      "sha256": "31563e1b1d107037b3ba46890fd4af7d0bb06d12dc87ab87a53c9757f7cb024a",
+      "sourceSha256": "6d2546bb189c732a8ca29af9e22457b152387d158aa459e4ac2ce1e51788b7fb",
+      "glyphs": 7015,
+      "version": "Version 2.003",
+      "sampleChineseSupported": true,
+      "sampleLatinSupported": true,
+      "family": "Ma Shan Zheng",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/mashanzheng/MaShanZheng-Regular.ttf",
+      "license": "MaShanZheng-OFL.txt",
+      "licenseSource": "https://raw.githubusercontent.com/google/fonts/main/ofl/mashanzheng/OFL.txt"
+    },
+    {
+      "file": "RobotoMono.woff2",
+      "bytes": 105204,
+      "sha256": "aafaa5d57a7180d02d1c6a5925523e06b3bcde4b182544a4d793d5ee87e61817",
+      "sourceSha256": "66a80e79d17e4c7cabd162e2916578a4cc08fd19eef6e2a643305eae9c567b2b",
+      "glyphs": 876,
+      "version": "Version 3.001",
+      "sampleChineseSupported": false,
+      "sampleLatinSupported": true,
+      "family": "Roboto Mono",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/robotomono/RobotoMono%5Bwght%5D.ttf",
+      "license": "RobotoMono-OFL.txt",
+      "licenseSource": "https://raw.githubusercontent.com/google/fonts/main/ofl/robotomono/OFL.txt"
+    }
+  ]
+}

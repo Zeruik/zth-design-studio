@@ -46,6 +46,7 @@ const key = process.env.ZTH_ANDROID_KEYSTORE || path.join(privateDir, 'android-r
 const passwordFile = process.env.ZTH_ANDROID_KEY_PASSWORD_FILE || path.join(privateDir, 'android-release-password.txt');
 const alias = process.env.ZTH_ANDROID_KEY_ALIAS || 'zth-design-studio';
 if (!fs.existsSync(key)) {
+  if (Number(version.split('.')[0]) >= 3) throw Error('The existing 2.0 release signing key is required. Restore it privately; do not generate a replacement identity.');
   if (process.env.ZTH_ANDROID_KEYSTORE) throw Error('Configured signing key does not exist');
   fs.mkdirSync(privateDir, { recursive: true, mode: 0o700 });
   if (!fs.existsSync(passwordFile)) fs.writeFileSync(passwordFile, crypto.randomBytes(32).toString('hex'), { mode: 0o600, flag: 'wx' });

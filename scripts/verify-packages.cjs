@@ -15,8 +15,10 @@ walk('app');
   const targets = [
     ['Android', 'Android.apk', 'assets/'],
     ['Web', 'Web.zip', ''],
-    ['iOS source', 'iOS-Source.zip', 'ios/ZTHDesignStudio/App/'],
-    ['iOS simulator', 'iOS-Simulator.zip', 'ZTHDesignStudio.app/App/']
+    ...(process.argv.includes('--ios') ? [
+      ['iOS source', 'iOS-Source.zip', 'ios/ZTHDesignStudio/App/'],
+      ['iOS simulator', 'iOS-Simulator.zip', 'ZTHDesignStudio.app/App/']
+    ] : [])
   ];
   const archives = [];
   for (const [name, suffix, prefix] of targets) {
@@ -43,7 +45,7 @@ walk('app');
   }
   const result = { ok: mismatches.length === 0, checkedAppFiles: sourceFiles.length, targets: ['Windows ASAR', ...targets.map(t => t[0])], zipCRC: 'passed', lineEndingOnly, mismatches };
   fs.mkdirSync('qa', { recursive: true });
-  fs.writeFileSync('qa/native-bundles-v2.json', JSON.stringify(result, null, 2) + '\n');
+  fs.writeFileSync('qa/native-bundles-v'+version.split('.')[0]+'.json', JSON.stringify(result, null, 2) + '\n');
   console.log(JSON.stringify(result, null, 2));
   if (mismatches.length) process.exitCode = 1;
 })().catch(error => { console.error(error); process.exitCode = 1; });

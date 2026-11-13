@@ -1,4 +1,4 @@
-# ZTH Design Studio 2.0
+# ZTH Design Studio 3.0
 
 **赋形造物工作室 · 离线平面设计器**
 ZeroToHand Studio / 理工阿白菌 · TechABJ ([Zeruik](https://github.com/Zeruik))
@@ -9,22 +9,31 @@ An offline graphic editor for posters, product cards and project boards. Shared 
 
 ## 下载 / Download
 
-[GitHub Releases](https://github.com/Zeruik/zth-design-studio/releases) 包含安装包、源码包与校验值。项目统一使用本仓库，`v1.0` 保留原始代码，`v2.0` 为 2.0 版本分支，`main` 为当前版本。
+[GitHub Releases](https://github.com/Zeruik/zth-design-studio/releases) 包含安装包、源码包与校验值。项目统一使用本仓库，`v1.0` 保留原始代码，`v2.0` 保留 2.0，`v3.0` 为 3.0 版本分支，`main` 为当前版本。
 
 [打开在线版](https://zeruik.github.io/zth-design-studio/)：iPhone 可用 Safari 打开后选择“分享 → 添加到主屏幕”。首次联网加载后可离线使用；作品仍保存在本机。这是主屏幕网页应用，不是签名 IPA。
 
 | 平台 | 交付 | 安装方式 |
 |---|---|---|
-| Windows 10/11 x64 | `ZTH-Design-Studio-2.0.0-Setup.exe` | 向导选择语言、阅读协议、选择路径；运行时已内置 |
-| Android 9+ | `ZTH-Design-Studio-2.0.0-Android.apk` | 下载到手机安装；需要较新的系统 WebView |
-| iOS / iPadOS 18+ | 主屏幕网页版、Xcode 原生工程、经 CI 构建的模拟器包 | 模拟器包不能装到 iPhone；原生真机包需在 Mac/Xcode 中使用自己的 Apple 团队签名 |
-| 浏览器 | `ZTH-Design-Studio-2.0.0-Web.zip` | 放在 HTTP(S) 静态服务器，支持安装到主屏幕及离线缓存 |
+| Windows 10/11 x64 | `ZTH-Design-Studio-3.0.0-Setup.exe` | 向导选择语言、阅读协议、选择路径；运行时已内置 |
+| Android 9+ | `ZTH-Design-Studio-3.0.0-Android.apk` | 下载到手机安装；需要较新的系统 WebView |
+| iOS / iPadOS 18+ | 主屏幕网页版、仓库中的 Xcode 工程 | 本次 3.0 安装包交付为 Android / Windows；iOS 真机包仍需 Apple 团队签名 |
+| 浏览器 | `ZTH-Design-Studio-3.0.0-Web.zip` | 放在 HTTP(S) 静态服务器，支持安装到主屏幕及离线缓存 |
 
 **当前没有可直接安装到任意 iPhone 的签名 IPA。** 原生 iOS 工程已提供，模拟器构建状态以 Actions 结果为准。
 
-Windows 包未配置商业代码签名。Android 2.0 使用本项目持久保留的私有构建密钥；旧 1.0 预览包签名无法从源码确认，因此不能保证直接覆盖旧版。升级前在旧版导出 `.zthpmsj` 备份；若系统提示签名冲突，先备份再卸载旧版、安装新版并导入。
+Windows 包未配置商业代码签名。Android 3.0 沿用 2.0 私有构建密钥；旧 1.0 预览包签名无法从源码确认，因此不能保证直接覆盖旧版。升级前在旧版导出 `.zthpmsj` 备份；若系统提示签名冲突，先备份再卸载旧版、安装新版并导入。
 
-## 2.0 的变化
+## 3.0 的变化
+
+- **空白起稿**：首次打开默认空白画布，顶部“新建”开始新的草稿。
+- **可恢复删除**：不需要的自动副本可移到回收站，支持撤销删除与恢复。
+- **切换时自己决定保存**：保存并继续、不保存继续或取消；丢弃会取消旧保存任务，避免草稿被自动保存重新写回。
+- **分类矢量素材**：箭头、符号和工具图标可以搜索、换色与编辑。
+- **文字与图形外观**：支持描边、阴影、无填充及底色，修改可撤销。
+- **更多离线字体**：新增可分发字体，许可证随包保留；作品可携带所用内置字体。
+
+## 延续 2.0 的能力
 
 - **模板原件只读**：点击模板建立新的作品副本。修改和保存副本不会覆盖原模板；自定义模板另存为新模板。
 - **我的作品与历史**：自动保存每个作品的草稿；手动保存保留最近 10 个版本，可预览、继续编辑、恢复或导出。恢复前会保存当前状态。历史在当前设备，跨设备请导出文件。
@@ -38,7 +47,7 @@ Windows 包未配置商业代码签名。Android 2.0 使用本项目持久保留
 
 ## 常用操作
 
-1. 选模板建立副本；或调整画布尺寸，从空白开始。
+1. 从空白草稿开始，或选模板建立可编辑副本。原模板不会被修改。
 2. 点元素编辑；手机使用选中工具条的“••• → 尺寸与属性”。
 3. 点颜色，输入 HEX/RGB 后应用；最近 5 色在所有颜色选择器中共享。
 4. “我的作品”可命名、保存版本、恢复历史。“保存作品”同时导出可携带文件。
@@ -47,7 +56,7 @@ Windows 包未配置商业代码签名。Android 2.0 使用本项目持久保留
 
 ## 文件与隐私
 
-`.zthpmsj` 为 UTF-8 JSON，`format=zthpmsj`、`schema=1`，内嵌页面、图片、默认 ZTH 黑体、锁定与图片槽。没有加密。其他系统字体取决于目标设备。
+`.zthpmsj` 为 UTF-8 JSON，`format=zthpmsj`、`schema=1`，内嵌页面、图片、实际使用的内置字体、锁定与图片槽。没有加密。其他系统字体取决于目标设备。
 
 历史保存在设备 IndexedDB；清除应用/浏览器数据或卸载手机应用可能删除本地历史。请定期导出备份。Windows 卸载保留应用用户数据，导出的文件由用户管理。
 
@@ -71,6 +80,6 @@ Windows requires NSIS 3 (`ZTH_MAKENSIS` can select the compiler). Android uses J
 
 ## Validation
 
-See [QA.md](QA.md) for checks and their limits. Browser viewport tests and native package compilation are distinct from physical-phone installation and touch testing. Physical Android/iPhone tests remain pending.
+See [QA-3.0.md](QA-3.0.md) for current checks and their limits; [QA.md](QA.md) preserves 2.0 observations. Browser viewport tests and native package compilation are distinct from physical-phone installation and touch testing. Physical Android/iPhone tests remain pending.
 
 Code: MIT. Brand artwork rights are reserved separately. See [LICENSE](LICENSE) and [THIRD-PARTY.md](THIRD-PARTY.md).

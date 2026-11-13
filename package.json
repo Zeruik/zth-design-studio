@@ -1,6 +1,6 @@
 {
   "name": "zth-design-studio",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Offline poster design for studios and clubs / 工作室与社团离线平面设计器",
   "main": "desktop/main.cjs",
   "scripts": {
