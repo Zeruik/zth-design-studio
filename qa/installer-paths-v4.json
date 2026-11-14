@@ -1,0 +1,128 @@
+{
+  "ok": true,
+  "test": "Production NSIS path normalization, ancestor checks and writable-parent probe with isolated fixtures",
+  "guiFlowTested": false,
+  "realInstallationTouched": false,
+  "registryWrites": false,
+  "scenarios": [
+    {
+      "name": "existing-unicode-spaces",
+      "expectedAllowed": true,
+      "accepted": true,
+      "matched": true
+    },
+    {
+      "name": "nonexistent-ascii-deep",
+      "expectedAllowed": true,
+      "accepted": true,
+      "matched": true,
+      "targetNotCreated": true
+    },
+    {
+      "name": "nonexistent-unicode-spaces-deep",
+      "expectedAllowed": true,
+      "accepted": true,
+      "matched": true,
+      "targetNotCreated": true
+    },
+    {
+      "name": "nonexistent-normalized-parent",
+      "expectedAllowed": true,
+      "accepted": true,
+      "matched": true,
+      "targetNotCreated": true
+    },
+    {
+      "name": "drive-root",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "windows-directory",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "windows-nonexistent-child",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "normalized-system-directory",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "short-name-system-directory",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "short-name-existing-system-root",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "profile-root",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "temp-root",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "existing-file-ancestor",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "junction-ancestor",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "unc-path",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "relative-path",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    },
+    {
+      "name": "trailing-space-normalized",
+      "expectedAllowed": true,
+      "accepted": true,
+      "matched": true,
+      "targetNotCreated": true
+    },
+    {
+      "name": "trailing-dot-rejected",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true,
+      "targetNotCreated": true
+    },
+    {
+      "name": "overlong-path",
+      "expectedAllowed": false,
+      "accepted": false,
+      "matched": true
+    }
+  ]
+}

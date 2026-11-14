@@ -41,13 +41,47 @@ Var InstallStep
 !macro CommonPolicy PREFIX
 Function ${PREFIX}CheckPath
  ; Reject UNC, device, relative and root paths before creating anything.
+ StrCpy $0 $INSTDIR 1 -1
+ ${If} $0 == ' '
+ ${OrIf} $0 == '.'
+  Goto unsafe_path
+ ${EndIf}
  StrCpy $0 $INSTDIR 2 1
  ${If} $0 != ':\'
   Goto unsafe_path
  ${EndIf}
- ClearErrors
- GetFullPathName $INSTDIR "$INSTDIR"
- IfErrors unsafe_path
+ ; NSIS GetFullPathName rejects missing paths. A fresh installation must be
+ ; normalized lexically before we inspect its existing ancestors below.
+ System::Call 'kernel32::GetFullPathNameW(w "$INSTDIR", i ${NSIS_MAX_STRLEN}, w .r4, p 0) i.r0'
+ ${If} $0 == 0
+ ${OrIf} $0 >= ${NSIS_MAX_STRLEN}
+  Goto unsafe_path
+ ${EndIf}
+ StrCpy $INSTDIR $4
+ ; Resolve 8.3 aliases in the nearest existing ancestor, without creating the
+ ; missing suffix. Otherwise a short Program Files name bypasses tree checks.
+ StrCpy $5 $INSTDIR
+ StrCpy $6 ''
+ canonical_ancestor_loop:
+ System::Call 'kernel32::GetFileAttributesW(w "$5") i.r8'
+ ${If} $8 != -1
+  System::Call 'kernel32::GetLongPathNameW(w "$5", w .r4, i ${NSIS_MAX_STRLEN}) i.r0'
+  ${If} $0 == 0
+  ${OrIf} $0 >= ${NSIS_MAX_STRLEN}
+   Goto unsafe_path
+  ${EndIf}
+  StrCpy $INSTDIR "$4$6"
+  Goto canonical_ancestor_done
+ ${EndIf}
+ StrLen $0 $5
+ ${If} $0 <= 3
+  Goto unsafe_path
+ ${EndIf}
+ ${GetFileName} "$5" $7
+ StrCpy $6 "\$7$6"
+ ${GetParent} "$5" $5
+ Goto canonical_ancestor_loop
+ canonical_ancestor_done:
  StrLen $0 $INSTDIR
  ${If} $0 <= 3
  ${OrIf} $0 > 220
