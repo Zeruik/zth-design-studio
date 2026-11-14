@@ -12,7 +12,7 @@ An offline graphic editor with editable `.zthpmsj` projects, local history, reus
 
 `.zthpmsj` 工程备份未加密。“我的作品”的删除和丢弃草稿支持回收恢复，不是永久擦除；Windows 卸载保留本地作品，手机清除应用数据或卸载可能丢失作品。请定期分别备份重要工程。网页版仍会向托管站点请求静态资源，系统文件选择器也可能指向你选择的云盘，详情见上述隐私说明。
 
-> **4.0 当前为开发与验证版本，尚未作为正式发行版发布。** 本页描述当前源码；已发布下载以 [GitHub Releases](https://github.com/Zeruik/zth-design-studio/releases) 为准。安装验收与最终发行包记录仍在补充，详见 [4.0 验证记录](docs/QA-4.0.md)。
+> **4.0 Windows 安装验收已完成。** 本页描述当前源码与验证结果；是否已正式发布及可下载文件以 [GitHub Releases](https://github.com/Zeruik/zth-design-studio/releases) 的实际状态为准。验收范围见 [4.0 验证记录](docs/QA-4.0.md)。
 
 ## 4.0 的变化
 
@@ -57,11 +57,11 @@ An offline graphic editor with editable `.zthpmsj` projects, local history, reus
 
 ## 下载与平台状态
 
-[已发布版本](https://github.com/Zeruik/zth-design-studio/releases) 与当前开发源码分开管理。以下为 4.0 的构建目标和预期文件名，**不表示这些文件已经上传或完成安装验收**。
+[已发布版本](https://github.com/Zeruik/zth-design-studio/releases) 与当前源码分开管理。以下为 4.0 的交付文件名与验证范围；文件是否已上传或公开，以 GitHub 实际发行元数据为准。
 
 | 平台 | 4.0 构建目标 | 当前边界 |
 |---|---|---|
-| Windows 10/11 x64 | `ZTH-Design-Studio-4.0.0-Setup.exe` | 最终包的新中文空格路径安装、同路径 4→4 覆盖安装通过；最终手动关闭、卸载与清理待完成 |
+| Windows 10/11 x64 | `ZTH-Design-Studio-4.0.0-Setup.exe` | 最终包的新中文空格路径安装、4→4 覆盖安装、正常关闭及用户手动卸载后检查通过 |
 | Android 9+ | `ZTH-Design-Studio-4.0.0-Android.apk` | 沿用持久签名身份的构建流程；未进行实体手机安装与触控测试 |
 | iOS / iPadOS 18+ | Xcode 工程、模拟器构建流程 | 当前没有可直接安装到任意 iPhone 的签名 IPA；真机包需 Apple 团队签名 |
 | 浏览器 | `ZTH-Design-Studio-4.0.0-Web.zip` | 需要 HTTP(S) 静态服务；具体部署版本以页面与部署记录为准 |
@@ -70,7 +70,7 @@ An offline graphic editor with editable `.zthpmsj` projects, local history, reus
 
 Windows 安装包没有商业代码签名。Android 构建要求保留既有签名身份；旧 1.0 预览包签名无法仅从源码确认。升级前请在旧版导出 `.zthpmsj` 备份，不应假定所有旧包都能直接覆盖安装。
 
-用户已同意本轮 3.0 / 4.0 安装测试使用的相同许可。各候选的成功和失败均按安装包哈希保留在 [安装验收记录](qa/windows-install-v4.json)。最终包（SHA-256 前缀 `dcc5114f`）已完成新中文空格路径安装及同路径 4→4 覆盖安装，均由 Finish 自动启动 4.0。覆盖后的进一步窗口操作被 Windows 拒绝，已请用户手动关闭并卸载；最终卸载与清理尚未验证，正式发行仍为草稿。
+用户已同意本轮 3.0 / 4.0 安装测试使用的相同许可。各候选的成功和失败均按安装包哈希保留在 [安装验收记录](qa/windows-install-v4.json)。最终包（SHA-256 前缀 `dcc5114f`）已完成新中文空格路径安装、同路径 4→4 覆盖安装和正常关闭。随后由用户手动卸载，代理只读后检查确认安装目录移除、注册和快捷方式回到基线，原资料保留；代理未操作卸载界面。3→4 升级与历史迁移的实际结果只对应中间包 `e7dbeba7`。隔离测试资料、导出测试文件及旧包清理仍待完成。
 
 ## 文件、字体与隐私
 
@@ -100,6 +100,6 @@ Windows requires NSIS 3 (`ZTH_MAKENSIS` can select the compiler). Android uses a
 
 本轮最新完整 `npm test` 为 **109 项通过、0 失败、0 跳过**，包含运行日志排除、新目录和 8.3 短路径边界修复后的回归；19 个原生安装路径场景均通过。这些源代码与隔离测试结果和实际 GUI 安装结果分开记录，不同轮次和定向场景不重复累加。49 套模板的 518 个文字对象使用实际字体逐个渲染，字形和文本框越界均为 0；四种内置字体加载成功。二维码测试检查实际 PNG 的留白、全部模块与独立解码结果。浏览器已完成工程备份 / 回导及实际 PNG 下载检查。
 
-范围和未完成项见 [QA-4.0.md](docs/QA-4.0.md)。[QA-3.0.md](QA-3.0.md) 与 [QA.md](QA.md) 保留旧版本证据，不能替代 4.0 安装验收。**最终包首次启动已查看两页内容和三份手动记录，并通过页面撤销 / 重做及正常关闭；覆盖安装后确认了作品名、两页及当前页箭头，未重复检查第一页和历史，也未观察到正常关闭。最终卸载和测试物清理仍待完成，未宣称完整安装生命周期通过。未进行实体 Android / iPhone 测试。**
+范围和未完成项见 [QA-4.0.md](docs/QA-4.0.md)。[QA-3.0.md](QA-3.0.md) 与 [QA.md](QA.md) 保留旧版本证据，不能替代 4.0 安装验收。**最终包首次启动已查看两页内容和三份历史（两份原手动版本、一份恢复检查点），并通过页面撤销 / 重做；覆盖安装后确认了作品名、两页及当前页箭头，未重复检查第一页和历史。正常关闭及用户手动卸载后的核验均已完成，原资料已恢复并保留；测试物与旧包清理仍待完成。未进行实体 Android / iPhone 测试。**
 
 Code: MIT. Brand artwork rights are reserved separately. See [LICENSE](LICENSE) and [THIRD-PARTY.md](THIRD-PARTY.md).

@@ -1,8 +1,8 @@
 {
   "version": "4.0.0",
-  "status": "incomplete",
-  "releaseStatus": "draft",
-  "scope": "Actual Windows GUI checks with a newly created test work. Each attempt is bound to its installer hash. Historical failures and the intermediate upgrade/user-uninstall result remain separate. The corrected final candidate passed fresh installation into a new Chinese/space-containing directory and same-version overwrite installation, using isolated test data. Final manual close, uninstall verification and test cleanup remain pending; a complete installer lifecycle is not claimed.",
+  "status": "installation_acceptance_passed_cleanup_pending",
+  "releaseStatus": "refer_to_github_release_metadata",
+  "scope": "Actual Windows GUI acceptance is complete within the recorded scopes. The final dcc511 package passed fresh installation, same-version overwrite installation, normal close and user-performed uninstall verified by agent postchecks. The 3.0-to-4.0 migration result belongs only to the intermediate e7db package. Each attempt is bound to its installer hash; historical failures remain recorded. Original data was restored and retained. Isolated test data, exported test files and old-package cleanup remain pending.",
   "passed": [
     {
       "check": "3.0 GUI launch",
@@ -25,7 +25,7 @@
       "check": "Historical original application data restoration during the intermediate uninstall handoff",
       "originalDataRestored": true,
       "disposableTestDataKeptSeparately": true,
-      "scope": "Historical handoff check only. The original profile was isolated again for final-candidate testing and has not yet been restored after that testing. Directory metadata and test-only markers were checked; original works were not read or copied."
+      "scope": "Historical handoff check only. The original profile was isolated again for final-candidate testing, then restored during the resumed checks recorded below. Directory metadata and test-only markers were checked; original works were not read or copied."
     }
   ],
   "attempts": [
@@ -129,7 +129,7 @@
         "Fresh installation into the new Chinese/space-containing directory completed",
         "The Finish action automatically launched version 4.0",
         "Both test pages were visually inspected: Chinese and Latin test text, and a purple arrow",
-        "Three manually saved records were visible: the two original records and the checkpoint retained by the earlier restore",
+        "Three history records were visible: the two original manually saved versions and the checkpoint retained by the earlier restore",
         "Add page 3, undo to 2 pages, redo to 3 pages, and undo to 2 pages all succeeded",
         "The application closed normally"
       ],
@@ -166,36 +166,77 @@
         "reason": "Windows denied further desktop window operations with GetCursorPos access denied.",
         "firstPageReopenedAfterOverwrite": false,
         "manualHistoryReopenedAfterOverwrite": false,
-        "normalCloseObservedAfterOverwrite": false,
+        "normalCloseObservedAtThatTime": false,
         "manualCloseAndUninstallRequestedFromUser": true,
-        "scope": "The two-page visual check, three-record history check, page undo/redo and normal close passed during attempt 4. They were not repeated after the overwrite."
+        "scope": "At this point the two-page visual check, three-record history check, page undo/redo and normal close had only passed during attempt 4. Normal close was subsequently verified in the resumed check below; the first-page and history inspections were not repeated."
+      },
+      "resumedGuiCheck": {
+        "status": "normal_close_passed",
+        "sameTestWorkNameObserved": true,
+        "closeMethod": "Alt+F4 through the application window",
+        "windowDisappeared": true,
+        "remainingApplicationProcesses": 0,
+        "normalCloseObservedAfterOverwrite": true,
+        "firstPageAndHistoryReopened": false
       }
     }
   ],
   "uninstall": {
-    "status": "final_candidate_pending",
-    "completed": false,
-    "scope": "The intermediate candidate's user-performed uninstall passed the postchecks recorded under attempt 2. This top-level completion status refers to the final candidate; manual close and uninstall have been requested from the user and remain unverified."
+    "status": "passed",
+    "completed": true,
+    "performedBy": "user",
+    "verifiedBy": "agent",
+    "agentGuiUninstallClickPerformed": false,
+    "userProcessScreenshotsProvided": 3,
+    "previousReadOnlyCheck": {
+      "status": "still_installed",
+      "installationDirectoryEntries": 78,
+      "programPayloadFilesMatched": 73,
+      "registrationPresent": true,
+      "shortcutsPresent": true,
+      "scope": "The user's uncertain report of possible uninstall was checked against the installed state and was not treated as successful uninstall."
+    },
+    "manualUninstallRequestedFromUser": true,
+    "latestReadOnlyCheck": {
+      "status": "passed",
+      "installationDirectoryExists": false,
+      "installationDirectoryEntries": 0,
+      "registrationEntriesMatchedBaseline": 16,
+      "shortcutChecksMatchedBaseline": 6,
+      "startMenuFoldersMatchBaseline": true,
+      "projectAssociationUserChoiceMatchesBaseline": true,
+      "remainingApplicationProcesses": 0,
+      "remainingUninstallerProcesses": 0,
+      "originalProfileExists": true,
+      "originalProfileTestMarkerAbsent": true,
+      "originalProfileNoReparsePoint": true,
+      "isolatedTestProfileExists": true,
+      "isolatedTestProfileMarkerMatchesExpectedRun": true,
+      "temporaryOriginalBackupAbsent": true
+    },
+    "scope": "The user supplied three screenshots of the final package's uninstall process and performed the uninstall. The agent verified program removal, baseline registration/shortcut restoration and retained data using read-only postchecks. The agent did not operate the uninstall GUI. Original works were not read or copied."
   },
   "currentDataIsolation": {
-    "originalProfileKeptInIsolatedBackup": true,
-    "testProfileActive": true,
-    "finalOriginalProfileRestorationVerified": false,
-    "scope": "Final-candidate testing remains active pending manual close and uninstall. No original work contents were read or copied."
+    "originalProfileRestored": true,
+    "originalProfileKeptInIsolatedBackup": false,
+    "testProfileActive": false,
+    "testProfileIsolated": true,
+    "temporaryOriginalBackupAbsent": true,
+    "finalOriginalProfileRestorationVerified": true,
+    "manualTestDataRecycleRequestedFromUser": true,
+    "testDataRemovalVerified": false,
+    "scope": "After normal application close, the original profile was restored and test data was isolated separately. The temporary original backup location is absent. No original work contents were read or copied; removal of isolated test data remains pending."
   },
   "not_run": [
     "Repeat first-page and manual-history inspection after the overwrite; this check was limited by Windows desktop access denial",
-    "Observe final candidate close after the overwrite",
-    "Final 4.0 uninstall verification",
-    "Restore the original profile after final-candidate testing",
-    "Final removal of this run's test installation, test data and exported test files"
+    "Final removal of isolated test data, exported test files and obsolete local packages; planned after publication"
   ],
   "finalCandidate": {
     "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
-    "status": "fresh_and_overwrite_install_passed_uninstall_pending",
+    "status": "installation_acceptance_passed",
     "bytes": 133259133,
     "sha256": "dcc5114febb72548e38def4ed89da142a42058875e1f719ee61b4fbb8d736fe5",
     "pathBoundaryReview": "Source fixes passed all 19 native path scenarios and the 109-test full regression; the final package also passed fresh GUI installation into a new Chinese/space-containing directory",
-    "guiStatus": "Fresh and overwrite installation passed within the scopes recorded in attempts 4 and 5; manual close, final uninstall and cleanup remain pending"
+    "guiStatus": "Fresh and overwrite installation, normal close and user-performed uninstall with agent postchecks passed. Original data was restored and retained; cleanup of isolated test data and obsolete packages remains pending. The separate 3.0-to-4.0 upgrade result applies to the intermediate e7db package only"
   }
 }

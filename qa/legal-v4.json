@@ -1,7 +1,7 @@
 {
   "version": "4.0.0",
   "scope": "Legal notice and browser UI evidence, with historical candidate observations preserved separately from the latest authorized installation test status.",
-  "releaseStatus": "draft",
+  "releaseStatus": "refer_to_github_release_metadata",
   "legalDataSHA256": "8fd1fcf0ccc98ce21151920982c02ad359fa77d0539d3dd9a36aa1d32158d952",
   "originalNoticesUnchanged": true,
   "thirdPartyOriginalNotices": 10,
@@ -24,7 +24,8 @@
     "granted": true,
     "scope": "The user agreed to this run's 3.0/4.0 installation tests under the same reviewed terms. This does not imply acceptance by other users or for other release terms."
   },
-  "completeInstallerLifecycleTested": false,
+  "completeInstallerLifecycleTested": true,
+  "installerLifecycleScope": "Final dcc511 package: fresh installation, same-version overwrite, normal close and user-performed uninstall verified by agent postchecks. The 3.0-to-4.0 migration belongs to intermediate e7db only. Isolated test data and obsolete-package cleanup remain pending; this does not assert publication.",
   "actualBrowserProjectExport": {
     "usedFonts": 3,
     "fullOriginalOFLNotices": 3
@@ -41,7 +42,7 @@
     "exitCode": 0,
     "startedAtUtc": "2026-11-14T05:07:47.943Z",
     "completedAtUtc": "2026-11-14T05:08:13.333Z",
-    "scope": "Working tree including runtime-log exclusion, nonexistent fresh-install paths and existing-ancestor long-path canonicalization for 8.3 aliases. All 19 native installer path scenarios matched expectations. Separate runs and targeted scenarios are not added to this total; actual fresh and overwrite installation checks are recorded separately, with final uninstall and cleanup still pending.",
+    "scope": "Working tree including runtime-log exclusion, nonexistent fresh-install paths and existing-ancestor long-path canonicalization for 8.3 aliases. All 19 native installer path scenarios matched expectations. Separate runs and targeted scenarios are not added to this total; actual installation and user-performed uninstall checks are recorded separately, with isolated test data and obsolete-package cleanup still pending.",
     "sourceSHA256": {
       "build/installer-policy.nsh": "bfd6a6a75b6e91409f42d6ea2d93e961466a69b06ebfe16b0a8fc087cbe29786",
       "scripts/test-installer-paths.cjs": "d3d87f83ec32ff0414254e2b4967990d5198132a8a7803bf8468f279b4747a8d",
@@ -86,7 +87,7 @@
   },
   "latestInstallationTest": {
     "report": "qa/windows-install-v4.json",
-    "status": "incomplete",
+    "status": "installation_acceptance_passed_cleanup_pending",
     "intermediateSetupSHA256": "e7dbeba7e4b5012cc067bc02c90711a42754c2bcfd7a936d3b42fd20c257334d",
     "intermediateUpgradePassed": true,
     "twoPagesAndTwoManualVersionsRetained": true,
@@ -115,7 +116,9 @@
       "finishLaunchedVersion4AfterBothInstallations": true,
       "freshLaunchChecks": {
         "twoPagesVisuallyInspected": true,
-        "manualRecordsVisible": 3,
+        "historyRecordsVisible": 3,
+        "originalManuallySavedVersions": 2,
+        "restoreCheckpoints": 1,
         "pageAddUndoRedoPassed": true,
         "normalCloseObserved": true,
         "programPayloadFilesMatched": 73
@@ -128,15 +131,41 @@
         "shortcutChecksPassed": 6,
         "nsTemporaryDirectoriesRemaining": 0,
         "firstPageAndHistoryReopened": false,
-        "normalCloseObserved": false,
-        "furtherWindowOperationsBlocked": "Windows denied GetCursorPos access; manual close and uninstall were requested from the user."
+        "normalCloseObservedDuringInitialAttempt": false,
+        "furtherWindowOperationsBlocked": "Windows initially denied GetCursorPos access, limiting the original follow-up checks. Normal close was subsequently verified during the resumed GUI check.",
+        "resumedGuiNormalCloseObserved": true,
+        "resumedGuiCloseMethod": "Alt+F4",
+        "windowDisappearedAfterClose": true,
+        "remainingApplicationProcesses": 0
       }
     },
-    "finalCandidateStatus": "fresh_and_overwrite_install_passed_manual_close_and_uninstall_pending",
-    "finalCandidateUninstallCompleted": false,
+    "finalCandidateStatus": "installation_acceptance_passed",
+    "finalCandidateUninstallCompleted": true,
+    "finalCandidateUninstallPerformedBy": "user",
+    "finalCandidateUninstallVerifiedBy": "agent",
     "finalTestCleanupConfirmed": false,
     "originalDataRestoredDuringEarlierHandoff": true,
-    "currentDataIsolation": "The original profile is currently kept in its isolated backup location; the test profile is active. Final restoration and cleanup have not been verified. Original works were not read or copied.",
+    "previousUninstallReadOnlyCheck": {
+      "status": "still_installed",
+      "installationDirectoryEntries": 78,
+      "programPayloadFilesMatched": 73,
+      "registrationAndShortcutsPresent": true,
+      "manualUninstallRequestedFromUser": true
+    },
+    "latestUninstallReadOnlyCheck": {
+      "status": "passed",
+      "installationDirectoryExists": false,
+      "installationDirectoryEntries": 0,
+      "registrationEntriesMatchedBaseline": 16,
+      "shortcutChecksMatchedBaseline": 6,
+      "startMenuFoldersMatchBaseline": true,
+      "projectAssociationUserChoiceMatchesBaseline": true,
+      "remainingApplicationProcesses": 0,
+      "remainingUninstallerProcesses": 0,
+      "scope": "User-performed uninstall with three process screenshots; agent read-only postchecks. No agent uninstall GUI operation is claimed."
+    },
+    "finalOriginalProfileRestorationVerified": true,
+    "currentDataIsolation": "Original data remains restored after verified uninstall: the original profile exists without a test marker or reparse point; isolated test data exists with its expected test marker; the temporary original backup location is absent. Original works were not read or copied. Isolated test data and obsolete-package cleanup remain pending.",
     "finalArchiveVerificationReport": "qa/native-installer-archive-v4.json"
   }
 }
