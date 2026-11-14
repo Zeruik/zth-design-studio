@@ -1,0 +1,38 @@
+{
+  "ok": true,
+  "test": "Native NSIS production staging/metadata/commit code with mock payload only",
+  "realInstallationTouched": false,
+  "guiFlowTested": false,
+  "scenarios": [
+    {
+      "name": "success",
+      "passed": true,
+      "originalFlushErrorReproduced": true,
+      "runtimeLogsExcludedFromArchive": true
+    },
+    {
+      "name": "marker-open-failure",
+      "passed": true,
+      "originalFlushErrorReproduced": true,
+      "runtimeLogsExcludedFromArchive": true
+    },
+    {
+      "name": "uninstaller-failure",
+      "passed": true,
+      "originalFlushErrorReproduced": true,
+      "runtimeLogsExcludedFromArchive": true
+    },
+    {
+      "name": "missing-payload",
+      "passed": true,
+      "originalFlushErrorReproduced": true,
+      "runtimeLogsExcludedFromArchive": true
+    },
+    {
+      "name": "runtime-log-cleanup",
+      "passed": true,
+      "originalFlushErrorReproduced": true,
+      "runtimeLogsExcludedFromArchive": true
+    }
+  ]
+}

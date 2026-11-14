@@ -48,6 +48,7 @@ LangString WelcomeText ${LANG_ENGLISH} "Install version ${APP_VERSION} for the c
 LangString UninstallText ${LANG_SIMPCHINESE} "只移除本安装的程序文件、快捷方式和注册信息。你的本机作品、历史记录及导出的工程不会被删除。"
 LangString UninstallText ${LANG_ENGLISH} "Remove this installation's program files, shortcuts and registration. Local designs, history and exported projects are retained."
 !include "installer-policy.nsh"
+!include "installer-metadata.nsh"
 Function .onInit
  SetShellVarContext current
  StrCpy $ChangedCount 0
@@ -92,6 +93,7 @@ Function un.onInit
 FunctionEnd
 Section "ZTH Design Studio"
  Call CheckInstallFolder
+ StrCpy $InstallStep "创建暂存目录 / create staging directories"
  ClearErrors
  CreateDirectory "$INSTDIR"
  GetTempFileName $StageDir "$INSTDIR"
@@ -101,18 +103,12 @@ Section "ZTH Design Studio"
  Delete "$BackupDir"
  CreateDirectory "$BackupDir"
  IfErrors install_failed
+ StrCpy $InstallStep "解包程序 / extract program files"
  SetOutPath "$StageDir"
- File /r "..\release\win-unpacked\*"
+ File /r /x debug.log "..\release\win-unpacked\*"
  File "icon.ico"
- ; Explicit BOM preserves Chinese installation paths on non-Chinese Windows.
- FileOpen $0 "$StageDir\zth-install.ini" w
- FileWriteUTF16LE /BOM $0 "[ZTH]$\r$\n"
- FileClose $0
- WriteINIStr "$StageDir\zth-install.ini" "ZTH" "Owner" "studio.zerotohand.design"
- WriteINIStr "$StageDir\zth-install.ini" "ZTH" "InstallDir" "$INSTDIR"
- WriteINIStr "$StageDir\zth-install.ini" "ZTH" "Version" "${APP_VERSION}"
- FlushINI "$StageDir\zth-install.ini"
- WriteUninstaller "$StageDir\Uninstall.exe"
+ IfErrors install_failed
+ Call PrepareInstallMetadata
  IfErrors install_failed
  SetOutPath "$TEMP"
  Call CheckNotRunning
@@ -168,8 +164,9 @@ Section "ZTH Design Studio"
  install_rollback:
  Call RollbackFiles
  install_failed:
+ DetailPrint "失败阶段 / Failed step: $InstallStep"
  Call CleanupStaging
- MessageBox MB_ICONSTOP "安装没有完成，旧程序文件已尝试恢复。请检查剩余空间、目录权限，并退出正在运行的程序后重试。你的作品未被删除。$\r$\nInstallation failed; previous program files were restored where possible."
+ MessageBox MB_ICONSTOP "安装没有完成。失败阶段：$InstallStep$\r$\n旧程序文件已尝试恢复。请检查剩余空间、目录权限，并退出正在运行的程序后重试。你的作品未被删除。$\r$\nInstallation failed; previous program files were restored where possible."
  SetErrorLevel 1
  Abort
  integration_failed:

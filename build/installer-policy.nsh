@@ -12,6 +12,7 @@ Var ShortcutTarget
 Var ExpectedTarget
 Var ShortcutWarning
 Var CleanupFailed
+Var InstallStep
 
 !macro RejectReparse DIRECTORY
  System::Call 'kernel32::GetFileAttributesW(w "${DIRECTORY}") i.r8'
