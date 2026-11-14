@@ -2,7 +2,7 @@
   "version": "4.0.0",
   "status": "incomplete",
   "releaseStatus": "draft",
-  "scope": "Actual Windows GUI checks with a newly created test work. Each upgrade attempt is bound to its installer hash. Upgrade behavior passed on an intermediate candidate, but a packaging issue requires a new final candidate and verification. Uninstall and cleanup are not complete.",
+  "scope": "Actual Windows GUI checks with a newly created test work. Each attempt is bound to its installer hash. Historical failures and the intermediate upgrade/user-uninstall result remain separate. The corrected final candidate passed fresh installation into a new Chinese/space-containing directory and same-version overwrite installation, using isolated test data. Final manual close, uninstall verification and test cleanup remain pending; a complete installer lifecycle is not claimed.",
   "passed": [
     {
       "check": "3.0 GUI launch",
@@ -22,10 +22,10 @@
       "format": "zthpmsj"
     },
     {
-      "check": "Original application data restored during manual uninstall handoff",
+      "check": "Historical original application data restoration during the intermediate uninstall handoff",
       "originalDataRestored": true,
       "disposableTestDataKeptSeparately": true,
-      "scope": "Directory metadata and test-only marker verification; original works were not read or copied."
+      "scope": "Historical handoff check only. The original profile was isolated again for final-candidate testing and has not yet been restored after that testing. Directory metadata and test-only markers were checked; original works were not read or copied."
     }
   ],
   "attempts": [
@@ -51,7 +51,7 @@
       "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
       "bytes": 133268058,
       "sha256": "e7dbeba7e4b5012cc067bc02c90711a42754c2bcfd7a936d3b42fd20c257334d",
-      "candidateDisposition": "Intermediate candidate; repackaging and final candidate verification are pending",
+      "candidateDisposition": "Intermediate candidate; final fresh and overwrite installation checks are recorded separately under attempts 4 and 5",
       "passed": [
         "3.0-to-4.0 GUI upgrade completed at the same installation location",
         "The Finish action automatically launched version 4.0",
@@ -76,29 +76,126 @@
         "file": "debug.log",
         "observation": "A runtime log was unintentionally included in the installer payload.",
         "resolution": "Exclude the runtime log and verify a newly built final installer; this attempt does not validate that later package."
+      },
+      "uninstall": {
+        "status": "passed",
+        "performedBy": "user",
+        "verifiedBy": "agent",
+        "agentGuiUninstallClickPerformed": false,
+        "priorAutomationAttempt": {
+          "launchAttemptedThroughTool": true,
+          "uninstallerLaunchObserved": false,
+          "reason": "The computer operation tool rejected launching the uninstaller because of a product policy restriction; the user then completed the uninstall manually."
+        },
+        "postcheck": {
+          "status": "passed",
+          "installationDirectoryAbsent": true,
+          "residualInstallationEntries": 0,
+          "registrationEntriesMatchedBaseline": 16,
+          "currentUserShortcutsRemoved": 3,
+          "allUsersShortcutsStillAbsent": 3,
+          "startMenuDirectoriesAbsent": 2,
+          "projectAssociationUserChoiceMatchesBaseline": true,
+          "originalApplicationDataRetained": true,
+          "disposableTestDataRetained": true,
+          "profileVerificationScope": "Directory metadata and test-only marker checks; original work contents were not read or copied."
+        },
+        "scope": "This verifies the user's manual uninstall of the intermediate e7db candidate. It does not establish the agent's ability to operate the uninstall GUI or validate uninstalling the final candidate."
+      }
+    },
+    {
+      "attempt": 3,
+      "status": "failed",
+      "check": "Fresh-install GUI path validation with a nonexistent directory containing Chinese characters and spaces",
+      "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
+      "bytes": 133320998,
+      "sha256": "33a3c0620453e608cb386318d6c72c9a634147586cffb497349b47c7fb1d51fd",
+      "runtimeLogExcluded": true,
+      "archiveVerification": "https://github.com/Zeruik/zth-design-studio/blob/ba7530ca62c850b360b0222d751d082bd609d730/qa/native-installer-archive-v4.json",
+      "failed": ["The intended nonexistent installation directory was incorrectly rejected"],
+      "targetInstallationWriteStarted": false,
+      "installerExitedWithoutInstallation": true,
+      "resolution": "The fresh-path and 8.3 alias fixes passed the final source regression: 109 tests, including all 19 native path scenarios. The corrected candidate's fresh and overwrite GUI results are recorded under attempts 4 and 5."
+    },
+    {
+      "attempt": 4,
+      "status": "fresh_install_passed",
+      "check": "Final candidate fresh GUI installation into a new directory containing Chinese characters and spaces",
+      "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
+      "bytes": 133259133,
+      "sha256": "dcc5114febb72548e38def4ed89da142a42058875e1f719ee61b4fbb8d736fe5",
+      "runtimeLogExcluded": true,
+      "passed": [
+        "Fresh installation into the new Chinese/space-containing directory completed",
+        "The Finish action automatically launched version 4.0",
+        "Both test pages were visually inspected: Chinese and Latin test text, and a purple arrow",
+        "Three manually saved records were visible: the two original records and the checkpoint retained by the earlier restore",
+        "Add page 3, undo to 2 pages, redo to 3 pages, and undo to 2 pages all succeeded",
+        "The application closed normally"
+      ],
+      "nativePostcheck": {
+        "status": "passed",
+        "programPayloadFilesMatched": 73,
+        "installMarkerMatched": true,
+        "registrationMatched": true,
+        "shortcutChecksPassed": true
+      },
+      "scope": "Fresh refers to the new program installation directory; the isolated test data created for migration checks was retained. This does not claim final uninstall or cleanup completion."
+    },
+    {
+      "attempt": 5,
+      "status": "overwrite_install_passed",
+      "check": "Final candidate same-path 4.0-to-4.0 GUI overwrite installation",
+      "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
+      "bytes": 133259133,
+      "sha256": "dcc5114febb72548e38def4ed89da142a42058875e1f719ee61b4fbb8d736fe5",
+      "passed": [
+        "Same-path 4.0-to-4.0 overwrite installation completed",
+        "The Finish action automatically launched version 4.0",
+        "Accessibility inspection confirmed the retained test work name and two pages",
+        "A screenshot showed the purple arrow on the current page"
+      ],
+      "nativePostcheck": {
+        "status": "passed",
+        "programPayloadFilesMatched": 73,
+        "registrationEntriesMatched": 16,
+        "shortcutChecksPassed": 6,
+        "nsTemporaryDirectoriesRemaining": 0
+      },
+      "followupLimit": {
+        "reason": "Windows denied further desktop window operations with GetCursorPos access denied.",
+        "firstPageReopenedAfterOverwrite": false,
+        "manualHistoryReopenedAfterOverwrite": false,
+        "normalCloseObservedAfterOverwrite": false,
+        "manualCloseAndUninstallRequestedFromUser": true,
+        "scope": "The two-page visual check, three-record history check, page undo/redo and normal close passed during attempt 4. They were not repeated after the overwrite."
       }
     }
   ],
   "uninstall": {
-    "status": "blocked",
-    "launchAttemptedThroughTool": true,
-    "uninstallerLaunchObserved": false,
+    "status": "final_candidate_pending",
     "completed": false,
-    "reason": "The automation tool rejected launching the 4.0 uninstaller because of a product policy restriction.",
-    "nextStep": "Manual completion has been requested from the user; a successful uninstall has not yet been observed."
+    "scope": "The intermediate candidate's user-performed uninstall passed the postchecks recorded under attempt 2. This top-level completion status refers to the final candidate; manual close and uninstall have been requested from the user and remain unverified."
+  },
+  "currentDataIsolation": {
+    "originalProfileKeptInIsolatedBackup": true,
+    "testProfileActive": true,
+    "finalOriginalProfileRestorationVerified": false,
+    "scope": "Final-candidate testing remains active pending manual close and uninstall. No original work contents were read or copied."
   },
   "not_run": [
-    "GUI verification of the final installer rebuilt without the runtime log",
-    "Binding final installer and installed payload verification to the new package hash",
+    "Repeat first-page and manual-history inspection after the overwrite; this check was limited by Windows desktop access denial",
+    "Observe final candidate close after the overwrite",
     "Final 4.0 uninstall verification",
+    "Restore the original profile after final-candidate testing",
     "Final removal of this run's test installation, test data and exported test files"
   ],
   "finalCandidate": {
     "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
-    "bytes": 133320998,
-    "sha256": "33a3c0620453e608cb386318d6c72c9a634147586cffb497349b47c7fb1d51fd",
-    "runtimeLogExcluded": true,
-    "archiveVerification": "qa/native-installer-archive-v4.json",
-    "guiStatus": "pending"
+    "status": "fresh_and_overwrite_install_passed_uninstall_pending",
+    "bytes": 133259133,
+    "sha256": "dcc5114febb72548e38def4ed89da142a42058875e1f719ee61b4fbb8d736fe5",
+    "pathBoundaryReview": "Source fixes passed all 19 native path scenarios and the 109-test full regression; the final package also passed fresh GUI installation into a new Chinese/space-containing directory",
+    "guiStatus": "Fresh and overwrite installation passed within the scopes recorded in attempts 4 and 5; manual close, final uninstall and cleanup remain pending"
   }
 }

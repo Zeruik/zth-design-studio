@@ -1,9 +1,9 @@
 {
   "version": "4.0.0",
-  "sourceCommit": "774dbee0066fc944918545acb7f87502d510a7ce",
+  "sourceCommit": "8aaf9a7437203a2fcc3a0bc245a9ccbe14d262e8",
   "archive": "ZTH-Design-Studio-4.0.0-Setup.exe",
-  "archiveBytes": 133320998,
-  "archiveSHA256": "33a3c0620453e608cb386318d6c72c9a634147586cffb497349b47c7fb1d51fd",
+  "archiveBytes": 133259133,
+  "archiveSHA256": "dcc5114febb72548e38def4ed89da142a42058875e1f719ee61b4fbb8d736fe5",
   "method": "7-Zip NSIS listing and streamed extraction; each extractable program payload SHA-256 compared with current win-unpacked, icon with build/icon.ico",
   "runtimeFiles": 72,
   "additionalIconFiles": 1,

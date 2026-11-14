@@ -35,13 +35,30 @@
   },
   "regression": {
     "command": "npm test",
+    "passed": 109,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "startedAtUtc": "2026-11-14T05:07:47.943Z",
+    "completedAtUtc": "2026-11-14T05:08:13.333Z",
+    "scope": "Working tree including runtime-log exclusion, nonexistent fresh-install paths and existing-ancestor long-path canonicalization for 8.3 aliases. All 19 native installer path scenarios matched expectations. Separate runs and targeted scenarios are not added to this total; actual fresh and overwrite installation checks are recorded separately, with final uninstall and cleanup still pending.",
+    "sourceSHA256": {
+      "build/installer-policy.nsh": "bfd6a6a75b6e91409f42d6ea2d93e961466a69b06ebfe16b0a8fc087cbe29786",
+      "scripts/test-installer-paths.cjs": "d3d87f83ec32ff0414254e2b4967990d5198132a8a7803bf8468f279b4747a8d",
+      "tests/installer-paths-v4.test.cjs": "97c753e9f63b78b5281c3ddc2f99c18e9a3353c0115528eaa7e8a37b9fefa2a5"
+    },
+    "sourceUnchangedDuringRun": true,
+    "rawTapRetainedLocally": true
+  },
+  "previousInstallerRegression": {
+    "command": "npm test",
     "passed": 108,
     "failed": 0,
     "skipped": 0,
     "exitCode": 0,
     "startedAtUtc": "2026-11-14T04:28:03.162Z",
     "completedAtUtc": "2026-11-14T04:28:12.204Z",
-    "scope": "Working tree including runtime-log exclusion and the expanded five-scenario native installer regression. Separate runs and targeted checks are not added to this total.",
+    "scope": "Historical snapshot after runtime-log exclusion and the expanded five-scenario native installer regression, before the new-directory and 8.3 path fixes.",
     "rawTapRetainedLocally": true
   },
   "previousCandidateRegression": {
@@ -76,12 +93,50 @@
     "earlierVersionAndNameRestored": true,
     "pageAddUndoRedoPassed": true,
     "normalClosePassed": true,
-    "finalRuntimeLogFreeCandidateVerified": false,
-    "chineseInstallPathVerified": false,
-    "uninstallCompleted": false,
-    "uninstallBlock": "The computer operation tool refused to launch the uninstaller because of its product policy. Manual completion was requested from the user; success has not yet been observed.",
-    "testCleanupAndOriginalDataRestoreConfirmed": false,
-    "originalDataRestoredDuringHandoff": true,
+    "finalRuntimeLogFreePayloadVerified": true,
+    "chineseInstallPathVerified": true,
+    "intermediateManualUninstallCompleted": true,
+    "intermediateUninstallPerformedBy": "user",
+    "intermediateUninstallPostcheck": "Passed read-only agent verification of program removal, registration and shortcut baseline restoration, and retention of original and isolated test data. Profile checks used metadata and test-only markers, without reading or copying original works.",
+    "agentGuiUninstallClickPerformed": false,
+    "priorUninstallToolBlock": "The computer operation tool rejected launching the intermediate candidate's uninstaller because of its product policy; the user subsequently completed that uninstall manually.",
+    "laterFreshInstallAttempt": {
+      "setupSHA256": "33a3c0620453e608cb386318d6c72c9a634147586cffb497349b47c7fb1d51fd",
+      "status": "failed",
+      "reason": "The runtime-log-free candidate incorrectly rejected a nonexistent target directory containing Chinese characters and spaces.",
+      "targetInstallationWriteStarted": false,
+      "installerExitedWithoutInstallation": true
+    },
+    "finalCandidate": {
+      "setupSHA256": "dcc5114febb72548e38def4ed89da142a42058875e1f719ee61b4fbb8d736fe5",
+      "bytes": 133259133,
+      "freshGuiInstallationPassed": true,
+      "samePathOverwriteGuiInstallationPassed": true,
+      "finishLaunchedVersion4AfterBothInstallations": true,
+      "freshLaunchChecks": {
+        "twoPagesVisuallyInspected": true,
+        "manualRecordsVisible": 3,
+        "pageAddUndoRedoPassed": true,
+        "normalCloseObserved": true,
+        "programPayloadFilesMatched": 73
+      },
+      "afterOverwriteChecks": {
+        "workNameAndTwoPagesConfirmedByAccessibility": true,
+        "currentPageArrowVisuallyInspected": true,
+        "programPayloadFilesMatched": 73,
+        "registrationEntriesMatched": 16,
+        "shortcutChecksPassed": 6,
+        "nsTemporaryDirectoriesRemaining": 0,
+        "firstPageAndHistoryReopened": false,
+        "normalCloseObserved": false,
+        "furtherWindowOperationsBlocked": "Windows denied GetCursorPos access; manual close and uninstall were requested from the user."
+      }
+    },
+    "finalCandidateStatus": "fresh_and_overwrite_install_passed_manual_close_and_uninstall_pending",
+    "finalCandidateUninstallCompleted": false,
+    "finalTestCleanupConfirmed": false,
+    "originalDataRestoredDuringEarlierHandoff": true,
+    "currentDataIsolation": "The original profile is currently kept in its isolated backup location; the test profile is active. Final restoration and cleanup have not been verified. Original works were not read or copied.",
     "finalArchiveVerificationReport": "qa/native-installer-archive-v4.json"
   }
 }

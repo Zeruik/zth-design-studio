@@ -2,14 +2,20 @@
   "version": "4.0.0",
   "buildCompleted": true,
   "tests": {
-    "passed": 108,
+    "passed": 109,
     "failed": 0,
     "skipped": 0,
     "command": "npm test",
-    "startedAtUtc": "2026-11-14T04:28:03.162Z",
-    "finishedAtUtc": "2026-11-14T04:28:12.204Z",
-    "executionHead": "5bf68f5abd9a1a76d51ccca803ea652198b2c158",
-    "sourceScope": "Working tree including runtime-log exclusion and the expanded five-scenario native installer regression; these source changes were subsequently committed as 774dbee0066fc944918545acb7f87502d510a7ce. This was not the HEAD at test execution."
+    "startedAtUtc": "2026-11-14T05:07:47.943Z",
+    "finishedAtUtc": "2026-11-14T05:08:13.333Z",
+    "executionHead": "ba7530ca62c850b360b0222d751d082bd609d730",
+    "sourceScope": "Working tree including nonexistent fresh-install paths, existing-ancestor long-path canonicalization for 8.3 aliases, and the 19-scenario native installer path regression; these source changes were subsequently committed as 8aaf9a7437203a2fcc3a0bc245a9ccbe14d262e8. This was not the HEAD at test execution.",
+    "sourceSHA256": {
+      "build/installer-policy.nsh": "bfd6a6a75b6e91409f42d6ea2d93e961466a69b06ebfe16b0a8fc087cbe29786",
+      "scripts/test-installer-paths.cjs": "d3d87f83ec32ff0414254e2b4967990d5198132a8a7803bf8468f279b4747a8d",
+      "tests/installer-paths-v4.test.cjs": "97c753e9f63b78b5281c3ddc2f99c18e9a3353c0115528eaa7e8a37b9fefa2a5"
+    },
+    "sourceUnchangedDuringRun": true
   },
   "asarSHA256": "a454d445a7250f8311eed02b054a0496c5b0af56bc168cf7d9169a290ab99118",
   "checkedAppFiles": 67,
@@ -31,13 +37,17 @@
     "runtimeLogsExcluded": true,
     "archivePayloadReport": "qa/native-installer-archive-v4.json",
     "matchedArchivePayloadFiles": 73,
-    "nativeRegressionScenarios": 5
+    "nativeRegressionScenarios": 5,
+    "freshPathNormalizationFix": true,
+    "shortPathAliasesCanonicalized": true,
+    "nativePathReport": "qa/installer-paths-v4.json",
+    "nativePathScenarios": 19
   },
   "artifacts": [
     {
       "file": "ZTH-Design-Studio-4.0.0-Setup.exe",
-      "bytes": 133320998,
-      "sha256": "33a3c0620453e608cb386318d6c72c9a634147586cffb497349b47c7fb1d51fd"
+      "bytes": 133259133,
+      "sha256": "dcc5114febb72548e38def4ed89da142a42058875e1f719ee61b4fbb8d736fe5"
     },
     {
       "file": "ZTH-Design-Studio-4.0.0-Android.apk",
@@ -50,5 +60,5 @@
       "sha256": "bae7f23c9ce2aa03747ec499ee8d05dda90f72fe761e6ecbb6b763bcdcde2786"
     }
   ],
-  "sourceCommit": "774dbee0066fc944918545acb7f87502d510a7ce"
+  "sourceCommit": "8aaf9a7437203a2fcc3a0bc245a9ccbe14d262e8"
 }
