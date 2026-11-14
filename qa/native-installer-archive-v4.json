@@ -1,0 +1,388 @@
+{
+  "version": "4.0.0",
+  "sourceCommit": "774dbee0066fc944918545acb7f87502d510a7ce",
+  "archive": "ZTH-Design-Studio-4.0.0-Setup.exe",
+  "archiveBytes": 133320998,
+  "archiveSHA256": "33a3c0620453e608cb386318d6c72c9a634147586cffb497349b47c7fb1d51fd",
+  "method": "7-Zip NSIS listing and streamed extraction; each extractable program payload SHA-256 compared with current win-unpacked, icon with build/icon.ico",
+  "runtimeFiles": 72,
+  "additionalIconFiles": 1,
+  "matchedPayloadFiles": 73,
+  "allPayloadHashesMatch": true,
+  "runtimeLogEntries": 0,
+  "nsisPluginEntries": 4,
+  "generatedUninstaller": {
+    "listed": true,
+    "independentByteComparison": false,
+    "reason": "NSIS generated uninstaller is not exposed as a normal sized file by this 7-Zip reader"
+  },
+  "streamedBytes": 395423422,
+  "asarSHA256": "a454d445a7250f8311eed02b054a0496c5b0af56bc168cf7d9169a290ab99118",
+  "files": [
+    {
+      "file": "LICENSE.electron.txt",
+      "bytes": 1096,
+      "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+    },
+    {
+      "file": "LICENSES.chromium.html",
+      "bytes": 5705935,
+      "sha256": "7dac8267ac6da8d959cfe88f5f055b18a397f10230380b5329125e167bf5639b"
+    },
+    {
+      "file": "ZTH Design Studio.exe",
+      "bytes": 250149376,
+      "sha256": "5484ce185107fcdf2e32dda44bb509e99213a5274ded55640f3a22083f847980"
+    },
+    {
+      "file": "chrome_100_percent.pak",
+      "bytes": 568479,
+      "sha256": "d3bd0c80348ef27db06e1166f3bc2da9a3ceb18eb43ec1ea4a23bfc0fc613ab5"
+    },
+    {
+      "file": "chrome_200_percent.pak",
+      "bytes": 927818,
+      "sha256": "0627475518ecb15650c05a0c438ce27e84568739657f76ad6faf867b5d95ac4f"
+    },
+    {
+      "file": "d3dcompiler_47.dll",
+      "bytes": 4753864,
+      "sha256": "f5c95e919b4ffa1ac71049cd45b9f986d2965e6888395ca2806337985334fa56"
+    },
+    {
+      "file": "dxcompiler.dll",
+      "bytes": 25779712,
+      "sha256": "4b9f924f3f5acea46bd59400035b7418c82b3e49a6419ca28f5c6c8f7aa2f6e9"
+    },
+    {
+      "file": "electron_wer.dll",
+      "bytes": 425472,
+      "sha256": "104f8ae206c2ffa4228e4b9058e22ef00d61e9fef6dad033861776df8e5a43d1"
+    },
+    {
+      "file": "ffmpeg.dll",
+      "bytes": 3097600,
+      "sha256": "fadaac6d021d2141488ecffd1ddaf3088bb6c78f5e729ee8fd7964bdcef3930c"
+    },
+    {
+      "file": "icudtl.dat",
+      "bytes": 10824576,
+      "sha256": "e1ed8f674bb8449731b79cae956042da59f9ecbd37c8d3f86586a22b4836e5b2"
+    },
+    {
+      "file": "resources.pak",
+      "bytes": 13371664,
+      "sha256": "dbd9835e7779d5b226aabba17ed140a3ac1f9556f55970a984403881b7618b88"
+    },
+    {
+      "file": "snapshot_blob.bin",
+      "bytes": 374320,
+      "sha256": "55c133d347a35d632388c61c387033e769587d5572d5efee48ccc2d655661213"
+    },
+    {
+      "file": "v8_context_snapshot.bin",
+      "bytes": 753352,
+      "sha256": "da6d3ede7446ff74d3f797ed4144dbba19f3198b569ab0caf04764c42cef8a22"
+    },
+    {
+      "file": "vk_swiftshader.dll",
+      "bytes": 5453312,
+      "sha256": "ff2ad0a1edc867450c86dddbfcc8847ecf46f1a150b4bf583c7ce281673b66cd"
+    },
+    {
+      "file": "vk_swiftshader_icd.json",
+      "bytes": 106,
+      "sha256": "32d83ff113fef532a9f97e0d2831f8656628ab1c99e9060f0332b1532839afd9"
+    },
+    {
+      "file": "vulkan-1.dll",
+      "bytes": 957440,
+      "sha256": "2f0f62eaf6381893e9492a8c6388129810465b12bdee048b541e3068097ee493"
+    },
+    {
+      "file": "locales\\af.pak",
+      "bytes": 641339,
+      "sha256": "10121e47f8fe41355dd8f4475907be7adea7f5b25459aa53c9f3ef07dafef05c"
+    },
+    {
+      "file": "locales\\am.pak",
+      "bytes": 1037302,
+      "sha256": "5150bc6cfc63844816e305b9645cb8e15587ff826a2be1d8639f2087bfb0a5da"
+    },
+    {
+      "file": "locales\\ar.pak",
+      "bytes": 1143050,
+      "sha256": "4440bc830751e5f15852628bfa8b5bf8597d176b7c5ffc9fbf2d045cbc502bc6"
+    },
+    {
+      "file": "locales\\bg.pak",
+      "bytes": 1189898,
+      "sha256": "3f9d18988748118895dc026e4f56a442f078d3a5d564000d177a52ce934346b7"
+    },
+    {
+      "file": "locales\\bn.pak",
+      "bytes": 1526566,
+      "sha256": "e2d4d1c81b0218849880b01c896d1d92c2a28347860cb4d5f37d4c777e4aa7cb"
+    },
+    {
+      "file": "locales\\ca.pak",
+      "bytes": 724870,
+      "sha256": "d8919779075e3c13a2690e46a039878e5dd5031d4076596590ce2400a06ce95b"
+    },
+    {
+      "file": "locales\\cs.pak",
+      "bytes": 753878,
+      "sha256": "cdd8eb041d9e2231e737c5cacae51034d3e3935e2c33d31d216caa17e5d941ff"
+    },
+    {
+      "file": "locales\\da.pak",
+      "bytes": 674463,
+      "sha256": "cdf0ea6c9f400af2374c88e50e0cd0a33d9a1ee58db797ad15f7b1ad99890a96"
+    },
+    {
+      "file": "locales\\de.pak",
+      "bytes": 728044,
+      "sha256": "d3668cae9058f6f97ceed5bfe05679e20fa75b9333f36a53056688ceb13f55c8"
+    },
+    {
+      "file": "locales\\el.pak",
+      "bytes": 1309811,
+      "sha256": "f8e4cc68aed45935d7311bd98627fce5934ffcc151d109093de689696c890ec0"
+    },
+    {
+      "file": "locales\\en-GB.pak",
+      "bytes": 585046,
+      "sha256": "e2cf3bd4d2ec7f900c710346362b03bdedf0a46285fd32d9cf6b8fab373b2f20"
+    },
+    {
+      "file": "locales\\en-US.pak",
+      "bytes": 592299,
+      "sha256": "de43db43fe0072543ab225f6d762cce3656a1639bf9e25f371fe0e80d9eabba7"
+    },
+    {
+      "file": "locales\\es-419.pak",
+      "bytes": 714500,
+      "sha256": "21849404ab973bf6c51ca3a876974056140916fa3c32e07e62363fece70c4b4d"
+    },
+    {
+      "file": "locales\\es.pak",
+      "bytes": 710843,
+      "sha256": "2a210033ed22dc0a0c5be15d3e14ad1550f782ce2c1289265130643a52d5e59e"
+    },
+    {
+      "file": "locales\\et.pak",
+      "bytes": 649737,
+      "sha256": "9a8f5574c2a9931e6bd2eb2c021e2132d39a6f569e8fdc40a8475e5a8c0a776a"
+    },
+    {
+      "file": "locales\\fa.pak",
+      "bytes": 1078279,
+      "sha256": "0809bfeb0b0f3d0cab589a590f04d73e45faace6671fef137fc901db9884314f"
+    },
+    {
+      "file": "locales\\fi.pak",
+      "bytes": 663455,
+      "sha256": "a3e8bcb525568ba1e1908e8cc57b9e05b3ee3d9245cd74894d0fb485eb79a9a7"
+    },
+    {
+      "file": "locales\\fil.pak",
+      "bytes": 748590,
+      "sha256": "808d6f4620a9c4fee771dfcf39f382db42e83f1e66fe206f93797b86c22dea24"
+    },
+    {
+      "file": "locales\\fr.pak",
+      "bytes": 774089,
+      "sha256": "a69c3908223e2f6d1cb4e1e7166a82af58ddf498f49a1522417cc4bbac72fbc1"
+    },
+    {
+      "file": "locales\\gu.pak",
+      "bytes": 1508809,
+      "sha256": "71d29958f321c014b0d36625c9e7d5af7e42e5ab2d753ecd6bceaf02b64d652d"
+    },
+    {
+      "file": "locales\\he.pak",
+      "bytes": 941003,
+      "sha256": "7edfc0e9033ad6e451e175e14d2fba4a158129cbbf45c768314d86c6e1f1b207"
+    },
+    {
+      "file": "locales\\hi.pak",
+      "bytes": 1601863,
+      "sha256": "e55d2c94104b5e4329c5f254cf670caa6414ca1137af260e86adeff986f4292f"
+    },
+    {
+      "file": "locales\\hr.pak",
+      "bytes": 724777,
+      "sha256": "96506f22e560e838ae740bfd72e07ad7a484d4af2d52816a64b9b35742dbf5b3"
+    },
+    {
+      "file": "locales\\hu.pak",
+      "bytes": 775366,
+      "sha256": "0d44b7669e37805786b3fe637f2291654c2698b8ec8b57ddec17c1cf4bea5857"
+    },
+    {
+      "file": "locales\\id.pak",
+      "bytes": 642959,
+      "sha256": "7111a5623ece2362e16be5a785030a9a628937ab680db34c9dbab6ae7926d0e6"
+    },
+    {
+      "file": "locales\\it.pak",
+      "bytes": 700983,
+      "sha256": "b78bca99c590f45b660ce446a0a094e3d7a101c987965ac4e697f79685c230c9"
+    },
+    {
+      "file": "locales\\ja.pak",
+      "bytes": 853529,
+      "sha256": "489cdbde7e1ce5fab60086547e4cd6de5316ecee9520ca1ee71dd4911cba0fe0"
+    },
+    {
+      "file": "locales\\kn.pak",
+      "bytes": 1738870,
+      "sha256": "cc9903cb7a98ac81c08b33d3f88e88f35b290eaf0f5eaa8fab67395b330d88f0"
+    },
+    {
+      "file": "locales\\ko.pak",
+      "bytes": 730396,
+      "sha256": "d3d22df64bab98e36e5a5635e98b33323af0a4b7f1a649bc049e1a753cd70ccb"
+    },
+    {
+      "file": "locales\\lt.pak",
+      "bytes": 785117,
+      "sha256": "2fe1400fc3e0010f30955171124c9c8bf0fbab6aaddfce967b997bdc31fa2977"
+    },
+    {
+      "file": "locales\\lv.pak",
+      "bytes": 782864,
+      "sha256": "3ed091a6dbba7b8a5a4beff7191918f84ee0a7de23004d76f57826104094f02b"
+    },
+    {
+      "file": "locales\\ml.pak",
+      "bytes": 1785503,
+      "sha256": "6e3480887885349cd3198c2f608da25bc7722dbad7c1fba695f95e0e6d564b36"
+    },
+    {
+      "file": "locales\\mr.pak",
+      "bytes": 1481173,
+      "sha256": "7bb875ecd2f725eb037758e261dea1d53c2c6668ccbc6b10fedbb427d0947b8d"
+    },
+    {
+      "file": "locales\\ms.pak",
+      "bytes": 677751,
+      "sha256": "e0a46e0f40cf0c197c2a1fcb2adca421a93d2ade3d1333b99489f8b7d4a335d3"
+    },
+    {
+      "file": "locales\\nb.pak",
+      "bytes": 643919,
+      "sha256": "754820b5f3ec2a19f5a0177026541654bba2a9394a665cd3006e049edd71881d"
+    },
+    {
+      "file": "locales\\nl.pak",
+      "bytes": 671742,
+      "sha256": "122fc0b9596008b8556822555f8831628c6e10a1f337f03ad81aa1f85f633f02"
+    },
+    {
+      "file": "locales\\pl.pak",
+      "bytes": 751664,
+      "sha256": "364ac77a3f7f3aed3f42016b12a4c140dc7e89b0ff197cddfa968269a414cb62"
+    },
+    {
+      "file": "locales\\pt-BR.pak",
+      "bytes": 705491,
+      "sha256": "bd20fd86ea750a3f1094353e3b4b1c23e7c9bd5e2c59f1ec88361ffd4220448e"
+    },
+    {
+      "file": "locales\\pt-PT.pak",
+      "bytes": 708345,
+      "sha256": "3221980cfcc761036ab340c903d17630379e2b592736abe4e2d2513c5cbdcd1d"
+    },
+    {
+      "file": "locales\\ro.pak",
+      "bytes": 733934,
+      "sha256": "c8bac592c3f94d10da90e072ef6940108916d18c3fd6782a182635707435393b"
+    },
+    {
+      "file": "locales\\ru.pak",
+      "bytes": 1212098,
+      "sha256": "88d2779bbe1c8b8427ca9d78d23c53663e506910435dbdf88a949dc4ca91964b"
+    },
+    {
+      "file": "locales\\sk.pak",
+      "bytes": 766398,
+      "sha256": "97ff061baeac4437c53a5d0c332f381dfd1abb212886c785ee92fa8444f6fb3f"
+    },
+    {
+      "file": "locales\\sl.pak",
+      "bytes": 729966,
+      "sha256": "4e9d2aa291c653c0b3a92c973e1d5d1ecd1b6c1cc64b569c0ae37a28b6d46bcd"
+    },
+    {
+      "file": "locales\\sr.pak",
+      "bytes": 1124214,
+      "sha256": "847f575be1bb00072c1d8dad3365117b51de7ffa7ea70b09f3a76de44e804467"
+    },
+    {
+      "file": "locales\\sv.pak",
+      "bytes": 654571,
+      "sha256": "9b7ada21987ccced94e15c5b0495f564ecbbaef3afd5746ed20b08fa3625578b"
+    },
+    {
+      "file": "locales\\sw.pak",
+      "bytes": 692178,
+      "sha256": "580c759a4004ae1b15145ef6310a31965e4a99ed599572b00d7dcb077b11bc59"
+    },
+    {
+      "file": "locales\\ta.pak",
+      "bytes": 1773876,
+      "sha256": "6ef6497441c04f7dcc18caa552d961c5f22e8b369c97a6632bca6b57d6bd7876"
+    },
+    {
+      "file": "locales\\te.pak",
+      "bytes": 1648207,
+      "sha256": "301a6b26e82540bc6079c1e210f575950b1dbd8c03437a7817d8446c06c755e7"
+    },
+    {
+      "file": "locales\\th.pak",
+      "bytes": 1377527,
+      "sha256": "acf2778d5abda266d91a534d8ceb14cfe2fe34bc41a157c4b7a2058ba778ccbb"
+    },
+    {
+      "file": "locales\\tr.pak",
+      "bytes": 706650,
+      "sha256": "33f8ad8adb97a342ab85ce0319788b874ccfbd125b0f881bf12adce42eaa6d75"
+    },
+    {
+      "file": "locales\\uk.pak",
+      "bytes": 1225347,
+      "sha256": "e9d26214e799ec895304952223dd3a5d13d3041e3984378c710fef5626d4d880"
+    },
+    {
+      "file": "locales\\ur.pak",
+      "bytes": 1060438,
+      "sha256": "f4d5f15daf9f3dd422f52421b93f0b5f6791a9928facb0e1b6dfd894a3814281"
+    },
+    {
+      "file": "locales\\vi.pak",
+      "bytes": 839393,
+      "sha256": "ea7f9ee1aa410b35131a62566f5908eee5a5ab87274ef19eec9da04bbaf3ed4a"
+    },
+    {
+      "file": "locales\\zh-CN.pak",
+      "bytes": 600098,
+      "sha256": "ec56f40036a2deb4cf98071c58a271c27c7faf5d07c8a8ad14b50ed14a44980d"
+    },
+    {
+      "file": "locales\\zh-TW.pak",
+      "bytes": 592026,
+      "sha256": "ea471e1619a95468390ac92f5a101e482b663e8bd58613ca643e6a52c45e0716"
+    },
+    {
+      "file": "resources\\app.asar",
+      "bytes": 20934816,
+      "sha256": "a454d445a7250f8311eed02b054a0496c5b0af56bc168cf7d9169a290ab99118"
+    },
+    {
+      "file": "icon.ico",
+      "bytes": 95238,
+      "sha256": "25e565e4acd0b92ccfe5739c61f4f14b15e72bca2970af9195dac5228023c69b"
+    }
+  ]
+}

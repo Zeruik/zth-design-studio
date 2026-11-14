@@ -2,8 +2,14 @@
   "version": "4.0.0",
   "buildCompleted": true,
   "tests": {
-    "passed": 107,
-    "failed": 0
+    "passed": 108,
+    "failed": 0,
+    "skipped": 0,
+    "command": "npm test",
+    "startedAtUtc": "2026-11-14T04:28:03.162Z",
+    "finishedAtUtc": "2026-11-14T04:28:12.204Z",
+    "executionHead": "5bf68f5abd9a1a76d51ccca803ea652198b2c158",
+    "sourceScope": "Working tree including runtime-log exclusion and the expanded five-scenario native installer regression; these source changes were subsequently committed as 774dbee0066fc944918545acb7f87502d510a7ce. This was not the HEAD at test execution."
   },
   "asarSHA256": "a454d445a7250f8311eed02b054a0496c5b0af56bc168cf7d9169a290ab99118",
   "checkedAppFiles": 67,
@@ -19,13 +25,19 @@
     "authenticode": "NotSigned",
     "licenseMatchesSource": true,
     "licenseEncoding": "UTF-16LE BOM",
-    "installationLifecycleTested": false
+    "installationLifecycleTested": false,
+    "metadataErrorFlagFix": true,
+    "nativeRegressionReport": "qa/installer-upgrade-v4.json",
+    "runtimeLogsExcluded": true,
+    "archivePayloadReport": "qa/native-installer-archive-v4.json",
+    "matchedArchivePayloadFiles": 73,
+    "nativeRegressionScenarios": 5
   },
   "artifacts": [
     {
       "file": "ZTH-Design-Studio-4.0.0-Setup.exe",
-      "bytes": 133340177,
-      "sha256": "4b97f329b47ff9962973494c10530159e1f7a38c5ab5db8d1c88495e8d8481eb"
+      "bytes": 133320998,
+      "sha256": "33a3c0620453e608cb386318d6c72c9a634147586cffb497349b47c7fb1d51fd"
     },
     {
       "file": "ZTH-Design-Studio-4.0.0-Android.apk",
@@ -37,5 +49,6 @@
       "bytes": 17347334,
       "sha256": "bae7f23c9ce2aa03747ec499ee8d05dda90f72fe761e6ecbb6b763bcdcde2786"
     }
-  ]
+  ],
+  "sourceCommit": "774dbee0066fc944918545acb7f87502d510a7ce"
 }

@@ -1,0 +1,104 @@
+{
+  "version": "4.0.0",
+  "status": "incomplete",
+  "releaseStatus": "draft",
+  "scope": "Actual Windows GUI checks with a newly created test work. Each upgrade attempt is bound to its installer hash. Upgrade behavior passed on an intermediate candidate, but a packaging issue requires a new final candidate and verification. Uninstall and cleanup are not complete.",
+  "passed": [
+    {
+      "check": "3.0 GUI launch",
+      "version": "3.0.0"
+    },
+    {
+      "check": "3.0 test work creation and manual history",
+      "pages": 2,
+      "contentTypes": [
+        "text",
+        "arrow"
+      ],
+      "manualSavedVersions": 2
+    },
+    {
+      "check": "3.0 editable project export",
+      "format": "zthpmsj"
+    },
+    {
+      "check": "Original application data restored during manual uninstall handoff",
+      "originalDataRestored": true,
+      "disposableTestDataKeptSeparately": true,
+      "scope": "Directory metadata and test-only marker verification; original works were not read or copied."
+    }
+  ],
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "failed",
+      "check": "First 3.0-to-4.0 GUI upgrade attempt",
+      "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
+      "bytes": 133340177,
+      "sha256": "4b97f329b47ff9962973494c10530159e1f7a38c5ab5db8d1c88495e8d8481eb",
+      "failed": [
+        "The installer reported failure after payload extraction"
+      ],
+      "passed": [
+        "The 3.0 application relaunched with test work content retained"
+      ],
+      "scope": "Observed relaunch and retained content do not by themselves establish complete file-by-file rollback.",
+      "resolution": "A corrected intermediate installer was tested in attempt 2."
+    },
+    {
+      "attempt": 2,
+      "status": "upgrade_passed",
+      "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
+      "bytes": 133268058,
+      "sha256": "e7dbeba7e4b5012cc067bc02c90711a42754c2bcfd7a936d3b42fd20c257334d",
+      "candidateDisposition": "Intermediate candidate; repackaging and final candidate verification are pending",
+      "passed": [
+        "3.0-to-4.0 GUI upgrade completed at the same installation location",
+        "The Finish action automatically launched version 4.0",
+        "Both pages of Chinese text and arrow content were retained",
+        "Both original manually saved versions were retained",
+        "Restoring an earlier version succeeded and restored its original work name",
+        "Add page 3, undo to 2 pages, redo to 3 pages, and undo to 2 pages all succeeded",
+        "The application closed normally"
+      ],
+      "nativePostcheck": {
+        "status": "passed",
+        "executableVersion": "4.0.0",
+        "asarPackageVersion": "4.0.0",
+        "installMarkerEncoding": "UTF-16LE",
+        "installMarkerFieldsMatched": 3,
+        "registrationMatched": true,
+        "shortcutTargetsMatched": 3,
+        "projectAssociationMatched": true,
+        "programPayloadFilesMatched": 72
+      },
+      "packagingIssue": {
+        "file": "debug.log",
+        "observation": "A runtime log was unintentionally included in the installer payload.",
+        "resolution": "Exclude the runtime log and verify a newly built final installer; this attempt does not validate that later package."
+      }
+    }
+  ],
+  "uninstall": {
+    "status": "blocked",
+    "launchAttemptedThroughTool": true,
+    "uninstallerLaunchObserved": false,
+    "completed": false,
+    "reason": "The automation tool rejected launching the 4.0 uninstaller because of a product policy restriction.",
+    "nextStep": "Manual completion has been requested from the user; a successful uninstall has not yet been observed."
+  },
+  "not_run": [
+    "GUI verification of the final installer rebuilt without the runtime log",
+    "Binding final installer and installed payload verification to the new package hash",
+    "Final 4.0 uninstall verification",
+    "Final removal of this run's test installation, test data and exported test files"
+  ],
+  "finalCandidate": {
+    "installer": "ZTH-Design-Studio-4.0.0-Setup.exe",
+    "bytes": 133320998,
+    "sha256": "33a3c0620453e608cb386318d6c72c9a634147586cffb497349b47c7fb1d51fd",
+    "runtimeLogExcluded": true,
+    "archiveVerification": "qa/native-installer-archive-v4.json",
+    "guiStatus": "pending"
+  }
+}

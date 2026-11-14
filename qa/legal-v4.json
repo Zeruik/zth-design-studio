@@ -1,6 +1,7 @@
 {
   "version": "4.0.0",
-  "scope": "Source legal notices and browser UI; installation acceptance is not granted",
+  "scope": "Legal notice and browser UI evidence, with historical candidate observations preserved separately from the latest authorized installation test status.",
+  "releaseStatus": "draft",
   "legalDataSHA256": "8fd1fcf0ccc98ce21151920982c02ad359fa77d0539d3dd9a36aa1d32158d952",
   "originalNoticesUnchanged": true,
   "thirdPartyOriginalNotices": 10,
@@ -19,8 +20,11 @@
   "offlineReloadReadThirdParty": true,
   "offlineTest": "CDP network emulation; restored online after test",
   "offlineCoreDirectory404Fixed": true,
-  "installerLicenseAccepted": false,
-  "installerLifecycleTested": false,
+  "installationTestAuthorization": {
+    "granted": true,
+    "scope": "The user agreed to this run's 3.0/4.0 installation tests under the same reviewed terms. This does not imply acceptance by other users or for other release terms."
+  },
+  "completeInstallerLifecycleTested": false,
   "actualBrowserProjectExport": {
     "usedFonts": 3,
     "fullOriginalOFLNotices": 3
@@ -30,8 +34,20 @@
     "fullOriginalOFLNotices": 3
   },
   "regression": {
+    "command": "npm test",
+    "passed": 108,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0,
+    "startedAtUtc": "2026-11-14T04:28:03.162Z",
+    "completedAtUtc": "2026-11-14T04:28:12.204Z",
+    "scope": "Working tree including runtime-log exclusion and the expanded five-scenario native installer regression. Separate runs and targeted checks are not added to this total.",
+    "rawTapRetainedLocally": true
+  },
+  "previousCandidateRegression": {
     "passed": 107,
-    "failed": 0
+    "failed": 0,
+    "scope": "Historical legal/export candidate before the installer metadata and runtime-log fixes."
   },
   "nativeUnpacked": {
     "appAsarSHA256": "a454d445a7250f8311eed02b054a0496c5b0af56bc168cf7d9169a290ab99118",
@@ -43,11 +59,29 @@
     "installationLifecycleTested": false
   },
   "installerDisplay": {
+    "scope": "Historical display-only observation before the user's later installation-test authorization; this is not the current authorization status.",
     "setupSHA256": "4b97f329b47ff9962973494c10530159e1f7a38c5ab5db8d1c88495e8d8481eb",
     "chineseTermsVisible": true,
     "privacyTextPresent": true,
     "mitEndAndThirdPartyFooterVisible": true,
     "scrolledToEndAndReturnedToTop": true,
     "accepted": false
+  },
+  "latestInstallationTest": {
+    "report": "qa/windows-install-v4.json",
+    "status": "incomplete",
+    "intermediateSetupSHA256": "e7dbeba7e4b5012cc067bc02c90711a42754c2bcfd7a936d3b42fd20c257334d",
+    "intermediateUpgradePassed": true,
+    "twoPagesAndTwoManualVersionsRetained": true,
+    "earlierVersionAndNameRestored": true,
+    "pageAddUndoRedoPassed": true,
+    "normalClosePassed": true,
+    "finalRuntimeLogFreeCandidateVerified": false,
+    "chineseInstallPathVerified": false,
+    "uninstallCompleted": false,
+    "uninstallBlock": "The computer operation tool refused to launch the uninstaller because of its product policy. Manual completion was requested from the user; success has not yet been observed.",
+    "testCleanupAndOriginalDataRestoreConfirmed": false,
+    "originalDataRestoredDuringHandoff": true,
+    "finalArchiveVerificationReport": "qa/native-installer-archive-v4.json"
   }
 }

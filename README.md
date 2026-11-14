@@ -61,7 +61,7 @@ An offline graphic editor with editable `.zthpmsj` projects, local history, reus
 
 | 平台 | 4.0 构建目标 | 当前边界 |
 |---|---|---|
-| Windows 10/11 x64 | `ZTH-Design-Studio-4.0.0-Setup.exe` | 含语言、协议、路径与卸载向导；原生 GUI 安装验证待许可确认 |
+| Windows 10/11 x64 | `ZTH-Design-Studio-4.0.0-Setup.exe` | 中间候选的 3→4 升级与历史恢复通过；最终无日志候选、中文路径和卸载仍待验 |
 | Android 9+ | `ZTH-Design-Studio-4.0.0-Android.apk` | 沿用持久签名身份的构建流程；未进行实体手机安装与触控测试 |
 | iOS / iPadOS 18+ | Xcode 工程、模拟器构建流程 | 当前没有可直接安装到任意 iPhone 的签名 IPA；真机包需 Apple 团队签名 |
 | 浏览器 | `ZTH-Design-Studio-4.0.0-Web.zip` | 需要 HTTP(S) 静态服务；具体部署版本以页面与部署记录为准 |
@@ -69,6 +69,8 @@ An offline graphic editor with editable `.zthpmsj` projects, local history, reus
 [在线版入口](https://zeruik.github.io/zth-design-studio/)：iPhone 可用 Safari 打开后选择“分享 → 添加到主屏幕”。在线部署可能与开发源码版本不同；首次完整加载后可使用离线缓存。这是主屏幕网页应用，不是签名 IPA。
 
 Windows 安装包没有商业代码签名。Android 构建要求保留既有签名身份；旧 1.0 预览包签名无法仅从源码确认。升级前请在旧版导出 `.zthpmsj` 备份，不应假定所有旧包都能直接覆盖安装。
+
+用户已同意本轮 3.0 / 4.0 安装测试使用的相同许可。Windows 首次升级失败及修正后中间候选通过的结果均按安装包哈希保留在 [安装验收记录](qa/windows-install-v4.json)。卸载程序的启动被电脑操作工具策略拦截，已交由用户手动完成；目前尚未观察到卸载成功，正式发行仍为草稿。
 
 ## 文件、字体与隐私
 
@@ -96,8 +98,8 @@ Windows requires NSIS 3 (`ZTH_MAKENSIS` can select the compiler). Android uses a
 
 ## Validation
 
-本轮核心回归 96 项通过。49 套模板的 518 个文字对象使用实际字体逐个渲染，字形和文本框越界均为 0；四种内置字体加载成功。二维码测试检查实际 PNG 的留白、全部模块与独立解码结果。浏览器已完成工程备份 / 回导及实际 PNG 下载检查。
+本轮最新完整 `npm test` 为 **108 项通过、0 失败、0 跳过**，包含安装器运行日志排除修复后的回归；不同轮次和定向测试不重复累加。49 套模板的 518 个文字对象使用实际字体逐个渲染，字形和文本框越界均为 0；四种内置字体加载成功。二维码测试检查实际 PNG 的留白、全部模块与独立解码结果。浏览器已完成工程备份 / 回导及实际 PNG 下载检查。
 
-范围和未完成项见 [QA-4.0.md](docs/QA-4.0.md)。[QA-3.0.md](QA-3.0.md) 与 [QA.md](QA.md) 保留旧版本证据，不能替代 4.0 安装验收。**原生 GUI 安装、升级和卸载待许可确认后验证；未进行实体 Android / iPhone 测试。**
+范围和未完成项见 [QA-4.0.md](docs/QA-4.0.md)。[QA-3.0.md](QA-3.0.md) 与 [QA.md](QA.md) 保留旧版本证据，不能替代 4.0 安装验收。**中间候选已验证升级、两页作品与两份手动版本保留、早期版本恢复及页面撤销 / 重做；最终无日志候选、中文路径、卸载和清理仍待完成。未进行实体 Android / iPhone 测试。**
 
 Code: MIT. Brand artwork rights are reserved separately. See [LICENSE](LICENSE) and [THIRD-PARTY.md](THIRD-PARTY.md).
