@@ -1,7 +1,7 @@
 {
   "version": "4.0.0",
   "scope": "Candidate Windows Setup and ASAR, Android APK, Web ZIP and Git source ZIP",
-  "checkedFiles": 379,
+  "checkedFiles": 382,
   "sensitiveFindings": [],
   "ok": true
 }
