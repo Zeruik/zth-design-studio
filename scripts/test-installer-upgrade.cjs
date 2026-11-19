@@ -84,7 +84,7 @@ SectionEnd
    for(const file of Object.keys(payloadFiles))assert.equal(fs.existsSync(path.join(target,file)),false);
   }else if(name==='success'){
    assert.equal(result,'success');for(const[file,bytes]of Object.entries(payloadFiles))assert.equal(fs.readFileSync(path.join(target,file),'utf8'),bytes);
-   const marker=fs.readFileSync(path.join(target,'zth-install.ini'),'utf16le');assert.match(marker,/Owner=studio\.zerotohand\.design/);assert.ok(marker.includes('InstallDir='+target));assert.match(marker,/Version=4\.0\.0/);assert.ok(fs.statSync(path.join(target,'Uninstall.exe')).size>1000);
+   const marker=fs.readFileSync(path.join(target,'zth-install.ini'),'utf16le');assert.match(marker,/Owner=studio\.zerotohand\.design/);const markerDir=/^InstallDir=([^\r\n]+)$/m.exec(marker)?.[1];assert.ok(markerDir,'Installation marker must contain a directory');const canonical=require('./canonical-fixture-path.cjs');assert.equal(canonical(markerDir).toLowerCase(),canonical(target).toLowerCase());assert.match(marker,/Version=4\.0\.0/);assert.ok(fs.statSync(path.join(target,'Uninstall.exe')).size>1000);
   }else{
    assert.equal(result,'failed');for(const[file,bytes]of Object.entries(originals))assert.equal(fs.readFileSync(path.join(target,file),'utf8'),bytes);
    assert.equal(fs.existsSync(path.join(target,'zth-install.ini')),false);

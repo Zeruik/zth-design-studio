@@ -63,7 +63,7 @@ SectionEnd
   const run=spawnSync(path.join(root,scenario.name+'.exe'),[],{windowsHide:true,timeout:10000});if(run.error)throw run.error;
   const accepted=run.status===0;if(!accepted)assert.equal(run.status,42,'Fixture must reject via the production policy');
   const normalized=accepted?fs.readFileSync(output,'utf16le').replace(/^\uFEFF/,''):null;
-  if(accepted&&expected)assert.equal(normalized.toLowerCase(),expected.toLowerCase());
+  if(accepted&&expected){const canonical=require('./canonical-fixture-path.cjs');assert.equal(canonical(normalized).toLowerCase(),canonical(expected).toLowerCase());}
   const targetNotCreated=scenario.missing?!fs.existsSync(expected):undefined;
   if(scenario.missing)assert.equal(targetNotCreated,true,'Path validation must not create the target');
   results.push({name:scenario.name,expectedAllowed:scenario.allow,accepted,matched:accepted===scenario.allow,...(scenario.missing?{targetNotCreated}:{})});
