@@ -1,3 +1,9 @@
+# ZTH Design Studio 4.0.1 (candidate, unreleased)
+
+- Isolate offline caches by installation scope.
+- Register a checksum-verified source font for repeatable native text geometry regression tests.
+- Synchronize package, portable project, Android and iOS candidate versions. Fresh candidate platform checks remain required.
+
 # ZTH Design Studio 3.0.0 · 2026-11-13
 
 从空白草稿开始创作，或使用只读原模板创建可编辑副本。作品可以删除到回收站、撤销删除和恢复；切换设计时可保存、不保存或取消。已有手动保存版本的作品选择不保存时保留最近手动版本。旧的自动保存任务不会重新写回已丢弃的草稿。

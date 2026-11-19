@@ -342,7 +342,7 @@ test('two windows cannot overwrite a newer saved revision, and explicitly reopen
 
 test('new blank and template-copy transitions keep the original template immutable',async()=>{
   const f=fixture();await f.editor.newBlank(true);
-  const empty=f.editor.getProject();assert.equal(empty.appVersion,'4.0.0');assert.equal(empty.name,'未命名作品');assert.equal(empty.pages.length,1);assert.equal(empty.pages[0].canvas.objects.length,0);assert.equal(empty.pages[0].canvas.background,'#ffffff');
+  const empty=f.editor.getProject();assert.equal(empty.appVersion,require('../package.json').version);assert.equal(empty.name,'未命名作品');assert.equal(empty.pages.length,1);assert.equal(empty.pages[0].canvas.objects.length,0);assert.equal(empty.pages[0].canvas.background,'#ffffff');
   const template={name:'只读模板',document:draft('原始名称','original-template')},original=copy(template);
   f.context.ZTH_WORKS=f.context.window.ZTH_WORKS={beforeSwitch:async()=>false};
   assert.equal(await f.editor.applyTemplate(template),false);assert.equal(f.editor.getProject().workId,empty.workId);

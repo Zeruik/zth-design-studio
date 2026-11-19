@@ -2,7 +2,7 @@ name: iOS simulator build
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, 'release/**']
     paths: ['ios/**', 'app/**', 'scripts/prepare-ios.cjs', 'scripts/copy-directory.cjs', '.github/workflows/ios-build.yml']
 permissions:
   contents: read

@@ -37,7 +37,7 @@ function scheduleAutosave(){
 function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3500);}
 function snapshot(){return {width,height,canvas:canvas.toObject()};}
 function currentIntoPages(){pages[pageIndex]={...snapshot(),name:pages[pageIndex]?.name||'页面 '+(pageIndex+1)};}
-function project(){currentIntoPages();return {format:'zthpmsj',schema:1,appVersion:'4.0.0',workId,name:$('projectName').value,fonts:window.ZTH_FONTS?ZTH_FONTS.collectUsed(pages):(portableFont?[{family:'ZTH Sans',src:portableFont}]:[]),pages,activePage:pageIndex,savedAt:new Date().toISOString()};}
+function project(){currentIntoPages();return {format:'zthpmsj',schema:1,appVersion:'4.0.1',workId,name:$('projectName').value,fonts:window.ZTH_FONTS?ZTH_FONTS.collectUsed(pages):(portableFont?[{family:'ZTH Sans',src:portableFont}]:[]),pages,activePage:pageIndex,savedAt:new Date().toISOString()};}
 // History stores the whole document, with shared image payloads kept only once.
 const HISTORY_LIMIT=50,HISTORY_BYTES=48*1024*1024,historyListeners=new Set(),historyAssets=new Map(),historyAssetValues=new Map(),objectKeys=new WeakMap();
 let historyMeta=[],assetSequence=0,objectSequence=0,mergeBoundary=0,operationTail=Promise.resolve(),operationCount=0,documentEpoch=0,canvasGeneration=0;
@@ -238,7 +238,7 @@ async function newBlank(force=false){
  if((editingBlocked()&&!force)||busy)return false;const alreadySwitching=switching;switching=true;
  try{
   if(!force&&!await confirmSwitch())return false;
-  await loadProject({format:'zthpmsj',schema:1,appVersion:'4.0.0',workId:crypto.randomUUID(),name:'未命名作品',fonts:[],activePage:0,pages:[{width:1080,height:1440,canvas:{objects:[],background:'#ffffff'}}]},{label:'新建空白作品'});
+  await loadProject({format:'zthpmsj',schema:1,appVersion:'4.0.1',workId:crypto.randomUUID(),name:'未命名作品',fonts:[],activePage:0,pages:[{width:1080,height:1440,canvas:{objects:[],background:'#ffffff'}}]},{label:'新建空白作品'});
   await window.ZTH_WORKS?.save();document.body.classList.remove('show-library','show-properties');return true;
  }finally{switching=alreadySwitching;notifyHistory();}
 }

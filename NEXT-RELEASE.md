@@ -1,6 +1,6 @@
 # 下一轮维护计划 / Next maintenance iteration
 
-目标：4.0.1（候选规划，尚未发布；版本字段和旧标签保持当前值）。
+目标：4.0.1（候选分支已同步版本字段，尚未发布；旧标签保持不变）。
 
 ## 已实现 / Implemented
 
@@ -10,7 +10,7 @@
 
 npm test: 110 tests, 108 passed, 2 skipped, 0 failed; npm run build:web passed.
 
-New portable-regression CI workflows, where present, have not yet been observed running on GitHub. They use synthetic data and do not replace native acceptance.
+The native geometry tests now register a checksum-verified original TTF to avoid OS-dependent fallback metrics. The maintenance-branch CI passed after that change. Windows packaging and simulator validation are still separate candidate gates.
 
 ## 建议优化 / Recommended follow-up
 

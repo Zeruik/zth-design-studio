@@ -1,7 +1,7 @@
 name: Design Studio preview
 on:
   push:
-    branches: [zth-design-studio]
+    branches: [zth-design-studio, 'release/**']
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,6 +17,7 @@ jobs:
       - run: npm ci
       - run: npm test
   windows:
+    needs: core
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,11 +27,17 @@ jobs:
           cache: npm
       - run: npm ci
       - run: choco install nsis --no-progress -y
+      - name: Run native Windows installer regressions
+        run: npm test
+        env:
+          ZTH_MAKENSIS: C:\Program Files (x86)\NSIS\makensis.exe
+          ZTH_NSIS_DIR: C:\Program Files (x86)\NSIS
       - run: npm run build:win
         env:
           ZTH_MAKENSIS: C:\Program Files (x86)\NSIS\makensis.exe
           ZTH_NSIS_DIR: C:\Program Files (x86)\NSIS
       - uses: actions/upload-artifact@v4
         with:
-          name: ZTH-Design-Studio-Windows-preview
+          name: ZTH-Design-Studio-Windows-candidate-${{ github.sha }}
           path: release/*Setup.exe
+          retention-days: 7

@@ -27,7 +27,7 @@ test('activation removes only old caches belonging to this installation scope', 
   const other='zth-design-studio-'+encodeURIComponent('https://example.test/other/')+'-old';
   vm.runInNewContext(fs.readFileSync(require.resolve('../app/sw.js'),'utf8'), {
     self:{registration:{scope},addEventListener:(n,f)=>handlers[n]=f,clients:{claim:async()=>{}}},
-    caches:{keys:async()=>[prefix+'old',prefix+'4.0.0-r4',other,'unrelated'],delete:async k=>deleted.push(k)}
+    caches:{keys:async()=>[prefix+'old',prefix+'4.0.1-r1',other,'unrelated'],delete:async k=>deleted.push(k)}
   });
   let work; handlers.activate({waitUntil:p=>work=p}); await work;
   assert.deepEqual(deleted,[prefix+'old']);
