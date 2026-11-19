@@ -16,6 +16,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - name: Build and package the offline web application
+        run: npm run build:web && node scripts/package-web.cjs
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ZTH-Design-Studio-Web-candidate-${{ github.sha }}
+          path: |
+            release/*Web.zip
+            release/*Web.zip.sha256
+          if-no-files-found: error
+          retention-days: 7
   windows:
     needs: core
     runs-on: windows-latest
@@ -36,8 +46,13 @@ jobs:
         env:
           ZTH_MAKENSIS: C:\Program Files (x86)\NSIS\makensis.exe
           ZTH_NSIS_DIR: C:\Program Files (x86)\NSIS
+      - name: Verify actual production editor render, persistence and restart
+        run: node scripts/smoke-windows.cjs && node scripts/hash-installer.cjs
       - uses: actions/upload-artifact@v4
         with:
           name: ZTH-Design-Studio-Windows-candidate-${{ github.sha }}
-          path: release/*Setup.exe
+          path: |
+            release/*Setup.exe
+            release/*Setup.exe.sha256
+            qa-output/windows-native.json
           retention-days: 7

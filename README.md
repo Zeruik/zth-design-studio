@@ -107,3 +107,5 @@ Windows requires NSIS 3 (`ZTH_MAKENSIS` can select the compiler). Android uses a
 Code: MIT. Brand artwork rights are reserved separately. See [LICENSE](LICENSE) and [THIRD-PARTY.md](THIRD-PARTY.md).
 
 开发测试首次运行 `npm test` 时，会下载 `app/assets/fonts/SOURCES.json` 已记录 SHA-256 的 Ma Shan Zheng 原始 TTF 到忽略目录 `.tools/test-fonts/`，供 Node Canvas 测量使用；后续校验缓存。浏览器和发行应用继续使用内嵌 WOFF2。直接运行 `node --test` 前先执行 `node scripts/prepare-test-fonts.cjs`。
+
+高级隔离启动：桌面端支持 `--zth-profile-dir=<绝对目录>`，用于独立配置和合成验收。路径不得为文件系统根目录或经过目录链接；默认启动继续使用原有资料目录。

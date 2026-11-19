@@ -3,7 +3,9 @@ on:
   workflow_dispatch:
   push:
     branches: [main, 'release/**']
-    paths: ['ios/**', 'app/**', 'scripts/prepare-ios.cjs', 'scripts/copy-directory.cjs', '.github/workflows/ios-build.yml']
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -24,14 +26,15 @@ jobs:
       - name: Package simulator application
         run: |
           mkdir -p release
-          ditto -c -k --sequesterRsrc --keepParent ios/build/Build/Products/Release-iphonesimulator/ZTHDesignStudio.app release/ZTH-Design-Studio-4.0.0-iOS-Simulator.zip
+          version=$(node -p "require('./package.json').version")
+          ditto -c -k --sequesterRsrc --keepParent ios/build/Build/Products/Release-iphonesimulator/ZTHDesignStudio.app release/ZTH-Design-Studio-"$version"-iOS-Simulator.zip
       - name: Launch on an iPhone simulator
         run: |
           set -o pipefail
           bash ios/smoke-simulator.sh | tee ios-simulator.log
       - uses: actions/upload-artifact@v4
         with:
-          name: ZTH-Design-Studio-4.0.0-iOS-Simulator
+          name: ZTH-Design-Studio-iOS-Simulator-${{ github.sha }}
           path: release/*iOS-Simulator.zip
       - uses: actions/upload-artifact@v4
         if: always()

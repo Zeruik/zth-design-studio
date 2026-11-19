@@ -45,6 +45,8 @@ async function requestClose(){
  }finally{closePending=false;}
 }
 app.setName('ZTH-平面设计器');
+const explicitProfile=require('./profile-directory.cjs').profileDirectory();
+if(explicitProfile){app.setPath('userData',explicitProfile);app.setPath('sessionData',path.join(explicitProfile,'browser'));app.setPath('logs',path.join(explicitProfile,'logs'));app.setPath('crashDumps',path.join(explicitProfile,'crash'));}
 if(!app.requestSingleInstanceLock()){app.quit();}else{
  app.on('second-instance',(_,argv)=>{if(win){if(win.isMinimized())win.restore();win.focus();}openProject(argv.find(a=>a.toLowerCase().endsWith('.zthpmsj')));});
  app.whenReady().then(async()=>{
