@@ -17,10 +17,18 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
-      - name: Source regression (synthetic data; no hardware or system installation)
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Run regression with actionable failure annotations
         shell: bash
         run: |
           set -euo pipefail
-          npm ci --no-audit --no-fund
-          npm test
-          npm run build:web
+          if npm test > "$RUNNER_TEMP/design-tests.txt" 2>&1; then
+            cat "$RUNNER_TEMP/design-tests.txt"
+          else
+            cat "$RUNNER_TEMP/design-tests.txt"
+            node -e 'const fs=require("node:fs");const lines=fs.readFileSync(process.env.RUNNER_TEMP+"/design-tests.txt","utf8").split("\n");for(const line of lines.filter(x=>/^not ok |^✖ |^  error:|^  code:/.test(x)))console.log("::error::"+line.replace(/%/g,"%25").replace(/\r/g,"%0D"));'
+            exit 1
+          fi
+      - name: Build offline Web application
+        run: npm run build:web
