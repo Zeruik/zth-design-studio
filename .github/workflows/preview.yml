@@ -28,7 +28,7 @@ jobs:
       - run: npm ci
       - run: choco install nsis --no-progress -y
       - name: Run native Windows installer regressions
-        run: npm test
+        run: node scripts/ci-test.cjs
         env:
           ZTH_MAKENSIS: C:\Program Files (x86)\NSIS\makensis.exe
           ZTH_NSIS_DIR: C:\Program Files (x86)\NSIS
