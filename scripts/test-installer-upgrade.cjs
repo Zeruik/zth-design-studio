@@ -95,6 +95,7 @@ SectionEnd
   assert.equal(fs.readdirSync(target).some(entry=>/^ns.*\.tmp$/i.test(entry)),false,'Own staging directories must be cleaned');
   scenarios.push({name,passed:true,originalFlushErrorReproduced:true,runtimeLogsExcludedFromArchive:true});
  }
- const report={ok:true,test:'Native NSIS production staging/metadata/commit code with mock payload only',realInstallationTouched:false,guiFlowTested:false,scenarios};
- fs.writeFileSync('qa/installer-upgrade-v4.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+ const runIndex=process.argv.indexOf('--run-id'),reportIndex=process.argv.indexOf('--report');const runId=runIndex>=0?process.argv[runIndex+1]:undefined;if(runIndex>=0&&!/^[a-f0-9-]{36}$/.test(runId||''))throw Error('Invalid fixture run ID');const reportFile=reportIndex>=0?process.argv[reportIndex+1]:'qa/installer-upgrade-v4.json';if(typeof reportFile!=='string'||!reportFile)throw Error('A report file is required');
+ const report={ok:true,runId,test:'Native NSIS production staging/metadata/commit code with mock payload only',realInstallationTouched:false,guiFlowTested:false,scenarios};
+ fs.writeFileSync(reportFile,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 })().catch(error=>{console.error(error);process.exitCode=1;});
