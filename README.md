@@ -103,3 +103,5 @@ Windows requires NSIS 3 (`ZTH_MAKENSIS` can select the compiler). Android uses a
 范围和未完成项见 [QA-4.0.md](docs/QA-4.0.md)。[QA-3.0.md](QA-3.0.md) 与 [QA.md](QA.md) 保留旧版本证据，不能替代 4.0 安装验收。**最终包首次启动已查看两页内容和三份历史（两份原手动版本、一份恢复检查点），并通过页面撤销 / 重做；覆盖安装后确认了作品名、两页及当前页箭头，未重复检查第一页和历史。正常关闭及用户手动卸载后的核验均已完成，原资料已恢复并保留；测试物与旧包清理仍待完成。未进行实体 Android / iPhone 测试。**
 
 Code: MIT. Brand artwork rights are reserved separately. See [LICENSE](LICENSE) and [THIRD-PARTY.md](THIRD-PARTY.md).
+
+开发测试首次运行 `npm test` 时，会下载 `app/assets/fonts/SOURCES.json` 已记录 SHA-256 的 Ma Shan Zheng 原始 TTF 到忽略目录 `.tools/test-fonts/`，供 Node Canvas 测量使用；后续校验缓存。浏览器和发行应用继续使用内嵌 WOFF2。直接运行 `node --test` 前先执行 `node scripts/prepare-test-fonts.cjs`。

@@ -12,7 +12,8 @@
     "build:android": "node scripts/build-android.cjs",
     "build:ios": "node scripts/prepare-ios.cjs",
     "package:win": "node scripts/package-windows.cjs",
-    "build:legal": "node scripts/sync-legal.cjs"
+    "build:legal": "node scripts/sync-legal.cjs",
+    "pretest": "node scripts/prepare-test-fonts.cjs"
   },
   "keywords": [],
   "author": "理工阿白菌 / TechABJ · ZeroToHand Studio",

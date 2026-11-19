@@ -6,6 +6,12 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const fabric=require('fabric');
+// Browser font loading is mocked below; native geometry tests must still use
+// the actual bundled font's TTF source instead of an OS-dependent fallback.
+const testFont=path.join(__dirname,'../.tools/test-fonts/MaShanZheng.ttf');
+const fontSource=require('../app/assets/fonts/SOURCES.json').fonts.find(f=>f.family==='Ma Shan Zheng');
+assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(testFont)).digest('hex'),fontSource.sourceSha256,'Run npm test to prepare the verified native test font');
+require('canvas').registerFont(testFont,{family:fontSource.family});
 const {webcrypto}=require('node:crypto');
 const {createStore,isPristine}=require('../app/works.js');
 
